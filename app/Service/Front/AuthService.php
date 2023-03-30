@@ -21,7 +21,7 @@ class AuthService
         // 判断用户是否存在
         $useInfo = User::where('name', '=', $name)->first();
         if (!$useInfo) {
-            return 'error';
+            return 'The user does not exist.';
         }
 
         // 判断用户秘密是否正确

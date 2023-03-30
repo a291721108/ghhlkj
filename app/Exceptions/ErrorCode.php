@@ -12,11 +12,12 @@ class ErrorCode
      * @var array|string[]
      */
     public  $errorCode = [
-        'success'                 => "成功",
-        'error'                   => "失败",
-        'login_success'           => "登录成功",
+        'success'                   => "成功",
+        'error'                     => "失败",
+        'The user does not exist.' => "用户不存在",
+        'login_success'             => "登录成功",
 
-        'Unauthorized'            => "未授权"
+        'Unauthorized'              => "未授权"
     ];
 
     /**
