@@ -44,10 +44,37 @@ class AuthController extends BaseController
         return $this->error($res);
     }
 
-
-    public function list(Request $request)
+    /**
+     * @catalog app端/用户相关
+     * @title 用户注册
+     * @description 用户注册的接口
+     * @method post
+     * @url 47.92.82.25/api/register
+     *
+     * @param name 必选 string 名字
+     * @param password 必选 string 用户密码(6-12数字加字母组成)
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param
+     *
+     * @remark
+     * @number 1
+     */
+    public function register(Request $request)
     {
+        // 数据校验
+        $this->validate($request, [
+            'name'      => 'required',
+            'password' => 'required'
+        ]);
 
-        echo "123";
+        $res = AuthService::register($request);
+
+        if (is_bool($res)){
+            return $this->success('success');
+        }
+
+        return $this->error($res);
     }
 }

@@ -25,6 +25,9 @@ $router->group([
 ], function () use ($router) {
     // 登录
     $router->post('/login', 'Front\AuthController@login');
+
+    // 注册
+    $router->post('/register', 'Front\AuthController@register');
 });
 
 // 需要检查token
@@ -32,11 +35,11 @@ $router->group([
     'prefix'     => 'api',
     'middleware' => [
         'auth',
-        'log',
-        'cors'
+//        'log',
+//        'cors'
     ]
 ], function () use ($router) {
 
-    // 获取用户爱好列表
-    $router->get('/list', 'Front\AuthController@list');
+    // 用户注册
+    $router->post('/register', 'Front\AuthController@register');
 });

@@ -15,6 +15,7 @@ class ErrorCode
         'success'                   => "成功",
         'error'                     => "失败",
         'The user does not exist.' => "用户不存在",
+        'User already exists.'       => "用户已存在",
         'login_success'             => "登录成功",
 
         'Unauthorized'              => "未授权"
