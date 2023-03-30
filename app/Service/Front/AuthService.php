@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthService
 {
-
+qqqqqqqqq
     /**
      * 用户登录逻辑
      * @param $request
