@@ -15,8 +15,8 @@ class AuthController extends BaseController
      * @method post
      * @url 47.92.82.25/api/login
      *
-     * @param name 必选 string 名字
-     * @param password 必选 string 用户密码(6-12数字加字母组成)
+     * @param phone 必选 string 手机号(17821211068)
+     * @param password 必选 string 用户密码(6-12数字加字母组成)(admin)
      *
      * @return {"meta":{"status":200,"msg":"登录成功"},"data":{"api_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC80Ny45Mi44Mi4yNVwvYXBpXC9sb2dpbiIsImlhdCI6MTY4MDE0ODU1NiwiZXhwIjoxNjgxNDQ0NTU2LCJuYmYiOjE2ODAxNDg1NTYsImp0aSI6ImNoVXhHcHBpT2xDYlN6OXciLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.DC_a1lX4rxy4h3o5ufE6QPqPRod4nYENBtMDELyWTts","user_username":"1"}}
      *
@@ -30,8 +30,8 @@ class AuthController extends BaseController
     {
         // 数据校验
         $this->validate($request, [
-            'name'      => 'required',
-            'password' => 'required'
+            'phone'         => 'required|numeric',
+            'password'      => 'required'
         ]);
 
         $res = AuthService::login($request);
@@ -65,8 +65,8 @@ class AuthController extends BaseController
     {
         // 数据校验
         $this->validate($request, [
-            'name'      => 'required',
-            'password' => 'required'
+            'phone'      => 'required|numeric',
+            'password'   => 'required'
         ]);
 
         $res = AuthService::register($request);

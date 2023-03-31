@@ -50,6 +50,8 @@ $app->singleton(Illuminate\Contracts\Console\Kernel::class, App\Console\Kernel::
 */
 
 $app->configure('app');
+$app->configure('aliyunsms');
+
 
 /*
 |--------------------------------------------------------------------------

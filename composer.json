@@ -8,6 +8,7 @@
         "php": "^7.2.5",
         "illuminate/redis": "^7.30",
         "laravel/lumen-framework": "^7.0",
+        "mrgoon/aliyun-sms": "^2.0",
         "predis/predis": "^2.1",
         "tymon/jwt-auth": "^1.0"
     },

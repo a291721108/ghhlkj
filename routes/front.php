@@ -26,8 +26,9 @@ $router->group([
     // 登录
     $router->post('/login', 'Front\AuthController@login');
 
-    // 注册
-    $router->post('/register', 'Front\AuthController@register');
+    // 发送短信验证吗
+    $router->post('/sendSms', 'Common\SendMsgController@sendSms');
+
 });
 
 // 需要检查token

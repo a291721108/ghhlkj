@@ -15,11 +15,11 @@ class AuthService
      */
     public static function login($request)
     {
-        $name = $request->name;
+        $phone = $request->phone;
         $password = $request->password;
 
         // 判断用户是否存在
-        $useInfo = User::where('name', '=', $name)->first();
+        $useInfo = User::where('phone', '=', $phone)->where('status','=',User::USER_STATUS_ONE)->first();
         if (!$useInfo) {
             return 'The user does not exist.';
         }
@@ -43,8 +43,15 @@ class AuthService
         }
 
         return [
-            'api_token' => $token,
-            'user_username'  => $useInfo->name,
+            'api_token'         => $token,
+            'user_id'           => $useInfo->id,
+            'user_username'     => $useInfo->name,
+            'user_email'        => $useInfo->email,
+            'user_address'      => $useInfo->address,
+            'user_img'          => $useInfo->img,
+            'user_tel'          => $useInfo->phone,
+            'user_car'          => $useInfo->car,
+            'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender]
         ];
 
     }
