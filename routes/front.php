@@ -41,6 +41,6 @@ $router->group([
     ]
 ], function () use ($router) {
 
-    // 用户注册
-    $router->post('/register', 'Front\AuthController@register');
+    // 机构列表展示
+    $router->get('/organizationList', 'Front\OrganizationController@organizationList');
 });
