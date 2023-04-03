@@ -3,6 +3,8 @@
 namespace App\Service\Front;
 
 use App\Models\Institution;
+use App\Models\InstitutionHome;
+use App\Service\Common\FunService;
 
 class OrganizationService
 {
@@ -11,14 +13,30 @@ class OrganizationService
         $page     = $request->page ?? 1;
         $pageSize = $request->page_size ?? 20;
 
-        // 查询列表
-        $query = Institution::where('status', '>', Institution::INSTITUTION_SYS_STATUS_TWO)
-            ->orderBy('id','desc');
+        $query    = self::makeSearchWhere($request);
 
-        $result = Institution::getProListPage($query, $page, $pageSize);
+        // 获取分页数据
+        $result = (new Institution())->getInsListPage($query, $page, $pageSize);
+
+        // 处理特殊字段
         $result['data'] = self::dealReturnData($result['data']);
 
-        return  $result;
+        return $result;
+    }
+
+    /**
+     * @param $request
+     * @return mixed
+     */
+    protected static function makeSearchWhere($request)
+    {
+        $query = Institution::where('status', '>', Institution::INSTITUTION_SYS_STATUS_TWO);
+
+        if ($request->institution_serarch) {
+            $query->where('institution_name', 'like', "%" . $request->institution_serarch . "%");
+        }
+
+        return $query->orderBy('page_view', 'desc');
     }
 
     /**
@@ -31,6 +49,7 @@ class OrganizationService
     {
 
         foreach ($query as $k => $v) {
+
             // 处理回参
             $data[$k] = [
                 'id'                        => $v['id'],
@@ -42,6 +61,7 @@ class OrganizationService
                 'institution_type'          => $v['institution_type'],
                 'page_view'                 => $v['page_view'],
                 'status'                    => $v['status'],
+                'home_list'                 => '',
                 'created_at'                => date('Y-m-d H:i', strtotime($v['created_at']))
             ];
         }
@@ -58,7 +78,6 @@ class OrganizationService
         // 查询列表
         $query = Institution::where('status', '>', Institution::INSTITUTION_SYS_STATUS_TWO)
             ->orderBy('page_view','desc')
-            ->limit(3)
             ->get();
 
         $data = [];
@@ -80,5 +99,12 @@ class OrganizationService
         return $data;
     }
 
+
+    public static function test(){
+        $result = FunService::getHomeData();
+
+var_dump($result);die();
+
+    }
 }
 

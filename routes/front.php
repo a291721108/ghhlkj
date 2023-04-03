@@ -28,7 +28,8 @@ $router->group([
 
     // 发送短信验证吗
     $router->post('/sendSms', 'Common\SendMsgController@sendSms');
-
+    // ceshi
+    $router->get('/test', 'Front\OrganizationController@test');
 });
 
 // 需要检查token
@@ -46,4 +47,6 @@ $router->group([
 
     // 机构列表展示浏览量最高的5个
     $router->get('/tissueCount', 'Front\OrganizationController@tissueCount');
+
+
 });

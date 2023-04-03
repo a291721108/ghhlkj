@@ -18,7 +18,7 @@ class OrganizationController extends BaseController
      *
      * @param page 必选 string 页数
      * @param page_size 必选 string 条数
-     * @param status 非必选 int 状态搜索(1:未完成,2:完成)
+     * @param institution_serarch 非必选 string 搜索(根据关键字搜索)
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":{"total":2,"current_page":"1","page_size":"2","pages":1,"data":[{"id":2,"institution_name":"太原市小店区XXX机构","institution_address":"太原市小店区121号","institution_img":null,"institution_detail":"listlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlistlist","institution_tel":"17821211068","institution_type":2,"page_view":126,"status":1,"created_at":"2023-04-0309:00"},{"id":1,"institution_name":"太原市万柏林区XXX机构","institution_address":"太原市万柏林区12号","institution_img":null,"institution_detail":"详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情详情","institution_tel":"17821211068","institution_type":1,"page_view":450,"status":1,"created_at":"2023-04-0309:00"}]}}
      *
@@ -88,6 +88,19 @@ class OrganizationController extends BaseController
     {
 
         $data = OrganizationService::tissueCount();
+
+        if ($data) {
+            return $this->success('success', '200', $data);
+        }
+
+        return $this->error('error');
+    }
+
+
+    public function test()
+    {
+
+        $data = OrganizationService::test();
 
         if ($data) {
             return $this->success('success', '200', $data);

@@ -3,30 +3,23 @@
 namespace App\Models;
 
 
-use Illuminate\Http\Request;
-
-class Institution extends Common
+class InstitutionHome extends Common
 {
 
-    protected $table = 'gh_institution';
+    protected $table = 'gh_institution_home';
 
-    protected $request;
-
-//    public function __construct(Request $request) {
-//        $this->request = $request;
-//    }
     public $timestamps = true;
 
-    const INSTITUTION_SYS_STATUS_ONE = 1;  // 启用
-    const INSTITUTION_SYS_STATUS_TWO = -1;  // 禁用
+    const Home_SYS_STATUS_ONE = 1;  // 启用
+    const Home_SYS_STATUS_TWO = -1;  // 禁用
 
 
     /**
      * 信息提示
      */
-    const   INS_MSG_ARRAY = [
-        self::INSTITUTION_SYS_STATUS_ONE    => "启用",
-        self::INSTITUTION_SYS_STATUS_TWO    => "禁用",
+    const   Home_MSG_ARRAY = [
+        self::Home_SYS_STATUS_ONE    => "启用",
+        self::Home_SYS_STATUS_TWO    => "禁用",
     ];
 
 
@@ -42,8 +35,6 @@ class Institution extends Common
     }
 
 
-
-
     /**
      * 分页
      * @param $query
@@ -51,7 +42,7 @@ class Institution extends Common
      * @param $pageSize
      * @return array
      */
-    public function getInsListPage($query, $page, $pageSize)
+    public static function getHomeListPage($query, $page, $pageSize)
     {
         $perPage = $pageSize ?: $query->getPerPage();
         $total   = $query->toBase()->getCountForPagination();
@@ -68,6 +59,15 @@ class Institution extends Common
         ];
     }
 
+
+    /**
+     * 关联机构表
+     */
+    public function products()
+    {
+        return $this->hasMany(Institution::class,'institution_id');
+//        return $this->hasMany($class, 'institution_id', 'id');
+    }
 
 
 }
