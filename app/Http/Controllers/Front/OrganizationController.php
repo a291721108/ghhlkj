@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 class OrganizationController extends BaseController
 {
 
-    /***
-     * showdoc
+    /**
      * @catalog app端/机构
      * @title 机构列表
      * @description 获取所有机构列表
