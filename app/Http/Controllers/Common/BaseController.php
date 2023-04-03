@@ -23,7 +23,7 @@ class BaseController extends Controller
                 'status' => $code,
                 'msg'    => $msg
             ],
-            'data' => is_array($data) ? $data:[]
+            'data' => is_array($data) ? nullToStr($data) : $data
         ];
 
         return json_encode($response, JSON_UNESCAPED_UNICODE);

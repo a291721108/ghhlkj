@@ -43,4 +43,7 @@ $router->group([
 
     // 机构列表展示
     $router->get('/organizationList', 'Front\OrganizationController@organizationList');
+
+    // 机构列表展示浏览量最高的5个
+    $router->get('/tissueCount', 'Front\OrganizationController@tissueCount');
 });

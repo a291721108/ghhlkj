@@ -60,10 +60,11 @@ class SendMsgController extends BaseController
 
             // 记录到数据库中
             $data = [
-                'code'      => $num,
-                'send_time' => time(),
-                'type'      => 1,
-                'phone'     => $phone,
+                'code'          => $num,
+                'send_time'     => time(),
+                'type'          => 1,
+                'phone'         => $phone,
+                'created_at'    =>time()
             ];
 
             UserSend::insert($data);
