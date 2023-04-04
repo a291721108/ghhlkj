@@ -16,6 +16,7 @@ class ErrorCode
         'error'                     => "失败",
         'The user does not exist.'  => "用户不存在",
         'User already exists.'      => "用户已存在",
+        'password_error'            => "密码错误",
         'login_success'             => "登录成功",
         'code_send_success'         => "验证码发送成功",
         'code_expired'              => "验证吗已过期",
