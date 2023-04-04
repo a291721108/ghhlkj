@@ -51,7 +51,9 @@ class AuthService
             'user_img'          => $useInfo->img,
             'user_tel'          => $useInfo->phone,
             'user_car'          => $useInfo->car,
-            'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender]
+            'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender],
+            'last_login_time' => time(),
+            'last_login_ip'     => getClientIp()
         ];
 
     }

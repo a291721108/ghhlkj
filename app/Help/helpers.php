@@ -92,9 +92,7 @@ if (!function_exists('getClientIp')) {
 
         if (isset($_SERVER['HTTP_CLIENT_IP']) && preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $_SERVER['HTTP_CLIENT_IP'])) {
             $ip = $_SERVER['HTTP_CLIENT_IP'];
-        }
-
-        elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']) and preg_match_all('#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s', $_SERVER['HTTP_X_FORWARDED_FOR'], $matches)) {
+        } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']) and preg_match_all('#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s', $_SERVER['HTTP_X_FORWARDED_FOR'], $matches)) {
             foreach ($matches[0] as $xip) {
                 if (!preg_match('#^(10|172\.16|192\.168)\.#', $xip)) {
                     $ip = $xip;
@@ -150,8 +148,7 @@ if (!function_exists('ytdTampTime')) {
     {
         if ($ytdTampTime == true) {
             $timeGo = date('Y-m-d', $ytdTampTime);
-        }
-        else {
+        } else {
             $timeGo = $ytdTampTime;
         }
         return $timeGo;
@@ -167,8 +164,7 @@ if (!function_exists('timestampTime')) {
     {
         if ($timestampTime == true) {
             $timeGo = date('Y-m-d H:i', $timestampTime);
-        }
-        else {
+        } else {
             $timeGo = $timestampTime;
         }
         return $timeGo;
@@ -184,8 +180,7 @@ if (!function_exists('hourMinuteSecond')) {
     {
         if ($hourMinuteSecond == true) {
             $timeGo = date('Y-m-d H:i:s', $hourMinuteSecond);
-        }
-        else {
+        } else {
             $timeGo = $hourMinuteSecond;
         }
         return $timeGo;
@@ -200,10 +195,9 @@ if (!function_exists('timesTamp')) {
     function timesTamp($timestampTime)
     {
         if ($timestampTime == true) {
-            $res    = date('Y-m-d H:i', $timestampTime);
+            $res = date('Y-m-d H:i', $timestampTime);
             $timeGo = substr($res, 11, 16);
-        }
-        else {
+        } else {
             $timeGo = $timestampTime;
         }
         return $timeGo;
@@ -220,11 +214,11 @@ if (!function_exists('periodDate')) {
 
     function periodDate($start_time, $end_time): array
     {
-        $i   = 0;
+        $i = 0;
         $arr = [];
 
         while ($start_time <= $end_time) {
-            $arr[$i]    = date('Y-m-d', $start_time);
+            $arr[$i] = date('Y-m-d', $start_time);
             $start_time = strtotime('+1 day', $start_time);
             $i++;
         }
@@ -255,7 +249,7 @@ if (!function_exists('curlGet')) {
         $header = array(
             'Accept: application/json',
         );
-        $curl   = curl_init();
+        $curl = curl_init();
         //设置抓取的url
         curl_setopt($curl, CURLOPT_URL, $url);
         //设置头文件的信息作为数据流输出
@@ -312,9 +306,9 @@ if (!function_exists('curlPost')) {
 if (!function_exists('variance')) {
     function variance($arr)
     {
-        $length  = count($arr);
+        $length = count($arr);
         $average = array_sum($arr) / $length;
-        $count   = 0;
+        $count = 0;
 
         foreach ($arr as $v) {
             $count += pow($average - $v, 2);
@@ -324,7 +318,7 @@ if (!function_exists('variance')) {
 
         return [
             'variance' => $variance,
-            'average'  => $average
+            'average' => $average
         ];
     }
 }
@@ -358,14 +352,35 @@ if (!function_exists('standardiseTimeFormat')) {
                 if (strpos($v, ":") !== false) {
                     list($workTimeH, $workTimeF) = explode(':', $v);
                     $time[] = number_format($workTimeH + ($workTimeF / 60), 2);
-                }
-                else {
+                } else {
                     $time[] = $v;
                 }
             }
             return $time;
         }
     }
+}
 
+/**
+ * 获取用户IP
+ */
+if (!function_exists('getClientIp')) {
+    function getClientIp()
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        if (isset($_SERVER['HTTP_CLIENT_IP']) && preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/', $_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']) and preg_match_all('#\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}#s', $_SERVER['HTTP_X_FORWARDED_FOR'], $matches)) {
+            foreach ($matches[0] as $xip) {
+                if (!preg_match('#^(10|172\.16|192\.168)\.#', $xip)) {
+                    $ip = $xip;
+                    break;
+                }
+            }
+        }
+
+        return $ip;
+    }
 }
 
