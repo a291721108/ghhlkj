@@ -64,7 +64,7 @@ class SendMsgController extends BaseController
                 'send_time'     => time(),
                 'type'          => 1,
                 'phone'         => $phone,
-                'created_at'    =>time()
+                'created_at'    => time()
             ];
 
             UserSend::insert($data);
