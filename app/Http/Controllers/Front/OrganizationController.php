@@ -56,7 +56,9 @@ class OrganizationController extends BaseController
         return $this->error('error');
     }
 
-    /**
+
+    /***
+     * showdoc
      * @catalog app端/机构
      * @title 获取机构浏览量前五
      * @description 获取机构浏览量前五
@@ -97,16 +99,6 @@ class OrganizationController extends BaseController
     }
 
 
-    public function test()
-    {
 
-        $data = OrganizationService::test();
-
-        if ($data) {
-            return $this->success('success', '200', $data);
-        }
-
-        return $this->error('error');
-    }
 
 }

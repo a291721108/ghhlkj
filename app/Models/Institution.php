@@ -68,6 +68,13 @@ class Institution extends Common
         ];
     }
 
-
+    /**
+     * 关联机构表
+     */
+    public function products($class = InstitutionHome::class)
+    {
+        return $this->hasMany($class,'institution_id','id')
+            ->select('id', 'institution_id', 'home_type', 'home_img','home_pic','home_size','home_detal','home_facility','status','created_at');
+    }
 
 }

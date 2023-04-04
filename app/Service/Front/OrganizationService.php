@@ -4,6 +4,8 @@ namespace App\Service\Front;
 
 use App\Models\Institution;
 use App\Models\InstitutionHome;
+use App\Models\InstitutionHomeFacilities;
+use App\Models\InstitutionHomeType;
 use App\Service\Common\FunService;
 
 class OrganizationService
@@ -61,13 +63,14 @@ class OrganizationService
                 'institution_type'          => $v['institution_type'],
                 'page_view'                 => $v['page_view'],
                 'status'                    => $v['status'],
-                'home_list'                 => '',
                 'created_at'                => date('Y-m-d H:i', strtotime($v['created_at']))
             ];
         }
 
         return $data;
     }
+
+
 
     /**
      * 获取机构浏览量前五
@@ -100,11 +103,5 @@ class OrganizationService
     }
 
 
-    public static function test(){
-        $result = FunService::getHomeData();
-
-var_dump($result);die();
-
-    }
 }
 

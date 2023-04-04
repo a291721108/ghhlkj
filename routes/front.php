@@ -48,5 +48,11 @@ $router->group([
     // 机构列表展示浏览量最高的5个
     $router->get('/tissueCount', 'Front\OrganizationController@tissueCount');
 
+    // 机构详情
+    $router->get('/tissueDetailPage', 'Front\HomeTypeController@tissueDetailPage');
+
+    // 获取房间类型
+    $router->get('/homeTypeList', 'Front\HomeTypeController@homeTypeList');
+
 
 });
