@@ -2,9 +2,11 @@
 
 namespace App\Service\Front;
 
+use App\Events\FrontLoginEvent;
 use App\Models\User;
 use App\Service\Common\RedisService;
 use Illuminate\Support\Facades\Auth;
+use StdClass;
 
 class AuthService
 {
@@ -42,6 +44,11 @@ class AuthService
             return 'redis_write_token_error';
         }
 
+        // 时间监听 处理登录完成之后的逻辑
+        $obj             = new StdClass();
+        $obj->id         = $useInfo->id;
+        event(new FrontLoginEvent($obj));
+
         return [
             'api_token'         => $token,
             'user_id'           => $useInfo->id,
@@ -52,8 +59,6 @@ class AuthService
             'user_tel'          => $useInfo->phone,
             'user_car'          => $useInfo->car,
             'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender],
-            'last_login_time' => time(),
-            'last_login_ip'     => getClientIp()
         ];
 
     }
