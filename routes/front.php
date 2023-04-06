@@ -21,7 +21,7 @@ $router->get('/', function () use ($router) {
 
 $router->group([
     'prefix'     => 'api',
-//    'middleware' => 'cors'
+    'middleware' => 'cors'
 ], function () use ($router) {
     // 登录
     $router->post('/login', 'Front\AuthController@login');
@@ -45,7 +45,7 @@ $router->group([
     'middleware' => [
         'auth',
 //        'log',
-//        'cors'
+        'cors'
     ]
 ], function () use ($router) {
 

@@ -51,6 +51,7 @@ $app->singleton(Illuminate\Contracts\Console\Kernel::class, App\Console\Kernel::
 
 $app->configure('app');
 $app->configure('aliyunsms');
+$app->configure('cors');
 
 
 /*
@@ -70,7 +71,7 @@ $app->configure('aliyunsms');
 
  $app->routeMiddleware([
      'auth' => App\Http\Middleware\Authenticate::class,
-//     'cors'     => \Fruitcake\Cors\HandleCors::class,
+     'cors'     => \Fruitcake\Cors\HandleCors::class,
  ]);
 
 /*

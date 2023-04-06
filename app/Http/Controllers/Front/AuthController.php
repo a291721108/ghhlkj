@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class AuthController extends BaseController
 {
     /**
-     * @catalog 后台/用户相关
+     * @catalog app端/用户相关
      * @title 用户登录
      * @description 用户登录的接口
      * @method post
@@ -126,6 +126,25 @@ class AuthController extends BaseController
         return $this->error($res);
     }
 
+    /***
+     * showdoc
+     * @catalog app端/用户相关
+     * @title 验证码登录
+     * @description 用户验证码登录
+     * @method post
+     * @url 47.92.82.25/api/sendSmsLogin
+     *
+     * @param phone 必选 string 手机号
+     * @param dxcodess 必选 int 验证码(6位数字加字母组成)
+     *
+     * @return {"meta":{"status":200,"msg":"登录成功"},"data":{"api_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC80Ny45Mi44Mi4yNVwvYXBpXC9sb2dpbiIsImlhdCI6MTY4MDE0ODU1NiwiZXhwIjoxNjgxNDQ0NTU2LCJuYmYiOjE2ODAxNDg1NTYsImp0aSI6ImNoVXhHcHBpT2xDYlN6OXciLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.DC_a1lX4rxy4h3o5ufE6QPqPRod4nYENBtMDELyWTts","user_username":"1"}}
+     *
+     * @return_param api_token string api_token
+     * @return_param name string 姓名
+     *
+     * @remark
+     * @number 1
+     */
     public function sendSmsLogin(Request $request)
     {
 
