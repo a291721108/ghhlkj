@@ -32,6 +32,9 @@ $router->group([
     // 忘记密码
     $router->post('/forgotPassword', 'Front\AuthController@forgotPassword');
 
+    //验证码登录
+    $router->post('/sendSmsLogin', 'Front\AuthController@sendSmsLogin');
+
     // ceshi
     $router->get('/test', 'Front\OrganizationController@test');
 });

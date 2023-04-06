@@ -8,6 +8,7 @@ use App\Models\UserSend;
 use App\Service\Common\RedisService;
 use Illuminate\Support\Facades\Auth;
 use StdClass;
+use function Symfony\Component\String\u;
 
 class AuthService
 {
@@ -127,4 +128,69 @@ class AuthService
 
         return 'error';
     }
+
+    /**
+     * 验证码登录
+     * @return string|bool
+     */
+    public static function sendSmsLogin($request)
+    {
+        $code      = $request->dxcodess;
+        $phone     = $request->phone;
+
+        // 判断是否有验证吗
+        $sendInfo = UserSend::where('phone', '=', $phone)->orderBy('id', 'desc')->first();
+
+        if (!$sendInfo) {
+            return 'phone_error';
+        }
+
+        //  验证吗是否过期 有效期限五分钟
+        if (time() >= ($sendInfo->send_time + 300)) {
+            return 'code_expired';
+        }
+
+        // 验证码错误
+        if ($sendInfo->code !== intval($code)) {
+            return 'code_error';
+        }
+
+        // 判断用户是否存在
+        $useInfo = User::where('phone', '=', $phone)->where('status','=',User::USER_STATUS_ONE)->first();
+        if (!$useInfo) {
+
+            //如果没有这个手机号插入数据库
+            $data = [
+                'name'          => "游客111",
+                'phone'         => $phone,
+                'status'        => User::USER_STATUS_ONE,
+                'created_at'    => time()
+            ];
+            User::insert($data);
+            return 'New user login';
+        }
+
+        //  登录成功 为用户颁发token
+        $token = Auth::guard('api')->login($useInfo);
+
+        // 将token存在redis中 过期时间设置为1天
+        $key = "oa_user_front_token_" . $useInfo->id;
+        RedisService::set($key, $token);
+
+        return [
+            'api_token'         => $token,
+            'user_id'           => $useInfo->id,
+            'user_username'     => $useInfo->name,
+            'user_email'        => $useInfo->email,
+            'user_address'      => $useInfo->address,
+            'user_img'          => $useInfo->img,
+            'user_tel'          => $useInfo->phone,
+            'user_car'          => $useInfo->car,
+            'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
+        ];
+
+
+
+    }
+
 }

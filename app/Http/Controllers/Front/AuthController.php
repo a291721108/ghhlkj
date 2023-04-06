@@ -125,4 +125,21 @@ class AuthController extends BaseController
 
         return $this->error($res);
     }
+
+    public function sendSmsLogin(Request $request)
+    {
+
+        $this->validate($request, [
+            'phone'     => 'required|numeric',
+            'dxcodess'  => 'required|numeric',
+        ]);
+
+        $res = AuthService::sendSmsLogin($request);
+
+        if ($res) {
+            return $this->success('login_success', 200, $res);
+        }
+
+        return $this->error($res);
+    }
 }
