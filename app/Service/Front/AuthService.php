@@ -10,7 +10,7 @@ use StdClass;
 
 class AuthService
 {
-ceshi
+
     /**
      * 用户登录逻辑
      * @param $request
