@@ -4,6 +4,7 @@ namespace App\Service\Front;
 
 use App\Events\FrontLoginEvent;
 use App\Models\User;
+use App\Models\UserSend;
 use App\Service\Common\RedisService;
 use Illuminate\Support\Facades\Auth;
 use StdClass;
@@ -88,5 +89,42 @@ class AuthService
 
     }
 
+    /**
+     * 忘记密码
+     * @return string|bool
+     */
+    public function forgotPassword($request)
+    {
+        $code      = $request->dxcodess;
+        $phone     = $request->phone;
+        $passwords = $request->passwords;
 
+        // 判断是否有验证吗
+        $sendInfo = UserSend::where('phone', '=', $phone)->orderBy('id', 'desc')->first();
+
+        if (!$sendInfo) {
+            return 'phone_error';
+        }
+
+        //  验证吗是否过期 有效期限五分钟
+        if (time() >= ($sendInfo->send_time + 300)) {
+            return 'code_expired';
+        }
+
+        // 验证码错误
+        if ($sendInfo->code !== intval($code)) {
+            return 'code_error';
+        }
+
+        $useInfo                = User::where('user_tel', '=', $phone)->first();
+        $useInfo->user_password = md5($passwords);
+        $useInfo->salt          = rand(1, 100);
+
+
+        if ($useInfo->save()) {
+            return 'success';
+        }
+
+        return 'error';
+    }
 }

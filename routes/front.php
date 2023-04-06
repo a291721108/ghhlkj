@@ -28,6 +28,10 @@ $router->group([
 
     // 发送短信验证吗
     $router->post('/sendSms', 'Common\SendMsgController@sendSms');
+
+    // 忘记密码
+    $router->post('/forgotPassword', 'Front\AuthController@forgotPassword');
+
     // ceshi
     $router->get('/test', 'Front\OrganizationController@test');
 });

@@ -77,4 +77,52 @@ class AuthController extends BaseController
 
         return $this->error($res);
     }
+
+    /**
+     * @catalog app端/用户相关
+     * @title 忘记密码
+     * @description 忘记密码接口
+     * @method post
+     * @url 47.92.82.25/api/forgotPassword
+     *
+     * @param dxcodess 必选 int 验证吗
+     * @param phone 必选 string 手机号
+     * @param passwords 必选 string 密码
+     *
+     * @return {"code":200,"msg":"修改密码成功","data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     * @return_param data array 返回数据
+     *
+     * @remark
+     * @number 2
+     */
+    public function forgotPassword(Request $request)
+    {
+
+        $this->validate($request, [
+            'dxcodess'  => 'required',
+            'phone'     => 'required',
+            'passwords' => 'required'
+        ]);
+
+        // 验证手机号格式
+        if (!validatePhone($request->phone)) {
+            return $this->error('phone_error');
+        }
+
+        // 密码格式 6-12位 字符加数字组合
+        if (strlen($request->passwords) < 6 || strlen($request->passwords) > 12) {
+            return $this->error('password_length_error');
+        }
+
+        $res = AuthService::forgotPassword($request);
+
+        if ($res == 'success') {
+            return $this->success('update_true');
+        }
+
+        return $this->error($res);
+    }
 }

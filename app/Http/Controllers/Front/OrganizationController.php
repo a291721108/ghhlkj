@@ -57,8 +57,7 @@ class OrganizationController extends BaseController
     }
 
 
-    /***
-     * showdoc
+    /**
      * @catalog app端/机构
      * @title 获取机构浏览量前五
      * @description 获取机构浏览量前五
