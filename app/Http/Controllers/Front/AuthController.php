@@ -46,13 +46,14 @@ class AuthController extends BaseController
 
     /**
      * @catalog app端/用户相关
-     * @title 用户注册
-     * @description 用户注册的接口
+     * @title 用户信息修改
+     * @description 用户信息修改
      * @method post
      * @url 47.92.82.25/api/register
      *
      * @param name 必选 string 名字
      * @param password 必选 string 用户密码(6-12数字加字母组成)
+     * @param phone 必选 int 手机号
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *
@@ -65,8 +66,9 @@ class AuthController extends BaseController
     {
         // 数据校验
         $this->validate($request, [
-            'phone'      => 'required|numeric',
-            'password'   => 'required'
+            'name'      => 'required',
+            'password'   => 'required',
+            'phone'     => 'required|numeric',
         ]);
 
         $res = AuthService::register($request);
@@ -126,8 +128,7 @@ class AuthController extends BaseController
         return $this->error($res);
     }
 
-    /***
-     * showdoc
+    /**
      * @catalog app端/用户相关
      * @title 验证码登录
      * @description 用户验证码登录

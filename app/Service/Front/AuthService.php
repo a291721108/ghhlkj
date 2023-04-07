@@ -66,27 +66,22 @@ class AuthService
     }
 
     /**
-     * 用户注册
+     * 用户信息修改
      * @param $request
      */
     public static function register($request)
     {
-        $name = $request->name;
+
+        $phone = $request->phone;
 
         // 判断用户是否存在
-        $useInfo = User::where('name', '=', $name)->first();
-        if ($useInfo) {
-            return 'User already exists.';
-        }
+        $useInfo = User::where('phone', '=', $phone)->first();
+        $useInfo->name =$request->name;
+        $useInfo->password = $request->password;
+        $useInfo->salt = rand(1, 100);
+        $useInfo->created_at = time();
 
-        $data = [
-            'name'          => $request->name,
-            'password'      => md5($request->password),
-            'salt'          => rand(1, 100),
-            'created_at'        => time(),
-        ];
-
-        return User::insert($data);
+        return $useInfo->save();
 
     }
 

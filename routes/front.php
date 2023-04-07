@@ -35,6 +35,9 @@ $router->group([
     //验证码登录
     $router->post('/sendSmsLogin', 'Front\AuthController@sendSmsLogin');
 
+    //用户消息修改
+    $router->post('/register', 'Front\AuthController@register');
+
     // ceshi
     $router->get('/test', 'Front\OrganizationController@test');
 });
