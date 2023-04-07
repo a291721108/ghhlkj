@@ -18,5 +18,8 @@ class AppServiceProvider extends ServiceProvider
 
         // 依赖注册redis缓存类
         $this->app->register(\Illuminate\Redis\RedisServiceProvider::class);
+
+        // 依赖注入跨域组件
+        $this->app->register(\Fruitcake\Cors\CorsServiceProvider::class);
     }
 }
