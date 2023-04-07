@@ -37,8 +37,7 @@ class UploadController extends BaseController
         $this->limitSize = $query->file_size * 1024;
     }
 
-    /***
-     * showdoc
+    /**
      * @catalog API/公共
      * @title 图片上传
      * @description 图片上传

@@ -79,6 +79,8 @@ class AuthService
         $useInfo->name =$request->name;
         $useInfo->password = $request->password;
         $useInfo->salt = rand(1, 100);
+        $useInfo->img = $request->img;
+        $useInfo->email = $request->email;
         $useInfo->created_at = time();
 
         return $useInfo->save();
