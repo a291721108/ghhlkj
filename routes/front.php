@@ -38,6 +38,9 @@ $router->group([
     //用户消息修改
     $router->post('/register', 'Front\AuthController@register');
 
+    // 图片上传
+    $router->post('/saveFile', 'Common\UploadController@saveFile');
+
     // ceshi
     $router->get('/test', 'Front\OrganizationController@test');
 });
