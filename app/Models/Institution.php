@@ -21,6 +21,9 @@ class Institution extends Common
     const INSTITUTION_SYS_STATUS_TWO = -1;  // 禁用
 
 
+    const INSTITUTION_SYS_TYPE_ONE = 1;  // 民办
+    const INSTITUTION_SYS_TYPE_TWO = 2;  // 政府
+
     /**
      * 信息提示
      */
@@ -29,7 +32,10 @@ class Institution extends Common
         self::INSTITUTION_SYS_STATUS_TWO    => "禁用",
     ];
 
-
+    const   INS_TYPE_ARRAY = [
+        self::INSTITUTION_SYS_TYPE_ONE    => "民办",
+        self::INSTITUTION_SYS_TYPE_TWO    => "政府",
+    ];
 
     /**
      * 格式化时间
