@@ -23,7 +23,7 @@ class AuthService
         $password = $request->password;
 
         // 判断用户是否存在
-        $useInfo = User::where('phone', '=', $phone)->where('status','=',User::USER_STATUS_ONE)->first();
+        $useInfo = User::where('phone', '=', $phone)->where('status', '=', User::USER_STATUS_ONE)->first();
         if (!$useInfo) {
             return 'The user does not exist.';
         }
@@ -47,20 +47,20 @@ class AuthService
         }
 
         // 时间监听 处理登录完成之后的逻辑
-        $obj             = new StdClass();
-        $obj->id         = $useInfo->id;
+        $obj = new StdClass();
+        $obj->id = $useInfo->id;
         event(new FrontLoginEvent($obj));
 
         return [
-            'api_token'         => $token,
-            'user_id'           => $useInfo->id,
-            'user_username'     => $useInfo->name,
-            'user_img'          => $useInfo->img,
-            'user_email'        => $useInfo->email,
-            'user_address'      => $useInfo->address,
-            'user_tel'          => $useInfo->phone,
-            'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender],
-            'user_birthday'     => ytdTampTime($useInfo->birthday),
+            'api_token' => $token,
+            'user_id' => $useInfo->id,
+            'user_username' => $useInfo->name,
+            'user_img' => $useInfo->img,
+            'user_email' => $useInfo->email,
+            'user_address' => $useInfo->address,
+            'user_tel' => $useInfo->phone,
+            'user_gender' => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
+            'user_birthday' => ytdTampTime($useInfo->birthday) ?? '',
         ];
 
     }
@@ -95,8 +95,8 @@ class AuthService
      */
     public function forgotPassword($request)
     {
-        $code      = $request->dxcodess;
-        $phone     = $request->phone;
+        $code = $request->dxcodess;
+        $phone = $request->phone;
         $passwords = $request->passwords;
 
         // 判断是否有验证吗
@@ -116,9 +116,9 @@ class AuthService
             return 'code_error';
         }
 
-        $useInfo                = User::where('user_tel', '=', $phone)->first();
+        $useInfo = User::where('user_tel', '=', $phone)->first();
         $useInfo->user_password = md5($passwords);
-        $useInfo->salt          = rand(1, 100);
+        $useInfo->salt = rand(1, 100);
 
 
         if ($useInfo->save()) {
@@ -134,8 +134,8 @@ class AuthService
      */
     public static function sendSmsLogin($request)
     {
-        $code      = $request->dxcodess;
-        $phone     = $request->phone;
+        $code = $request->dxcodess;
+        $phone = $request->phone;
 
         // 判断是否有验证吗
         $sendInfo = UserSend::where('phone', '=', $phone)->orderBy('id', 'desc')->first();
@@ -155,25 +155,25 @@ class AuthService
 //        }
 
         // 判断用户是否存在
-        $useInfo = User::where('phone', '=', $phone)->where('status','=',User::USER_STATUS_ONE)->first();
+        $useInfo = User::where('phone', '=', $phone)->where('status', '=', User::USER_STATUS_ONE)->first();
 
         if (!$useInfo) {
 
             //如果没有这个手机号插入数据库
             $data = [
-                'name'          => "游客111",
-                'phone'         => $phone,
-                'status'        => User::USER_STATUS_ONE,
-                'created_at'    => time()
+                'name' => "游客111",
+                'phone' => $phone,
+                'status' => User::USER_STATUS_ONE,
+                'created_at' => time()
             ];
 
             return [
-                'id'        => User::insertGetId($data),
-                'phone'     => $phone,
-                'password'  => ''
+                'id' => User::insertGetId($data),
+                'phone' => $phone,
+                'password' => ''
             ];
         }
-        if (!$useInfo->password){
+        if (!$useInfo->password) {
             return "passwordNull";
         }
         //  登录成功 为用户颁发token
@@ -184,15 +184,15 @@ class AuthService
         RedisService::set($key, $token);
 
         return [
-            'api_token'         => $token,
-            'user_id'           => $useInfo->id,
-            'user_username'     => $useInfo->name,
-            'user_img'          => $useInfo->img,
-            'user_email'        => $useInfo->email ?? '',
-            'user_address'      => $useInfo->address ?? '',
-            'user_tel'          => $useInfo->phone,
-            'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
-            'user_birthday'     => ytdTampTime($useInfo->birthday) ?? '',
+            'api_token' => $token,
+            'user_id' => $useInfo->id,
+            'user_username' => $useInfo->name,
+            'user_img' => $useInfo->img,
+            'user_email' => $useInfo->email ?? '',
+            'user_address' => $useInfo->address ?? '',
+            'user_tel' => $useInfo->phone,
+            'user_gender' => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
+            'user_birthday' => ytdTampTime($useInfo->birthday) ?? '',
         ];
     }
 
@@ -206,7 +206,7 @@ class AuthService
         $userInfo->status = User::USER_STATUS_TWO;
         $userInfo->save();
 
-        if ($userInfo){
+        if ($userInfo) {
             return 'success';
         }
         return 'error';
@@ -222,7 +222,7 @@ class AuthService
         $userInfo = User::logout();
         // 将token存在redis中 过期时间设置为1天
         RedisService::del('gh_user_front_token_' . $user->id);
-        if (!$userInfo){
+        if (!$userInfo) {
             return "safe withdrawing";
         }
         return "error";
