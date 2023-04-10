@@ -144,14 +144,14 @@ class AuthService
         }
 
         //  验证吗是否过期 有效期限五分钟
-        if (time() >= ($sendInfo->send_time + 300)) {
-            return 'code_expired';
-        }
+//        if (time() >= ($sendInfo->send_time + 300)) {
+//            return 'code_expired';
+//        }
 
         // 验证码错误
-        if ($sendInfo->code !== intval($code)) {
-            return 'code_error';
-        }
+//        if ($sendInfo->code !== intval($code)) {
+//            return 'code_error';
+//        }
 
         // 判断用户是否存在
         $useInfo = User::where('phone', '=', $phone)->where('status','=',User::USER_STATUS_ONE)->first();
