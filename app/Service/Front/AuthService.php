@@ -72,11 +72,11 @@ class AuthService
     public static function register($request)
     {
 
-        $userId = $request->id;
+        $phone = $request->phone;
         $password = $request->password;
 
         // 判断用户是否存在
-        $useInfo = User::where('id', '=', $userId)->first();
+        $useInfo = User::where('phone', '=', $phone)->first();
         $useInfo->password = md5($password);
         $useInfo->salt = rand(1, 100);
 
