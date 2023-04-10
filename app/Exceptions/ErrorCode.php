@@ -22,13 +22,14 @@ class ErrorCode
         'update_true'               => "修改密码成功",
         'login_success'             => "登录成功",
         'New user login'            => "新用户登录",
+        'passwordNull'              => "密码为空",
         'close an account'          => "注销成功",
         'safe withdrawing'          => "安全退出",
 
         'code_send_success'         => "验证码发送成功",
-        'code_expired'              => "验证吗已过期",
-        'code_error'                => "验证吗输入错误",
-        'code_has_time'             => "验证吗任在有效期内，请稍后在试",
+        'code_expired'              => "验证码已过期",
+        'code_error'                => "验证码输入错误",
+        'code_has_time'             => "验证码任在有效期内，请稍后在试",
         'code_send_error'           => "验证码发送失败",
 
 

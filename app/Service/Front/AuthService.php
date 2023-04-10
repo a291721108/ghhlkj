@@ -55,12 +55,12 @@ class AuthService
             'api_token'         => $token,
             'user_id'           => $useInfo->id,
             'user_username'     => $useInfo->name,
+            'user_img'          => $useInfo->img,
             'user_email'        => $useInfo->email,
             'user_address'      => $useInfo->address,
-            'user_img'          => $useInfo->img,
             'user_tel'          => $useInfo->phone,
-            'user_car'          => $useInfo->car,
             'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender],
+            'user_birthday'     => ytdTampTime($useInfo->birthday),
         ];
 
     }
@@ -128,7 +128,7 @@ class AuthService
 
     /**
      * 验证码登录
-     * @return string|bool
+     * @return array
      */
     public static function sendSmsLogin($request)
     {
@@ -154,6 +154,7 @@ class AuthService
 
         // 判断用户是否存在
         $useInfo = User::where('phone', '=', $phone)->where('status','=',User::USER_STATUS_ONE)->first();
+
         if (!$useInfo) {
 
             //如果没有这个手机号插入数据库
@@ -163,10 +164,13 @@ class AuthService
                 'status'        => User::USER_STATUS_ONE,
                 'created_at'    => time()
             ];
+
             User::insert($data);
             return 'New user login';
         }
-
+        if (!$useInfo->password){
+            return "passwordNull";
+        }
         //  登录成功 为用户颁发token
         $token = Auth::guard('api')->login($useInfo);
 
