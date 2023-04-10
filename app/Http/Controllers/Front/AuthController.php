@@ -158,13 +158,12 @@ class AuthController extends BaseController
 
         $res = AuthService::sendSmsLogin($request);
 
-
         if (is_array($res)) {
             // 登入成功
-            return $this->success('login_success', 200, $res);
+            return $this->success('success', 200, $res);
         }
 
-        return $this->success($res);
+        return $this->error($res);
 
     }
 
