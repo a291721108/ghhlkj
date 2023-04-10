@@ -182,12 +182,12 @@ class AuthService
             'api_token'         => $token,
             'user_id'           => $useInfo->id,
             'user_username'     => $useInfo->name,
-            'user_email'        => $useInfo->email,
-            'user_address'      => $useInfo->address,
             'user_img'          => $useInfo->img,
+            'user_email'        => $useInfo->email ?? '',
+            'user_address'      => $useInfo->address ?? '',
             'user_tel'          => $useInfo->phone,
-            'user_car'          => $useInfo->car,
             'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
+            'user_birthday'     => ytdTampTime($useInfo->birthday) ?? '',
         ];
     }
 
