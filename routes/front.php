@@ -54,6 +54,8 @@ $router->group([
         'cors'
     ]
 ], function () use ($router) {
+    // 账号注销
+    $router->post('/closeAnAccount', 'Front\AuthController@closeAnAccount');
 
     // 机构列表展示
     $router->get('/organizationList', 'Front\OrganizationController@organizationList');

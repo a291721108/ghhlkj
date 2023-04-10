@@ -185,9 +185,21 @@ class AuthService
             'user_car'          => $useInfo->car,
             'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
         ];
-
-
-
     }
 
+    /**
+     * 注销账户
+     * @return string|bool
+     */
+    public static function closeAnAccount()
+    {
+        $userInfo = User::getUserInfo();
+        $userInfo->status = User::USER_STATUS_TWO;
+        $userInfo->save();
+
+        if ($userInfo){
+            return 'success';
+        }
+        return 'error';
+    }
 }

@@ -22,7 +22,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * status
      */
     const  USER_STATUS_ONE = 1;  // 正常
-    const  USER_STATUS_TWO = 2;  // 禁用
+    const  USER_STATUS_TWO = -1;  // 禁用
 
     const   USER_STATUS_MSG_ARRAY = [
         self::USER_STATUS_ONE      => "正常",
@@ -85,7 +85,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     /**
      * 获取当前登入用户信息
      */
-    public function getUserInfo(): ?AuthenticatableContract
+    public static function getUserInfo(): ?AuthenticatableContract
     {
         return auth()->user();
     }
