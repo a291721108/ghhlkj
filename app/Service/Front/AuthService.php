@@ -58,7 +58,7 @@ class AuthService
             'user_img' => $useInfo->img,
             'user_email' => $useInfo->email,
             'user_address' => $useInfo->address,
-            'user_tel' => $useInfo->phone,
+            'user_phone' => $useInfo->phone,
             'user_gender' => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
             'user_birthday' => ytdTampTime($useInfo->birthday) ?? '',
         ];
@@ -116,7 +116,7 @@ class AuthService
             return 'code_error';
         }
 
-        $useInfo = User::where('user_tel', '=', $phone)->first();
+        $useInfo = User::where('phone', '=', $phone)->first();
         $useInfo->user_password = md5($passwords);
         $useInfo->salt = rand(1, 100);
 
@@ -190,7 +190,7 @@ class AuthService
             'user_img' => $useInfo->img,
             'user_email' => $useInfo->email ?? '',
             'user_address' => $useInfo->address ?? '',
-            'user_tel' => $useInfo->phone,
+            'user_phone' => $useInfo->phone,
             'user_gender' => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
             'user_birthday' => ytdTampTime($useInfo->birthday) ?? '',
         ];
