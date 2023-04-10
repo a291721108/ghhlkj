@@ -51,6 +51,7 @@ class AuthController extends BaseController
      * @method post
      * @url 47.92.82.25/api/register
      *
+     * @param id 必选 int id
      * @param password 必选 string 用户密码(6-12数字加字母组成)
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
@@ -64,6 +65,7 @@ class AuthController extends BaseController
     {
         // 数据校验
         $this->validate($request, [
+            'id'         => 'required|numeric',
             'password'   => 'required',
         ]);
 
