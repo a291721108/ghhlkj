@@ -33,8 +33,10 @@ class SendMsgController extends BaseController
     public function sendSms(Request $request)
     {
         $phone = $request->phone;
+        $type  = $request->type;
 
         $this->validate($request, [
+            'type'  => 'required',
             'phone' => 'required',
         ]);
 
@@ -62,7 +64,7 @@ class SendMsgController extends BaseController
             $data = [
                 'code'          => $num,
                 'send_time'     => time(),
-                'type'          => 1,
+                'type'          => $type,
                 'phone'         => $phone,
                 'created_at'    => time()
             ];
