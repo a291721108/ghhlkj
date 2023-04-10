@@ -51,11 +51,7 @@ class AuthController extends BaseController
      * @method post
      * @url 47.92.82.25/api/register
      *
-     * @param name 必选 string 名字
      * @param password 必选 string 用户密码(6-12数字加字母组成)
-     * @param phone 必选 int 手机号
-     * @param img 非必选 string 图片
-     * @param email 非必选 string 邮箱
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *
@@ -68,9 +64,7 @@ class AuthController extends BaseController
     {
         // 数据校验
         $this->validate($request, [
-            'name'      => 'required',
             'password'   => 'required',
-            'phone'     => 'required|numeric',
         ]);
 
         $res = AuthService::register($request);

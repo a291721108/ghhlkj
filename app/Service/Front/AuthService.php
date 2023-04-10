@@ -76,12 +76,13 @@ class AuthService
 
         // 判断用户是否存在
         $useInfo = User::where('phone', '=', $phone)->first();
-        $useInfo->name =$request->name;
         $useInfo->password = $request->password;
         $useInfo->salt = rand(1, 100);
-        $useInfo->img = $request->img;
-        $useInfo->email = $request->email;
-        $useInfo->created_at = time();
+
+//        $useInfo->name =$request->name;
+//        $useInfo->img = $request->img;
+//        $useInfo->email = $request->email;
+        $useInfo->updated_at = time();
 
         return $useInfo->save();
 
@@ -167,6 +168,7 @@ class AuthService
 
             return [
                 'id'        => User::insertGetId($data),
+                'phone'     => $phone,
                 'password'  => ''
             ];
         }
