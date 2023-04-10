@@ -38,7 +38,7 @@ class AuthService
         $token = Auth::guard('api')->login($useInfo);
 
         // 将token存在redis中 过期时间设置为1天
-        $key = "oa_user_front_token_" . $useInfo->id;
+        $key = "gh_user_front_token_" . $useInfo->id;
         RedisService::set($key, $token);
 
         // redis存入异常抛错
@@ -171,7 +171,7 @@ class AuthService
         $token = Auth::guard('api')->login($useInfo);
 
         // 将token存在redis中 过期时间设置为1天
-        $key = "oa_user_front_token_" . $useInfo->id;
+        $key = "gh_user_front_token_" . $useInfo->id;
         RedisService::set($key, $token);
 
         return [
@@ -201,5 +201,21 @@ class AuthService
             return 'success';
         }
         return 'error';
+    }
+
+    /**
+     * 安全退出
+     * @return string|bool
+     */
+    public static function safeWithdrawing()
+    {
+        $user = User::getUserInfo();
+        $userInfo = User::logout();
+        // 将token存在redis中 过期时间设置为1天
+        RedisService::del('gh_user_front_token_' . $user->id);
+        if (!$userInfo){
+            return "safe withdrawing";
+        }
+        return "error";
     }
 }

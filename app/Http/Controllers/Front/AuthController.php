@@ -193,4 +193,34 @@ class AuthController extends BaseController
 
         return $this->error($res);
     }
+
+    /***
+     * showdoc
+     * @catalog app端/用户相关
+     * @title 安全退出
+     * @description 安全退出
+     * @method post
+     * @url 47.92.82.25/api/safeWithdrawing
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @return {"meta":{"status":200,"msg":"退出成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function safeWithdrawing(Request $request)
+    {
+
+        $res = AuthService::safeWithdrawing();
+
+        if ($res) {
+            return $this->success($res);
+        }
+
+        return $this->error($res);
+    }
 }

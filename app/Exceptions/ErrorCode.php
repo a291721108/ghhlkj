@@ -23,6 +23,7 @@ class ErrorCode
         'login_success'             => "登录成功",
         'New user login'            => "新用户登录",
         'close an account'          => "注销成功",
+        'safe withdrawing'          => "安全退出",
 
         'code_send_success'         => "验证码发送成功",
         'code_expired'              => "验证吗已过期",

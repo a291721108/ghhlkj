@@ -57,6 +57,9 @@ $router->group([
     // 账号注销
     $router->post('/closeAnAccount', 'Front\AuthController@closeAnAccount');
 
+    // 安全退出
+    $router->post('/safeWithdrawing', 'Front\AuthController@safeWithdrawing');
+
     // 机构列表展示
     $router->get('/organizationList', 'Front\OrganizationController@organizationList');
 

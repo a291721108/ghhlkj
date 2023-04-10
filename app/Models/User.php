@@ -90,6 +90,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return auth()->user();
     }
 
+    /**
+     * 退出登录
+     */
+    public static function logout()
+    {
+        return auth()->invalidate(true);
+    }
 
     /**
      * 格式化时间
@@ -100,5 +107,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return strtotime(parent::fromDateTime($value));
     }
+
+
 }
 
