@@ -57,6 +57,12 @@ $router->group([
     // 账号注销
     $router->post('/closeAnAccount', 'Front\AuthController@closeAnAccount');
 
+    // 身份证正面
+    $router->post('/fontPhotoCard', 'Front\AuthController@fontPhotoCard');
+
+    // 身份证反面
+    $router->post('/backPhotoCard', 'Front\AuthController@backPhotoCard');
+
     // 安全退出
     $router->post('/safeWithdrawing', 'Front\AuthController@safeWithdrawing');
 

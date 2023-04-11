@@ -4,6 +4,7 @@ namespace App\Service\Front;
 
 use App\Events\FrontLoginEvent;
 use App\Models\User;
+use App\Models\UserExt;
 use App\Models\UserSend;
 use App\Service\Common\RedisService;
 use Illuminate\Support\Facades\Auth;
@@ -93,7 +94,7 @@ class AuthService
      * 忘记密码
      * @return string|bool
      */
-    public function forgotPassword($request)
+    public static function forgotPassword($request)
     {
         $code = $request->dxcodess;
         $phone = $request->phone;
@@ -145,20 +146,19 @@ class AuthService
         }
 
         //  验证吗是否过期 有效期限五分钟
-//        if (time() >= ($sendInfo->send_time + 300)) {
-//            return 'code_expired';
-//        }
+        if (time() >= ($sendInfo->send_time + 300)) {
+            return 'code_expired';
+        }
 
         // 验证码错误
-//        if ($sendInfo->code !== intval($code)) {
-//            return 'code_error';
-//        }
+        if ($sendInfo->code !== intval($code)) {
+            return 'code_error';
+        }
 
         // 判断用户是否存在
         $useInfo = User::where('phone', '=', $phone)->where('status', '=', User::USER_STATUS_ONE)->first();
 
         if (!$useInfo) {
-
             //如果没有这个手机号插入数据库
             $data = [
                 'name' => "游客111",
@@ -167,8 +167,16 @@ class AuthService
                 'created_at' => time()
             ];
 
+            $ins = User::insertGetId($data);
+            $dataExt = [
+                'user_id'             => $ins,
+                'created_at'          => time(),
+            ];
+
+            UserExt::insert($dataExt);
+
             return [
-                'id' => User::insertGetId($data),
+                'id' => $ins,
                 'phone' => $phone,
                 'password' => ''
             ];
@@ -226,5 +234,45 @@ class AuthService
             return "safe withdrawing";
         }
         return "error";
+    }
+
+    /**
+     * 身份证正面
+     * @return string|bool
+     */
+    public static function fontPhotoCard($request)
+    {
+        $userInfo = User::getUserInfo();
+        $id_front_photo = $request->id_front_photo;
+
+        $userExt    = UserExt::where('user_id', '=', $userInfo->id)->first();
+        $userExt->id_front_photo    = $id_front_photo;
+        $userExt->updated_at        = strtotime(time());
+        $userExt->save();
+        if (!$userExt) {
+            return "error";
+        }
+
+        return 'success';
+    }
+
+    /**
+     * 身份证反面
+     * @return string|bool
+     */
+    public static function backPhotoCard($request)
+    {
+        $userInfo = User::getUserInfo();
+        $id_back_photo = $request->id_back_photo;
+
+        $userExt    = UserExt::where('user_id', '=', $userInfo->id)->first();
+        $userExt->id_back_photo    = $id_back_photo;
+        $userExt->updated_at        = strtotime(time());
+        $userExt->save();
+        if (!$userExt) {
+            return "error";
+        }
+
+        return 'success';
     }
 }
