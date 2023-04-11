@@ -249,11 +249,53 @@ class AuthService
         $userExt->id_front_photo    = $id_front_photo;
         $userExt->updated_at        = strtotime(time());
         $userExt->save();
+
         if (!$userExt) {
             return "error";
         }
 
-        return 'success';
+        $host = "https://fenxiao.market.alicloudapi.com";
+        $path = "/thirdnode/ImageAI/idcardfrontrecongnition";
+        $method = "POST";
+        $appcode = "b5dfda1e87e4433eba16d8e0b20179d1";
+        $headers = array();
+        array_push($headers, "Authorization:APPCODE " . $appcode);
+        //根据API的要求，定义相对应的Content-Type
+        array_push($headers, "Content-Type".":"."application/x-www-form-urlencoded; charset=UTF-8");
+        $querys = "";
+//        $bodys = "base64Str=http://47.92.82.25:8080//upload//front//20230407170451_2e2c2678918e1d578bdcc68f11d5d45.jpg";
+        $bodys = "base64Str=".$id_front_photo;
+        $url = $host . $path;
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_FAILONERROR, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        if (1 == strpos("$".$host, "https://"))
+        {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        }
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $bodys);
+        $res = curl_exec($curl);
+        $obj = json_decode($res);
+        $jsonStr = json_encode($obj);
+
+        $new_json = str_replace(
+            array('error_code', 'reason', 'result'),
+            array('status', 'msg', 'data'),
+            $jsonStr
+        );
+        if ($obj->error_code == 0){
+
+            return $new_json;
+        }
+
+        return 'error';
+
     }
 
     /**

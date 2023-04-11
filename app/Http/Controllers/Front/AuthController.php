@@ -230,7 +230,7 @@ class AuthController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @param id_front_photo 必选 string 身份证正面照片
+     * @param id_front_photo 必选 mimes:jpeg,bmp,png,jpg 身份证正面照片
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *
@@ -247,12 +247,11 @@ class AuthController extends BaseController
         ]);
 
         $res = AuthService::fontPhotoCard($request);
-
         if ($res) {
             return $this->success($res);
         }
 
-        return $this->error($res);
+        return $this->error('error','200', (array)$res);
     }
 
     /**
@@ -264,7 +263,7 @@ class AuthController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @param id_back_photo 必选 string 身份证正面照片
+     * @param id_back_photo 必选 mimes:jpeg,bmp,png,jpg 身份证正面照片
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *
