@@ -254,6 +254,37 @@ class AuthService
             return "error";
         }
 
+
+
+    }
+
+    /**
+     * 身份证反面
+     * @return string|bool
+     */
+    public static function backPhotoCard($request)
+    {
+        $userInfo = User::getUserInfo();
+        $id_back_photo = $request->id_back_photo;
+
+        $userExt    = UserExt::where('user_id', '=', $userInfo->id)->first();
+        $userExt->id_back_photo    = $id_back_photo;
+        $userExt->updated_at        = strtotime(time());
+        $userExt->save();
+        if (!$userExt) {
+            return "error";
+        }
+
+        return 'success';
+    }
+
+    /**
+     * 身份证正面识别
+     * @return string|bool
+     */
+    public static function positiveRecognition($request){
+        $id_front_photo = $request->id_front_photo;
+
         $host = "https://fenxiao.market.alicloudapi.com";
         $path = "/thirdnode/ImageAI/idcardfrontrecongnition";
         $method = "POST";
@@ -295,26 +326,58 @@ class AuthService
         }
 
         return 'error';
-
     }
 
     /**
-     * 身份证反面
+     * 身份证反面识别
      * @return string|bool
      */
-    public static function backPhotoCard($request)
-    {
-        $userInfo = User::getUserInfo();
+    public static function negativeRecognition($request){
         $id_back_photo = $request->id_back_photo;
 
-        $userExt    = UserExt::where('user_id', '=', $userInfo->id)->first();
-        $userExt->id_back_photo    = $id_back_photo;
-        $userExt->updated_at        = strtotime(time());
-        $userExt->save();
-        if (!$userExt) {
-            return "error";
+        $host = "https://fenxiao.market.alicloudapi.com";
+        $path = "/thirdnode/ImageAI/idcardbackrecongnition";
+        $method = "POST";
+        $appcode = "b5dfda1e87e4433eba16d8e0b20179d1";
+        $headers = array();
+        array_push($headers, "Authorization:APPCODE " . $appcode);
+        //根据API的要求，定义相对应的Content-Type
+        array_push($headers, "Content-Type".":"."application/x-www-form-urlencoded; charset=UTF-8");
+        $querys = "";
+//        $bodys = "base64Str=http://47.92.82.25:8080/upload/front/20230411100426_b488dcb8fd4cc24737d79c823d5e3b2.jpg";
+        $bodys = "base64Str=".$id_back_photo;
+
+        $url = $host . $path;
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_FAILONERROR, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        if (1 == strpos("$".$host, "https://"))
+        {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        }
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $bodys);
+
+        $res = curl_exec($curl);
+        $obj = json_decode($res);
+
+        if ($obj->error_code == 0){
+            $jsonStr = json_encode($obj);
+
+            $new_json = str_replace(
+                array('error_code', 'reason', 'result'),
+                array('status', 'msg', 'data'),
+                $jsonStr
+            );
+            return $new_json;
         }
 
-        return 'success';
+        return 'error';
     }
+
 }

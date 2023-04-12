@@ -288,5 +288,71 @@ class AuthController extends BaseController
         return $this->error($res);
     }
 
+
+    /**
+     * @catalog app端/用户相关
+     * @title 身份证正面识别
+     * @description 身份证正面识别
+     * @method post
+     * @url 47.92.82.25/api/positiveRecognition
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param id_front_photo 必选 string 身份证正面照片路径
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function positiveRecognition(Request $request)
+    {
+        $this->validate($request, [
+            'id_front_photo'    => 'required',
+        ]);
+
+        $res = AuthService::positiveRecognition($request);
+        if ($res) {
+            return $this->success($res);
+        }
+
+        return $this->error('error','200', (array)$res);
+    }
+
+    /**
+     * @catalog app端/用户相关
+     * @title 身份证反面识别
+     * @description 身份证反面识别
+     * @method post
+     * @url 47.92.82.25/api/negativeRecognition
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param id_back_photo 必选 string 身份证反面照片路径
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function negativeRecognition(Request $request)
+    {
+        $this->validate($request, [
+            'id_back_photo'    => 'required|mimes:jpeg,bmp,png,jpg',
+        ]);
+
+        $res = AuthService::negativeRecognition($request);
+        if ($res) {
+            return $this->success($res);
+        }
+
+        return $this->error('error','200', (array)$res);
+    }
 }
 
