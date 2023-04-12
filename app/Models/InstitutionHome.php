@@ -11,17 +11,18 @@ class InstitutionHome extends Common
     public $timestamps = true;
 
     const Home_SYS_STATUS_ONE = 1;  // 启用
-    const Home_SYS_STATUS_TWO = -1;  // 禁用
+    const Home_SYS_STATUS_TWO = 2;  // 启用
+    const Home_SYS_STATUS_THERE = -1;  // 禁用
 
 
     /**
      * 信息提示
      */
     const   Home_MSG_ARRAY = [
-        self::Home_SYS_STATUS_ONE    => "启用",
-        self::Home_SYS_STATUS_TWO    => "禁用",
+        self::Home_SYS_STATUS_ONE => "启用",
+        self::Home_SYS_STATUS_TWO => "已售",
+        self::Home_SYS_STATUS_THERE => "启用",
     ];
-
 
 
     /**
@@ -45,17 +46,17 @@ class InstitutionHome extends Common
     public static function getHomeListPage($query, $page, $pageSize)
     {
         $perPage = $pageSize ?: $query->getPerPage();
-        $total   = $query->toBase()->getCountForPagination();
+        $total = $query->toBase()->getCountForPagination();
         $results = $query->paginate($pageSize, ['*'], 'page', $page);
 
         $pages = ceil($total / $perPage);
 
         return [
-            'total'        => $total,
+            'total' => $total,
             'current_page' => $page,
-            'page_size'    => $perPage,
-            'pages'        => $pages,
-            'data'         => $results
+            'page_size' => $perPage,
+            'pages' => $pages,
+            'data' => $results
         ];
     }
 
@@ -65,9 +66,15 @@ class InstitutionHome extends Common
      */
     public function products()
     {
-        return $this->hasMany(Institution::class,'institution_id');
+        return $this->hasMany(Institution::class, 'institution_id');
 //        return $this->hasMany($class, 'institution_id', 'id');
     }
 
-
+    /**
+     * 通过机构id获取该机构下最便宜的房间
+     */
+    public static function getInstitutionIdByPrice($id)
+    {
+        return self::where('institution_id', $id)->where('instutution_status','>',self::Home_SYS_STATUS_THERE)->min('instutution_price');
+    }
 }
