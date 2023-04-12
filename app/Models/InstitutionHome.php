@@ -70,11 +70,5 @@ class InstitutionHome extends Common
 //        return $this->hasMany($class, 'institution_id', 'id');
     }
 
-    /**
-     * 通过机构id获取该机构下最便宜的房间
-     */
-    public static function getInstitutionIdByPrice($id)
-    {
-        return self::where('institution_id', $id)->where('instutution_status','>',self::Home_SYS_STATUS_THERE)->min('instutution_price');
-    }
+
 }

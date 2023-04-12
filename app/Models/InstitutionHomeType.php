@@ -18,7 +18,7 @@ class InstitutionHomeType extends Common
      * 信息提示
      */
     const   Home_MSG_ARRAY = [
-        self::Home_TYPE_SYS_STATUS_ONE => "启用",
+        self::Home_TYPE_SYS_STATUS_ONE => "正常",
         self::Home_TYPE_SYS_STATUS_TWO => "禁用",
     ];
 
@@ -41,6 +41,15 @@ class InstitutionHomeType extends Common
     public static function getHomeTypeName($homeTpyeId)
     {
         return self::where('institution_id', $homeTpyeId)->where('status', '>', self::Home_TYPE_SYS_STATUS_TWO)->select('id','home_type')->get()->toArray();
+    }
+
+
+    /**
+     * 通过机构id获取该机构下最便宜的房间
+     */
+    public static function getInstitutionIdByPrice($id)
+    {
+        return self::where('institution_id', $id)->where('status','>',self::Home_TYPE_SYS_STATUS_TWO)->min('home_price');
     }
 
 }

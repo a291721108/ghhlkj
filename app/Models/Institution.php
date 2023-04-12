@@ -90,4 +90,12 @@ class Institution extends Common
     {
         return self::where('id', $id)->get()->toarray();
     }
+
+    /**
+     * 通过机构id获取名字
+     */
+    public static function getInstitutionId($id)
+    {
+        return self::where('id', $id)->value('institution_name');
+    }
 }

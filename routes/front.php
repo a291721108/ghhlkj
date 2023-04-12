@@ -76,7 +76,7 @@ $router->group([
     $router->post('/organizationDetails', 'Front\OrganizationController@organizationDetails');
 
     // 机构详情
-    $router->get('/tissueDetailPage', 'Front\HomeTypeController@tissueDetailPage');
+    $router->post('/organizationTypeDetails', 'Front\HomeTypeController@organizationTypeDetails');
 
     // 获取房间类型
     $router->get('/homeTypeList', 'Front\HomeTypeController@homeTypeList');

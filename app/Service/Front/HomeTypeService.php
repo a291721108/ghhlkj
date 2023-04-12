@@ -16,7 +16,7 @@ class HomeTypeService
      */
     public static function homeTypeList()
     {
-        $data = InstitutionHomeType::where('status','>',InstitutionHomeType::Home_TYPE_SYS_STATUS_TWO)
+        $data = InstitutionHomeType::where('status', '>', InstitutionHomeType::Home_TYPE_SYS_STATUS_TWO)
             ->get()
             ->toArray();
         return $data;
@@ -25,40 +25,37 @@ class HomeTypeService
     /**
      * 房间类型详情页
      */
-    public static function tissueDetailPage($request){
-        $tissue_id = $request->tissue_id;
+    public static function organizationTypeDetails($request)
+    {
+        $organizationId = $request->id;
 
-        $getHomeType = FunService::getHomeType();
+        $result = InstitutionHomeType::where('status', '>', InstitutionHomeType::Home_TYPE_SYS_STATUS_TWO)
+            ->where('id', $organizationId)
+            ->get()->toaRRAY();
 
-        $result = Institution::with('products')
-            ->where('id',$tissue_id)
-            ->get()->toArray();
-
-        $homeFaclitiy = FunService::getHomeFaclitiy();
-
-        foreach ($result[0]['products'] as $k => $v) {
-
-            $joinFacility = explode(',', $v['home_facility']);
-
-            foreach ($joinFacility as &$kv) {
-                $kv = $homeFaclitiy[$kv] ?? '';
-                // 处理回参
-                $data[$k] = [
-                    'id'                        => $v['id'],
-                    'institution_id'            => $v['institution_id'],
-                    'home_type'                 => InstitutionHomeType::getHomeTypeName($v['home_type']),
-                    'home_img'                  => $v['home_img'],
-                    'home_pic'                  => $v['home_pic'],
-                    'home_size'                 => $v['home_size'],
-                    'home_detal'                => $v['home_detal'],
-                    'home_facility'             => $joinFacility,
-                    'status'                    => $v['status'],
-                    'created_at'                => timestampTime(strtotime($v['created_at']))
-                ];
-            }
+        foreach ($result as $k => $v) {
+            // 处理回参
+            $data[$k] = [
+                'id' => $v['id'],
+                'institution_id'    => Institution::getInstitutionId($v['institution_id']),
+                'home_type'         => $v['home_type'],
+                'home_img'          => $v['home_img'],
+                'home_price'        => $v['home_price'],
+                'home_detail'       => $v['home_detail'],
+                'home_facility'     => $v['home_facility'],
+                'home_size'         => $v['home_size'],
+                'status'            => InstitutionHomeType::Home_MSG_ARRAY[$v['status']],
+                'created_at'        => strtotime($v['created_at'])
+            ];
         }
 
         return $data;
+
+
+//        $result = Institution::with('products')
+//            ->where('id',$tissue_id)
+//            ->get()->toArray();
+
 
     }
 

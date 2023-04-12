@@ -58,7 +58,7 @@ class OrganizationService
                 'institution_name'          => $v['institution_name'],
                 'institution_address'       => $v['institution_address'],
                 'institution_img'           => $v['institution_img'],
-                'price'                     => InstitutionHome::getInstitutionIdByPrice($v['id']),
+                'price'                     => InstitutionHomeType::getInstitutionIdByPrice($v['id']),
                 'created_at'                => date('Y-m-d H:i', strtotime($v['created_at']))
             ];
         }

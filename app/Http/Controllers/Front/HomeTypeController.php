@@ -43,14 +43,14 @@ class HomeTypeController extends BaseController
 
     /**
      * @catalog app端/房间类型
-     * @title 房间类型详情
-     * @description 获取所有房间列表详情
-     * @method get
+     * @title 通过id获取机构类型详情
+     * @description 通过id获取机构类型详情
+     * @method post
      * @url 47.92.82.25/api/organizationList
      *
-     * @param tissue_id 必选 int 类型id
+     * @param id 必选 int 类型id
      *
-     * @return {"meta":{"status":200,"msg":"成功"},"data":[{"id":1,"institution_id":1,"home_type":"单人房","home_img":"https:\/\/picsum.photos\/seed\/picsum\/200\/300","home_pic":100,"home_size":30,"home_detal":"","home_facility":[{"id":1,"hotel_facilities":"凳子"},{"id":2,"hotel_facilities":"桌子"},{"id":3,"hotel_facilities":"大床"}],"status":1,"created_at":"2023-04-03 09:00"},{"id":2,"institution_id":1,"home_type":"单人房","home_img":"https:\/\/picsum.photos\/200\/300?grayscale","home_pic":120,"home_size":40,"home_detal":"","home_facility":[{"id":2,"hotel_facilities":"桌子"},{"id":3,"hotel_facilities":"大床"}],"status":1,"created_at":"2023-04-03 09:00"}]}
+     * @return
      *
      * @return_param code int 状态吗(200:请求成功,404:请求失败)
      * @return_param msg string 返回信息
@@ -66,13 +66,13 @@ class HomeTypeController extends BaseController
      * @remark
      * @number 1
      */
-    public function tissueDetailPage(Request $request)
+    public function organizationTypeDetails(Request $request)
     {
         $this->validate($request, [
-            'tissue_id'      => 'required|numeric',
+            'id'      => 'required|numeric',
         ]);
 
-        $data = HomeTypeService::tissueDetailPage($request);
+        $data = HomeTypeService::organizationTypeDetails($request);
 
         if ($data) {
             return $this->success('success', '200', $data);
