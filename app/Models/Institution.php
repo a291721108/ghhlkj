@@ -83,4 +83,11 @@ class Institution extends Common
             ->select('id', 'institution_id', 'home_type', 'home_img','home_pic','home_size','home_detal','home_facility','status','created_at');
     }
 
+    /**
+     * 通过机构id获取详情
+     */
+    public static function getInstitutionIdByName($id)
+    {
+        return self::where('id', $id)->get()->toarray();
+    }
 }

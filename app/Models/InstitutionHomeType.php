@@ -6,7 +6,7 @@ namespace App\Models;
 class InstitutionHomeType extends Common
 {
 
-    protected $table = 'gh_institution_home_type';
+    protected $table = 'gh_institution_type';
 
     public $timestamps = true;
 
@@ -40,7 +40,7 @@ class InstitutionHomeType extends Common
      */
     public static function getHomeTypeName($homeTpyeId)
     {
-        return self::where('id', $homeTpyeId)->value('home_type_name');
+        return self::where('institution_id', $homeTpyeId)->where('status', '>', self::Home_TYPE_SYS_STATUS_TWO)->select('id','home_type')->get()->toArray();
     }
 
 }

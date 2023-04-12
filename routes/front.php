@@ -72,6 +72,9 @@ $router->group([
     // 机构列表展示浏览量最高的5个
     $router->get('/tissueCount', 'Front\OrganizationController@tissueCount');
 
+    // 通过id获取机构详情列表
+    $router->post('/organizationDetails', 'Front\OrganizationController@organizationDetails');
+
     // 机构详情
     $router->get('/tissueDetailPage', 'Front\HomeTypeController@tissueDetailPage');
 
