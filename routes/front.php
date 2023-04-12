@@ -79,7 +79,7 @@ $router->group([
     $router->post('/organizationTypeDetails', 'Front\HomeTypeController@organizationTypeDetails');
 
     // 获取房间类型
-    $router->get('/homeTypeList', 'Front\HomeTypeController@homeTypeList');
+    $router->post('/homeTypeList', 'Front\HomeTypeController@homeTypeList');
 
     // 首页轮播图
     $router->get('/slideshow', 'Front\HomeImgController@slideshow');

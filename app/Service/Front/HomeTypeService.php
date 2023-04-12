@@ -14,11 +14,11 @@ class HomeTypeService
     /**
      * 获取所有房间类型
      */
-    public static function homeTypeList()
+    public static function homeTypeList($request)
     {
-        $data = InstitutionHomeType::where('status', '>', InstitutionHomeType::Home_TYPE_SYS_STATUS_TWO)
-            ->get()
-            ->toArray();
+        $data = InstitutionHomeType::where('status', '>', InstitutionHomeType::Home_TYPE_SYS_STATUS_TWO)->where('institution_id',$request->id)
+            ->select('id','home_type','home_price','home_img')
+            ->get()->toArray();
         return $data;
     }
 

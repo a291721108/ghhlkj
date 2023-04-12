@@ -1,30 +1,12 @@
 <?php
-/**
- * Created by LJL.
- * Date: 2022/6/20
- * Time: 18:54
- */
 
 namespace App\Service\Common;
 
-use App\Models\AttendanceRecord;
-use App\Models\ClaimexpenseSys;
-use App\Models\Company;
-use App\Models\CompanyDept;
-use App\Models\CompanyPosition;
-use App\Models\CompanyRole;
-use App\Models\Contract;
-use App\Models\Customer;
 use App\Models\Institution;
 use App\Models\InstitutionHome;
 use App\Models\InstitutionHomeFacilities;
 use App\Models\InstitutionHomeType;
-use App\Models\Payment;
-use App\Models\Project;
-use App\Models\ProjectMark;
-use App\Models\ProjectType;
-use App\Models\Task;
-use App\Models\TaskCategory;
+use App\Models\Order;
 use App\Models\User;
 use App\Models\UserExt;
 use Illuminate\Support\Facades\Crypt;
@@ -78,5 +60,18 @@ class FunService
         return  array_column($HomeFaclitiy, null, 'id');
     }
 
+    /**
+     * 订单编号
+     * @return
+     * 公司简称（光晖互联=gh）+创建时间（20220727）+当年截至目前排序的序号（00001）
+     */
+    public static function orderNumber()
+    {
 
+        $orderCount = Order::count();
+
+        $num=str_pad($orderCount + 1 ,5,"0",STR_PAD_LEFT);
+
+        return 'GH' . date("YmdHi",time()) . $num;
+    }
 }

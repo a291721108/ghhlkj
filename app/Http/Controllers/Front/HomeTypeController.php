@@ -14,12 +14,12 @@ class HomeTypeController extends BaseController
      * @catalog app端/房间类型
      * @title 房间类型列表
      * @description 获取房间类型
-     * @method get
+     * @method post
      * @url 47.92.82.25/api/homeTypeList
      *
-     * @param
+     * @param id 必选 int 类型id
      *
-     * @return {"meta":{"status":200,"msg":"成功"},"data":[{"id":1,"home_type_name":"单人房","status":1,"created_at":"","updated_at":""},{"id":2,"home_type_name":"双人房","status":1,"created_at":"","updated_at":""},{"id":3,"home_type_name":"三人房","status":1,"created_at":"","updated_at":""}]}
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[{"id":1,"home_type":"单人房","home_price":"1000.00","home_img":""},{"id":2,"home_type":"双人房","home_price":"2000.00","home_img":""},{"id":3,"home_type":"三人房","home_price":"3000.00","home_img":""}]}
      *
      * @return_param code int 状态吗(200:请求成功,404:请求失败)
      * @return_param msg string 返回信息
@@ -29,10 +29,13 @@ class HomeTypeController extends BaseController
      * @remark
      * @number 1
      */
-    public function homeTypeList()
+    public function homeTypeList(Request $request)
     {
+        $this->validate($request, [
+            'id'      => 'required|numeric',
+        ]);
 
-        $data = HomeTypeService::homeTypeList();
+        $data = HomeTypeService::homeTypeList($request);
 
         if ($data) {
             return $this->success('success', '200', $data);
@@ -50,7 +53,7 @@ class HomeTypeController extends BaseController
      *
      * @param id 必选 int 类型id
      *
-     * @return
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[{"id":1,"institution_id":"太原市小店区第1机构","home_type":"单人房","home_img":"","home_price":"1000.00","home_detail":"精装一居室套间，1室1厅1厨1卫1阳台，中式现代风格、环保装潢、安静明亮、智能门禁、智能家电、高档红木家具、星级酒店配套标准、","home_facility":"通风良好，空调，无障碍卫生间，无障碍地面，安坐扶靠","home_size":40,"status":"正常","created_at":false}]}
      *
      * @return_param code int 状态吗(200:请求成功,404:请求失败)
      * @return_param msg string 返回信息
