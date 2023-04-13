@@ -189,9 +189,7 @@ class AuthService
                 'data'              => UserExt::getMsgByUserId($useInfo->id)
             ];
         }
-        if (!$useInfo->password) {
-            return "passwordNull";
-        }
+
         //  登录成功 为用户颁发token
         $token = Auth::guard('api')->login($useInfo);
 
