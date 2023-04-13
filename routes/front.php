@@ -41,6 +41,9 @@ $router->group([
     // 图片上传
     $router->post('/saveFile', 'Common\UploadController@saveFile');
 
+    // 首页轮播图
+    $router->get('/slideshow', 'Front\HomeImgController@slideshow');
+
     // ceshi
     $router->get('/test', 'Front\OrganizationController@test');
 });
@@ -81,6 +84,8 @@ $router->group([
     // 获取房间类型
     $router->post('/homeTypeList', 'Front\HomeTypeController@homeTypeList');
 
-    // 首页轮播图
-    $router->get('/slideshow', 'Front\HomeImgController@slideshow');
+    // 机构预约
+    $router->post('/agencyAppointment', 'Front\BookingController@agencyAppointment');
+
+
 });
