@@ -255,9 +255,11 @@ class AuthService
     {
         $userInfo = User::getUserInfo();
         $id_front_photo = $request->id_front_photo;
+        $id_back_photo = $request->id_back_photo;
 
         $userExt = UserExt::where('user_id', '=', $userInfo->id)->first();
         $userExt->id_front_photo = $id_front_photo;
+        $userExt->id_back_photo = $id_back_photo;
         $userExt->updated_at = strtotime(time());
         $userExt->save();
 

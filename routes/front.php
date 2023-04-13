@@ -90,4 +90,10 @@ $router->group([
     // 预约列表
     $router->get('/reservationList', 'Front\BookingController@reservationList');
 
+    // 下单
+    $router->post('/placeAnOrder', 'Front\OrderController@placeAnOrder');
+
+    // 订单列表
+    $router->get('/orderList', 'Front\OrderController@orderList');
+
 });

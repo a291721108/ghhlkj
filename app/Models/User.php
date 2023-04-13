@@ -108,6 +108,28 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return strtotime(parent::fromDateTime($value));
     }
 
+    /**
+     * 通过id获取名字
+     */
+    public static function getIdByname($id)
+    {
+        return self::where('id',$id)->select('id','name')->get()->toArray();
+    }
 
+    /**
+     * get user info by id
+     */
+    public static function getUserInfoById($userId)
+    {
+        if (empty($userId)) {
+            return '';
+        }
+
+        if (is_array($userId)) {
+            return self::whereIn('id', $userId)->select('id', 'name', 'img', 'phone')->get()->toArray();
+        }
+
+        return self::where('id', $userId)->select('id', 'name', 'img', 'phone')->first()->toArray();
+    }
 }
 

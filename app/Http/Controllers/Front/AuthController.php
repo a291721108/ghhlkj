@@ -230,7 +230,8 @@ class AuthController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @param id_front_photo 必选 mimes:jpeg,bmp,png,jpg 身份证正面照片
+     * @param id_front_photo 必选 string 身份证正面照片
+     * @param id_back_photo 必选 string 身份证f反面照片
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *
@@ -243,7 +244,9 @@ class AuthController extends BaseController
     public function fontPhotoCard(Request $request)
     {
         $this->validate($request, [
-            'id_front_photo'    => 'required|mimes:jpeg,bmp,png,jpg',
+            'id_front_photo'    => 'required',
+            'id_back_photo'     => 'required',
+
         ]);
 
         $res = AuthService::fontPhotoCard($request);
