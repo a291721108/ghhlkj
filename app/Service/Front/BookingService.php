@@ -13,6 +13,9 @@ use App\Service\Common\FunService;
 
 class BookingService
 {
+    /**
+     * 预约订单
+     */
     public static function agencyAppointment($request)
     {
         $userInfo = User::getUserInfo();
@@ -29,6 +32,36 @@ class BookingService
         ];
 
         return Booking::insert($data);
+    }
+
+    /**
+     * @param $request
+     * @return array
+     */
+    public static function reservationList($request)
+    {
+        $userInfo = User::getUserInfo();
+        $userId = $userInfo->id;
+
+        $query    = Booking::where('status', '>', Booking::BOOKING_SYS_TYPE_FOUR)->where('user_id',$userId)->get()->toArray();
+
+        foreach ($query as $k => $v) {
+            // 处理回参
+            $data[$k] = [
+                'user_id'           => $userInfo->id,
+                'user_name'         => $userInfo->name,
+                'institution_id'    => Institution::getInstitutionId($v['institution_id']),
+                'home_type_id'      => InstitutionHomeType::getInstitutionIdByName($v['home_type_id']),
+                'check_in_date'     => ytdTampTime($v['check_in_date']),
+                'contacts'          => $v['contacts'],
+                'contact_way'       => $v['contact_way'],
+                'remark'            => $v['remark'] ?? '',
+                'status'            => Booking::INS_MSG_ARRAY[$v['status']],
+                'created_at'        => hourMinuteSecond(time())
+            ];
+        }
+
+        return $data;
     }
 
 

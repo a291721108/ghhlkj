@@ -52,4 +52,12 @@ class InstitutionHomeType extends Common
         return self::where('institution_id', $id)->where('status','>',self::Home_TYPE_SYS_STATUS_TWO)->min('home_price');
     }
 
+    /**
+     * 通过机构id获取该机构下的类型
+     */
+    public static function getInstitutionIdByName($id)
+    {
+        return self::where('id', $id)->value('home_type');
+    }
+
 }

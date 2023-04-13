@@ -10,6 +10,10 @@ use App\Service\Common\FunService;
 
 class OrganizationService
 {
+    /**
+     * @param $request
+     * @return array
+     */
     public static function organizationList($request): array
     {
         $page     = $request->page ?? 1;
