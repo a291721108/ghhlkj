@@ -42,6 +42,7 @@ class OrderService
 
 
     /**
+     * 订单列表
      * @param $request
      * @return array
      */
@@ -70,8 +71,8 @@ class OrderService
             $v['status']                = Order::INS_MSG_ARRAY[$v['status']];
             $v['institution_id']        = Institution::getInstitutionId($v['institution_id']);
             $v['institution_type']      = InstitutionHomeType::getInstitutionIdByName($v['institution_type']);
-            $v['start_date']            = timesTamp($v['start_date']);
-            $v['end_date']              = timesTamp($v['end_date']);
+            $v['start_date']            = hourMinuteSecond($v['start_date']);
+            $v['end_date']              = hourMinuteSecond($v['end_date']);
             $v['created_at']            = hourMinuteSecond(strtotime($v['created_at']));
         }
         return $result;
