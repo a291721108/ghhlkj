@@ -169,24 +169,25 @@ class AuthService
 
             $ins = User::insertGetId($data);
             $dataExt = [
-                'user_id'             => $ins,
-                'status'              => UserExt::USER_STATUS_ONE,
-                'result'              => UserExt::USER_RESULT_ONE,
-                'created_at'          => time(),
+                'user_id' => $ins,
+                'status' => UserExt::USER_STATUS_ONE,
+                'result' => UserExt::USER_RESULT_ONE,
+                'created_at' => time(),
             ];
 
             UserExt::insert($dataExt);
 
             return [
-                'user_id'           => $useInfo->id,
-                'user_username'     => $useInfo->name ?? '',
-                'user_img'          => $useInfo->img ?? '',
-                'user_email'        => $useInfo->email ?? '',
-                'user_address'      => $useInfo->address ?? '',
-                'user_phone'        => $useInfo->phone ?? '',
-                'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
-                'user_birthday'     => ytdTampTime($useInfo->birthday) ?? '',
-                'data'              => UserExt::getMsgByUserId($useInfo->id)
+                'user_id'               => $useInfo->id,
+                'user_username'         => $useInfo->name,
+                'password'              => $useInfo->password,
+                'user_img'              => $useInfo->img ?? '',
+                'user_email'            => $useInfo->email ?? '',
+                'user_address'          => $useInfo->address ?? '',
+                'user_phone'            => $useInfo->phone ?? '',
+                'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
+                'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
+                'data'                  => UserExt::getMsgByUserId($useInfo->id)
             ];
         }
 
@@ -201,13 +202,14 @@ class AuthService
             'api_token' => $token,
             'user_id' => $useInfo->id,
             'user_username' => $useInfo->name,
+            'password'              => $useInfo->password,
             'user_img' => $useInfo->img,
             'user_email' => $useInfo->email ?? '',
             'user_address' => $useInfo->address ?? '',
             'user_phone' => $useInfo->phone,
             'user_gender' => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
             'user_birthday' => ytdTampTime($useInfo->birthday) ?? '',
-            'data'              => UserExt::getMsgByUserId($useInfo->id)
+            'data' => UserExt::getMsgByUserId($useInfo->id)
         ];
     }
 
@@ -252,15 +254,14 @@ class AuthService
         $userInfo = User::getUserInfo();
         $id_front_photo = $request->id_front_photo;
 
-        $userExt    = UserExt::where('user_id', '=', $userInfo->id)->first();
-        $userExt->id_front_photo    = $id_front_photo;
-        $userExt->updated_at        = strtotime(time());
+        $userExt = UserExt::where('user_id', '=', $userInfo->id)->first();
+        $userExt->id_front_photo = $id_front_photo;
+        $userExt->updated_at = strtotime(time());
         $userExt->save();
 
         if (!$userExt) {
             return "error";
         }
-
 
 
     }
@@ -274,9 +275,9 @@ class AuthService
         $userInfo = User::getUserInfo();
         $id_back_photo = $request->id_back_photo;
 
-        $userExt    = UserExt::where('user_id', '=', $userInfo->id)->first();
-        $userExt->id_back_photo    = $id_back_photo;
-        $userExt->updated_at        = strtotime(time());
+        $userExt = UserExt::where('user_id', '=', $userInfo->id)->first();
+        $userExt->id_back_photo = $id_back_photo;
+        $userExt->updated_at = strtotime(time());
         $userExt->save();
         if (!$userExt) {
             return "error";
@@ -289,7 +290,8 @@ class AuthService
      * 身份证正面识别
      * @return string|bool
      */
-    public static function positiveRecognition($request){
+    public static function positiveRecognition($request)
+    {
         $id_front_photo = $request->id_front_photo;
 
         $host = "https://fenxiao.market.alicloudapi.com";
@@ -299,10 +301,10 @@ class AuthService
         $headers = array();
         array_push($headers, "Authorization:APPCODE " . $appcode);
         //根据API的要求，定义相对应的Content-Type
-        array_push($headers, "Content-Type".":"."application/x-www-form-urlencoded; charset=UTF-8");
+        array_push($headers, "Content-Type" . ":" . "application/x-www-form-urlencoded; charset=UTF-8");
         $querys = "";
 //        $bodys = "base64Str=http://47.92.82.25:8080//upload//front//20230407170451_2e2c2678918e1d578bdcc68f11d5d45.jpg";
-        $bodys = "base64Str=".$id_front_photo;
+        $bodys = "base64Str=" . $id_front_photo;
         $url = $host . $path;
 
         $curl = curl_init();
@@ -312,8 +314,7 @@ class AuthService
         curl_setopt($curl, CURLOPT_FAILONERROR, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, false);
-        if (1 == strpos("$".$host, "https://"))
-        {
+        if (1 == strpos("$" . $host, "https://")) {
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         }
@@ -327,7 +328,7 @@ class AuthService
             array('status', 'msg', 'data'),
             $jsonStr
         );
-        if ($obj->error_code == 0){
+        if ($obj->error_code == 0) {
 
             return $new_json;
         }
@@ -339,7 +340,8 @@ class AuthService
      * 身份证反面识别
      * @return string|bool
      */
-    public static function negativeRecognition($request){
+    public static function negativeRecognition($request)
+    {
         $id_back_photo = $request->id_back_photo;
 
         $host = "https://fenxiao.market.alicloudapi.com";
@@ -349,10 +351,10 @@ class AuthService
         $headers = array();
         array_push($headers, "Authorization:APPCODE " . $appcode);
         //根据API的要求，定义相对应的Content-Type
-        array_push($headers, "Content-Type".":"."application/x-www-form-urlencoded; charset=UTF-8");
+        array_push($headers, "Content-Type" . ":" . "application/x-www-form-urlencoded; charset=UTF-8");
         $querys = "";
 //        $bodys = "base64Str=http://47.92.82.25:8080/upload/front/20230411100426_b488dcb8fd4cc24737d79c823d5e3b2.jpg";
-        $bodys = "base64Str=".$id_back_photo;
+        $bodys = "base64Str=" . $id_back_photo;
 
         $url = $host . $path;
 
@@ -363,8 +365,7 @@ class AuthService
         curl_setopt($curl, CURLOPT_FAILONERROR, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, false);
-        if (1 == strpos("$".$host, "https://"))
-        {
+        if (1 == strpos("$" . $host, "https://")) {
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         }
@@ -373,7 +374,7 @@ class AuthService
         $res = curl_exec($curl);
         $obj = json_decode($res);
 
-        if ($obj->error_code == 0){
+        if ($obj->error_code == 0) {
             $jsonStr = json_encode($obj);
 
             $new_json = str_replace(
