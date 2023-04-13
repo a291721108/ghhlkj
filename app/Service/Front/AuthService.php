@@ -170,15 +170,23 @@ class AuthService
             $ins = User::insertGetId($data);
             $dataExt = [
                 'user_id'             => $ins,
+                'status'              => UserExt::USER_STATUS_ONE,
+                'result'              => UserExt::USER_RESULT_ONE,
                 'created_at'          => time(),
             ];
 
             UserExt::insert($dataExt);
 
             return [
-                'id' => $ins,
-                'phone' => $phone,
-                'password' => ''
+                'user_id'           => $useInfo->id,
+                'user_username'     => $useInfo->name ?? '',
+                'user_img'          => $useInfo->img ?? '',
+                'user_email'        => $useInfo->email ?? '',
+                'user_address'      => $useInfo->address ?? '',
+                'user_phone'        => $useInfo->phone ?? '',
+                'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
+                'user_birthday'     => ytdTampTime($useInfo->birthday) ?? '',
+                'data'              => UserExt::getMsgByUserId($useInfo->id)
             ];
         }
         if (!$useInfo->password) {
@@ -201,6 +209,7 @@ class AuthService
             'user_phone' => $useInfo->phone,
             'user_gender' => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
             'user_birthday' => ytdTampTime($useInfo->birthday) ?? '',
+            'data'              => UserExt::getMsgByUserId($useInfo->id)
         ];
     }
 
