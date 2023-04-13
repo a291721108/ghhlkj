@@ -53,15 +53,17 @@ class AuthService
         event(new FrontLoginEvent($obj));
 
         return [
-            'api_token' => $token,
-            'user_id' => $useInfo->id,
-            'user_username' => $useInfo->name,
-            'user_img' => $useInfo->img,
-            'user_email' => $useInfo->email,
-            'user_address' => $useInfo->address,
-            'user_phone' => $useInfo->phone,
-            'user_gender' => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
-            'user_birthday' => ytdTampTime($useInfo->birthday) ?? '',
+            'api_token'             => $token,
+            'user_id'               => $useInfo->id,
+            'user_username'         => $useInfo->name,
+            'password'              => $useInfo->password,
+            'user_img'              => $useInfo->img,
+            'user_email'            => $useInfo->email,
+            'user_address'          => $useInfo->address,
+            'user_phone'            => $useInfo->phone,
+            'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
+            'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
+            'data'                  => UserExt::getMsgByUserId($useInfo->id),
         ];
 
     }
