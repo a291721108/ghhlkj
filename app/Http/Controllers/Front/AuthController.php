@@ -353,8 +353,7 @@ class AuthController extends BaseController
 
     }
 
-    /***
-     * showdoc
+    /**
      * @catalog app端/用户相关
      * @title 用户认证信息录入
      * @description 用户认证信息录入
