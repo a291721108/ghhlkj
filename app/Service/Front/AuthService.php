@@ -326,17 +326,13 @@ class AuthService
         $obj = json_decode($res);
         $jsonStr = json_encode($obj);
 
-        $new_json = str_replace(
-            array('error_code', 'reason', 'result'),
-            array('status', 'msg', 'data'),
-            $jsonStr
-        );
-        if ($obj->error_code == 0) {
+//        $new_json = str_replace(
+//            array('error_code', 'reason', 'result'),
+//            array('status', 'msg', 'data'),
+//            $jsonStr
+//        );
 
-            return $new_json;
-        }
-
-        return 'error';
+        return $res;
     }
 
     /**
@@ -388,7 +384,7 @@ class AuthService
             return $new_json;
         }
 
-        return 'error';
+        return $res;
     }
 
 }

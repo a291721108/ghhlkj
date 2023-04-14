@@ -318,11 +318,8 @@ class AuthController extends BaseController
         ]);
 
         $res = AuthService::positiveRecognition($request);
-        if ($res) {
-            return $this->success($res);
-        }
 
-        return $this->error('error','200', (array)$res);
+        return response($res);
     }
 
     /**
@@ -351,11 +348,9 @@ class AuthController extends BaseController
         ]);
 
         $res = AuthService::negativeRecognition($request);
-        if ($res) {
-            return $this->success($res);
-        }
 
-        return $this->error('error','200', (array)$res);
+        return $res;
+
     }
 }
 

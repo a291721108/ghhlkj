@@ -66,6 +66,12 @@ $router->group([
     // 身份证反面
     $router->post('/backPhotoCard', 'Front\AuthController@backPhotoCard');
 
+    // 身份证正面识别
+    $router->post('/positiveRecognition', 'Front\AuthController@positiveRecognition');
+
+    // 身份证反面识别
+    $router->post('/negativeRecognition', 'Front\AuthController@negativeRecognition');
+
     // 安全退出
     $router->post('/safeWithdrawing', 'Front\AuthController@safeWithdrawing');
 
