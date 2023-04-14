@@ -385,4 +385,32 @@ class AuthService
         return $res;
     }
 
+    /**
+     * 身份录入
+     * @return string|bool
+     */
+    public static function authenticationEntry($request)
+    {
+        $userInfo       = User::getUserInfo();
+        $userExt = UserExt::where('user_id',$userInfo->id)->first();
+
+        $userExt->id_number         = $request->id_number;
+        $userExt->id_type           = $request->id_type;
+        $userExt->id_name           = $request->id_name;
+        $userExt->id_province       = $request->id_province;
+        $userExt->id_city           = $request->id_city;
+        $userExt->id_starttime      = strtotime($request->id_starttime);
+        $userExt->id_endtime        = strtotime($request->id_endtime);
+        $userExt->status            = $request->status;
+        $userExt->authenticate_time = strtotime($request->authenticate_time);
+        $userExt->result            = $request->result;
+        $userExt->updated_at        = time();
+
+        if ($userExt->save()) {
+            return 'success';
+        }
+
+        return 'error';
+        var_dump($userExt);die();
+    }
 }

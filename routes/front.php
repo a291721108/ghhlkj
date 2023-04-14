@@ -72,6 +72,9 @@ $router->group([
     // 身份证反面识别
     $router->post('/negativeRecognition', 'Front\AuthController@negativeRecognition');
 
+    // 认证录入
+    $router->post('/authenticationEntry', 'Front\AuthController@authenticationEntry');
+
     // 安全退出
     $router->post('/safeWithdrawing', 'Front\AuthController@safeWithdrawing');
 

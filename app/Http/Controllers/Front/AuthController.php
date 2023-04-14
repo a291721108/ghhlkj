@@ -244,8 +244,8 @@ class AuthController extends BaseController
     public function fontPhotoCard(Request $request)
     {
         $this->validate($request, [
-            'id_front_photo'    => 'required',
-            'id_back_photo'     => 'required',
+            'id_front_photo' => 'required',
+            'id_back_photo' => 'required',
 
         ]);
 
@@ -254,7 +254,7 @@ class AuthController extends BaseController
             return $this->success($res);
         }
 
-        return $this->error('error','200', (array)$res);
+        return $this->error('error', '200', (array)$res);
     }
 
     /**
@@ -314,7 +314,7 @@ class AuthController extends BaseController
     public function positiveRecognition(Request $request)
     {
         $this->validate($request, [
-            'id_front_photo'    => 'required',
+            'id_front_photo' => 'required',
         ]);
 
         $res = AuthService::positiveRecognition($request);
@@ -344,10 +344,48 @@ class AuthController extends BaseController
     public function negativeRecognition(Request $request)
     {
         $this->validate($request, [
-            'id_back_photo'    => 'required',
+            'id_back_photo' => 'required',
         ]);
 
         $res = AuthService::negativeRecognition($request);
+
+        return $res;
+
+    }
+
+    /***
+     * showdoc
+     * @catalog app端/用户相关
+     * @title 用户认证信息录入
+     * @description 用户认证信息录入
+     * @method post
+     * @url 47.92.82.25/api/authenticationEntry
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param id_number 必选 string 身份证
+     * @param id_type 必选 string 证件类型(1身份证，2护照)
+     * @param id_name 必选 string 身份证姓名
+     * @param id_province 必选 string 所在省份
+     * @param id_city 必选 string 所在城市
+     * @param id_starttime 必选 string 证件开始时间
+     * @param id_endtime 必选 string 证件结束时间
+     * @param status 必选 string 认证状态，0表示未认证，1表示已认证
+     * @param authenticate_time 必选 string 认证时间
+     * @param result 必选 string 认证结果，0表示认证未通过，1表示认证通过
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function authenticationEntry(Request $request)
+    {
+
+        $res = AuthService::authenticationEntry($request);
 
         return $res;
 
