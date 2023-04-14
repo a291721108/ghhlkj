@@ -344,7 +344,7 @@ class AuthController extends BaseController
     public function negativeRecognition(Request $request)
     {
         $this->validate($request, [
-            'id_back_photo'    => 'required|mimes:jpeg,bmp,png,jpg',
+            'id_back_photo'    => 'required',
         ]);
 
         $res = AuthService::negativeRecognition($request);

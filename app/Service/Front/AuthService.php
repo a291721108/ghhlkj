@@ -79,14 +79,13 @@ class AuthService
         $password = $request->password;
 
         // 判断用户是否存在
-        $useInfo = User::where('phone', '=', $phone)->first();
-        $useInfo->password = md5($password);
-        $useInfo->salt = rand(1, 100);
-
+        $useInfo                = User::where('phone', '=', $phone)->first();
+        $useInfo->password      = md5($password);
+        $useInfo->salt          = rand(1, 100);
+        $useInfo->updated_at    = time();
 //        $useInfo->name =$request->name;
 //        $useInfo->img = $request->img;
 //        $useInfo->email = $request->email;
-        $useInfo->updated_at = time();
 
         return $useInfo->save();
 
@@ -98,9 +97,9 @@ class AuthService
      */
     public static function forgotPassword($request)
     {
-        $code = $request->dxcodess;
-        $phone = $request->phone;
-        $passwords = $request->passwords;
+        $code       = $request->dxcodess;
+        $phone      = $request->phone;
+        $passwords  = $request->passwords;
 
         // 判断是否有验证吗
         $sendInfo = UserSend::where('phone', '=', $phone)->orderBy('id', 'desc')->first();
@@ -163,33 +162,33 @@ class AuthService
         if (!$useInfo) {
             //如果没有这个手机号插入数据库
             $data = [
-                'name' => "游客111",
-                'phone' => $phone,
-                'status' => User::USER_STATUS_ONE,
-                'created_at' => time()
+                'name'          => "游客111",
+                'phone'         => $phone,
+                'status'        => User::USER_STATUS_ONE,
+                'created_at'    => time()
             ];
 
             $ins = User::insertGetId($data);
             $dataExt = [
-                'user_id' => $ins,
-                'status' => UserExt::USER_STATUS_ONE,
-                'result' => UserExt::USER_RESULT_ONE,
-                'created_at' => time(),
+                'user_id'       => $ins,
+                'status'        => UserExt::USER_STATUS_ONE,
+                'result'        => UserExt::USER_RESULT_ONE,
+                'created_at'    => time(),
             ];
 
             UserExt::insert($dataExt);
 
             return [
-                'user_id'               => $useInfo->id,
-                'user_username'         => $useInfo->name,
-                'password'              => $useInfo->password,
-                'user_img'              => $useInfo->img ?? '',
-                'user_email'            => $useInfo->email ?? '',
-                'user_address'          => $useInfo->address ?? '',
-                'user_phone'            => $useInfo->phone ?? '',
-                'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
-                'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
-                'data'                  => UserExt::getMsgByUserId($useInfo->id)
+                'user_id'           => $useInfo->id,
+                'user_username'     => $useInfo->name,
+                'password'          => $useInfo->password,
+                'user_img'          => $useInfo->img ?? '',
+                'user_email'        => $useInfo->email ?? '',
+                'user_address'      => $useInfo->address ?? '',
+                'user_phone'        => $useInfo->phone ?? '',
+                'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
+                'user_birthday'     => ytdTampTime($useInfo->birthday) ?? '',
+                'data'              => UserExt::getMsgByUserId($useInfo->id)
             ];
         }
 
@@ -201,17 +200,17 @@ class AuthService
         RedisService::set($key, $token);
 
         return [
-            'api_token' => $token,
-            'user_id' => $useInfo->id,
-            'user_username' => $useInfo->name,
+            'api_token'             => $token,
+            'user_id'               => $useInfo->id,
+            'user_username'         => $useInfo->name,
             'password'              => $useInfo->password,
-            'user_img' => $useInfo->img,
-            'user_email' => $useInfo->email ?? '',
-            'user_address' => $useInfo->address ?? '',
-            'user_phone' => $useInfo->phone,
-            'user_gender' => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
-            'user_birthday' => ytdTampTime($useInfo->birthday) ?? '',
-            'data' => UserExt::getMsgByUserId($useInfo->id)
+            'user_img'              => $useInfo->img,
+            'user_email'            => $useInfo->email ?? '',
+            'user_address'          => $useInfo->address ?? '',
+            'user_phone'            => $useInfo->phone,
+            'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
+            'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
+            'data'                  => UserExt::getMsgByUserId($useInfo->id)
         ];
     }
 
@@ -237,8 +236,8 @@ class AuthService
      */
     public static function safeWithdrawing()
     {
-        $user = User::getUserInfo();
-        $userInfo = User::logout();
+        $user       = User::getUserInfo();
+        $userInfo   = User::logout();
         // 将token存在redis中 过期时间设置为1天
         RedisService::del('gh_user_front_token_' . $user->id);
         if (!$userInfo) {
@@ -253,14 +252,14 @@ class AuthService
      */
     public static function fontPhotoCard($request)
     {
-        $userInfo = User::getUserInfo();
+        $userInfo       = User::getUserInfo();
         $id_front_photo = $request->id_front_photo;
-        $id_back_photo = $request->id_back_photo;
+        $id_back_photo  = $request->id_back_photo;
 
         $userExt = UserExt::where('user_id', '=', $userInfo->id)->first();
-        $userExt->id_front_photo = $id_front_photo;
-        $userExt->id_back_photo = $id_back_photo;
-        $userExt->updated_at = strtotime(time());
+        $userExt->id_front_photo    = $id_front_photo;
+        $userExt->id_back_photo     = $id_back_photo;
+        $userExt->updated_at        = strtotime(time());
         $userExt->save();
 
         if (!$userExt) {
@@ -275,12 +274,12 @@ class AuthService
      */
     public static function backPhotoCard($request)
     {
-        $userInfo = User::getUserInfo();
-        $id_back_photo = $request->id_back_photo;
+        $userInfo       = User::getUserInfo();
+        $id_back_photo  = $request->id_back_photo;
 
         $userExt = UserExt::where('user_id', '=', $userInfo->id)->first();
         $userExt->id_back_photo = $id_back_photo;
-        $userExt->updated_at = strtotime(time());
+        $userExt->updated_at    = strtotime(time());
         $userExt->save();
         if (!$userExt) {
             return "error";
@@ -372,18 +371,17 @@ class AuthService
 
         $res = curl_exec($curl);
         $obj = json_decode($res);
+        $jsonStr = json_encode($obj);
 
-        if ($obj->error_code == 0) {
-            $jsonStr = json_encode($obj);
-
-            $new_json = str_replace(
-                array('error_code', 'reason', 'result'),
-                array('status', 'msg', 'data'),
-                $jsonStr
-            );
-            return $new_json;
-        }
-
+//        if ($obj->error_code == 0) {
+//            $new_json = str_replace(
+//                array('error_code', 'reason', 'result'),
+//                array('status', 'msg', 'data'),
+//                $jsonStr
+//            );
+//            return $new_json;
+//        }
+//
         return $res;
     }
 
