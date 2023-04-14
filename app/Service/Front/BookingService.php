@@ -64,6 +64,30 @@ class BookingService
         return $data;
     }
 
+    /**
+     * 预约订单
+     */
+    public static function userReservationRecord($request)
+    {
+        $userInfo = User::getUserInfo();
+        $bookingId = $request->booking_id;
 
+        $bookingMsg = Booking::where('id',$bookingId)->first();
+
+        // 返回用户信息
+        return [
+            "id"                    => $bookingMsg->id,
+            'user_name'             => $userInfo->name,
+            'institution_name'      => Institution::getInstitutionId($bookingMsg->institution_id),
+            'home_type_name'        => InstitutionHomeType::getInstitutionIdByName($bookingMsg->home_type_id),
+            'check_in_date'         => hourMinuteSecond($bookingMsg->check_in_date),
+            'contacts'              => $bookingMsg->contacts,
+            'contact_way'           => $bookingMsg->contact_way,
+            'remark'                => $bookingMsg->remark,
+            'status'                => Booking::INS_MSG_ARRAY[$bookingMsg->status],
+            'created_at'            => hourMinuteSecond(strtotime($bookingMsg->created_at)),
+        ];
+
+    }
 }
 
