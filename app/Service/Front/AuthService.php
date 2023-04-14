@@ -266,8 +266,7 @@ class AuthService
         if (!$userExt) {
             return "error";
         }
-
-
+        return 'success';
     }
 
     /**
