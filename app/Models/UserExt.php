@@ -39,7 +39,7 @@ class UserExt extends Model
      */
     public static function getMsgByUserId($id)
     {
-        return self::where('user_id', $id)->select('id_number', 'status', 'result')->get()->toArray();
+        return self::where('user_id', $id)->select('id_name','id_type','id_number', 'status', 'result')->get()->toArray();
     }
 
 }
