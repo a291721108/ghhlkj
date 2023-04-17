@@ -47,6 +47,9 @@ $router->group([
     // 机构列表展示
     $router->get('/organizationList', 'Front\OrganizationController@organizationList');
 
+    // 通过id获取机构详情列表
+    $router->post('/organizationDetails', 'Front\OrganizationController@organizationDetails');
+
     // ceshi
     $router->get('/test', 'Front\OrganizationController@test');
 });
@@ -86,8 +89,7 @@ $router->group([
     // 机构列表展示浏览量最高的5个
     $router->get('/tissueCount', 'Front\OrganizationController@tissueCount');
 
-    // 通过id获取机构详情列表
-    $router->post('/organizationDetails', 'Front\OrganizationController@organizationDetails');
+
 
     // 机构详情
     $router->post('/organizationTypeDetails', 'Front\HomeTypeController@organizationTypeDetails');
