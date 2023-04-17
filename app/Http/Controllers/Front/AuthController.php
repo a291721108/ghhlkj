@@ -398,7 +398,7 @@ class AuthController extends BaseController
 
         $res = AuthService::authenticationEntry($request);
 
-        if (is_array($res)) {
+        if ($res) {
             return $this->success($res);
         }
 
