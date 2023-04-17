@@ -44,6 +44,9 @@ $router->group([
     // 首页轮播图
     $router->get('/slideshow', 'Front\HomeImgController@slideshow');
 
+    // 机构列表展示
+    $router->get('/organizationList', 'Front\OrganizationController@organizationList');
+
     // ceshi
     $router->get('/test', 'Front\OrganizationController@test');
 });
@@ -78,8 +81,7 @@ $router->group([
     // 安全退出
     $router->post('/safeWithdrawing', 'Front\AuthController@safeWithdrawing');
 
-    // 机构列表展示
-    $router->get('/organizationList', 'Front\OrganizationController@organizationList');
+
 
     // 机构列表展示浏览量最高的5个
     $router->get('/tissueCount', 'Front\OrganizationController@tissueCount');
