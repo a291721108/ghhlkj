@@ -107,28 +107,26 @@ class OrganizationService
     public static function organizationDetails($request)
     {
         // 查询列表
-        $query = Institution::where('id',$request->id)->where('status', '>', Institution::INSTITUTION_SYS_STATUS_TWO)->get()->toArray();
+
+        $query = Institution::where('id',$request->id)->where('status', '>', Institution::INSTITUTION_SYS_STATUS_TWO)->first();
+        $query->page_view = $query->page_view + 1;
+        $query->save();
 
         $institytionType = InstitutionHomeType::getHomeTypeName($request->id);
 
-        $data = [];
-        foreach ($query as $k => $v) {
-            // 处理回参
-            $data[$k] = [
-                'id'                        => $v['id'],
-                'institution_name'          => $v['institution_name'],
-                'institution_address'       => $v['institution_address'],
-                'institution_img'           => $v['institution_img'],
-                'institution_detail'        => $v['institution_detail'],
-                'institution_tel'           => $v['institution_tel'],
-                'institution_type'          => $v['institution_type'],
-                'page_view'                 => $v['page_view'],
-                'status'                    => $v['status'],
-                'institytion_type'          => $institytionType,
-                'created_at'                => date('Y-m-d H:i', strtotime($v['created_at']))
-            ];
-        }
-        return $data;
+        return [
+            'id'                        => $query->id,
+            'institution_name'          => $query->institution_name,
+            'institution_address'       => $query->institution_address,
+            'institution_img'           => $query->institution_img,
+            'institution_detail'        => $query->institution_detail,
+            'institution_tel'           => $query->institution_tel,
+            'institution_type'          => $query->institution_type,
+            'page_view'                 => $query->page_view,
+            'status'                    => $query->status,
+            'institytion_type'          => $institytionType,
+            'created_at'                => date('Y-m-d H:i', strtotime($query->created_at))
+        ];
     }
 
 
