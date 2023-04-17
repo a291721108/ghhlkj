@@ -404,7 +404,7 @@ class AuthService
         $userExt->status            = $request->status;
         $userExt->authenticate_time = strtotime($request->authenticate_time);
         $userExt->result            = $request->result;
-        $userExt->updated_at        = time();
+        $userExt->updated_at        = strtotime(time());
 
         if ($userExt->save()) {
             return 'success';
