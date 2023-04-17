@@ -411,6 +411,5 @@ class AuthService
         }
 
         return 'error';
-        var_dump($userExt);die();
     }
 }

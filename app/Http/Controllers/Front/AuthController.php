@@ -383,6 +383,18 @@ class AuthController extends BaseController
      */
     public function authenticationEntry(Request $request)
     {
+        $this->validate($request, [
+            'id_number'     => 'required',
+            'id_type'       => 'required',
+            'id_name'       => 'required',
+            'id_province'   => 'required',
+            'id_city'       => 'required',
+            'id_starttime'  => 'required',
+            'id_endtime'    => 'required',
+            'status'        => 'required',
+            'authenticate_time' => 'required',
+            'result'        => 'required',
+        ]);
 
         $res = AuthService::authenticationEntry($request);
 
