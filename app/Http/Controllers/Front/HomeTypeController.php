@@ -46,10 +46,10 @@ class HomeTypeController extends BaseController
 
     /**
      * @catalog app端/房间类型
-     * @title 通过id获取机构类型详情
-     * @description 通过id获取机构类型详情
+     * @title 通过机构类型id获取机构类型详情
+     * @description 通过机构类型id获取机构类型详情
      * @method post
-     * @url 47.92.82.25/api/organizationList
+     * @url 47.92.82.25/api/organizationTypeDetails
      *
      * @param id 必选 int 类型id
      *

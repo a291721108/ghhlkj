@@ -50,6 +50,9 @@ $router->group([
     // 通过id获取机构详情列表
     $router->post('/organizationDetails', 'Front\OrganizationController@organizationDetails');
 
+    // 通过机构类型id获取机构类型详情
+    $router->post('/organizationTypeDetails', 'Front\HomeTypeController@organizationTypeDetails');
+
     // ceshi
     $router->get('/test', 'Front\OrganizationController@test');
 });
@@ -91,8 +94,7 @@ $router->group([
 
 
 
-    // 机构详情
-    $router->post('/organizationTypeDetails', 'Front\HomeTypeController@organizationTypeDetails');
+
 
     // 获取房间类型
     $router->post('/homeTypeList', 'Front\HomeTypeController@homeTypeList');
