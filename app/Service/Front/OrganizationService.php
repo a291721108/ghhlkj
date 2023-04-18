@@ -37,7 +37,7 @@ class OrganizationService
      */
     protected static function makeSearchWhere($request)
     {
-        $query = Institution::where('gh_institution.status','>',Institution::INSTITUTION_SYS_STATUS_TWO)->leftJoin('gh_institution_type AS h', 'gh_institution.id', '=', 'h.institution_id');
+        $query = Institution::where('gh_institution.status','>',Institution::INSTITUTION_SYS_STATUS_TWO);
 
         //SELECT i.*, MIN(h.home_price) as home_price
         //FROM gh_institution AS i
@@ -55,7 +55,7 @@ class OrganizationService
         }
 
         if ($request->price_serarch){
-            $query->select('gh_institution.*', \Illuminate\Support\Facades\DB::raw('MIN(h.home_price) AS home_price'))->orderBy('home_price', 'asc')->groupBy('gh_institution.id');
+            $query->leftJoin('gh_institution_type AS h', 'gh_institution.id', '=', 'h.institution_id')->select('gh_institution.*', \Illuminate\Support\Facades\DB::raw('MIN(h.home_price) AS home_price'))->orderBy('home_price', 'asc')->groupBy('gh_institution.id');
 
         }
 
@@ -80,7 +80,7 @@ class OrganizationService
                 'institution_address'       => $v['institution_address'],
                 'institution_img'           => $v['institution_img'],
                 'price'                     => InstitutionHomeType::getInstitutionIdByPrice($v['id']),
-                'status'                    => Institution::INS_MSG_ARRAY[$v['status']],
+                'status'                    => Institution::INS_MSG_ARRAY[$v['status']]??"",
                 'page_view'                 => $v['page_view'],
                 'created_at'                => date('Y-m-d H:i', strtotime($v['created_at']))
             ];
