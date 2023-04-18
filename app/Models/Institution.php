@@ -77,8 +77,8 @@ class Institution extends Common
      */
     public function products($class = InstitutionHome::class)
     {
-        return $this->hasMany($class,'institution_id','id')
-            ->select('id', 'institution_id', 'home_type', 'home_img','home_pic','home_size','home_detal','home_facility','status','created_at');
+        return $this->hasMany($class, 'institution_id', 'id')
+            ->select('id', 'institution_id', 'home_type', 'home_img', 'home_pic', 'home_size', 'home_detal', 'home_facility', 'status', 'created_at');
     }
 
     /**

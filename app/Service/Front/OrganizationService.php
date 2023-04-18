@@ -7,6 +7,7 @@ use App\Models\InstitutionHome;
 use App\Models\InstitutionHomeFacilities;
 use App\Models\InstitutionHomeType;
 use App\Service\Common\FunService;
+use Predis\Command\Traits\DB;
 
 class OrganizationService
 {
@@ -36,7 +37,14 @@ class OrganizationService
      */
     protected static function makeSearchWhere($request)
     {
-        $query = Institution::where('status', '>', Institution::INSTITUTION_SYS_STATUS_TWO);
+        $query = Institution::leftJoin('gh_institution_type AS h', 'gh_institution.id', '=', 'h.institution_id');
+
+        //SELECT i.*, MIN(h.home_price) as home_price
+        //FROM gh_institution AS i
+        //LEFT JOIN gh_institution_type AS h ON i.id = h.institution_id
+        //
+        //GROUP BY i.id;
+
 
         if ($request->institution_serarch) {
             $query->where('institution_name', 'like', "%" . $request->institution_serarch . "%");
@@ -46,10 +54,10 @@ class OrganizationService
             $query->orderBy('page_view', 'desc');
         }
 
-//        if ($request->price_serarch){
-//            (new Institution)->prices()->orderBy('home_price','desc')->get()->toArray();
-//            dd((new InstitutionHomeType())->product());
-//        }
+        if ($request->price_serarch){
+            $query->select('gh_institution.*', \Illuminate\Support\Facades\DB::raw('MIN(h.home_price) AS home_price'))->groupBy('gh_institution.id');
+
+        }
 
         return $query;
     }
