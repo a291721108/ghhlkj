@@ -55,7 +55,7 @@ class OrganizationService
         }
 
         if ($request->price_serarch){
-            $query->select('gh_institution.*', \Illuminate\Support\Facades\DB::raw('MIN(h.home_price) AS home_price'))->groupBy('gh_institution.id');
+            $query->select('gh_institution.*', \Illuminate\Support\Facades\DB::raw('MIN(h.home_price) AS home_price'))->orderBy('home_price', 'asc')->groupBy('gh_institution.id');
 
         }
 

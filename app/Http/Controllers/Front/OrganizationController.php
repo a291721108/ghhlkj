@@ -19,6 +19,8 @@ class OrganizationController extends BaseController
      * @param page 必选 string 页数
      * @param page_size 必选 string 条数
      * @param institution_serarch 非必选 string 搜索(根据关键字搜索)
+     * @param page_view 非必选 string 搜索(根据浏览量搜索)
+     * @param price_serarch 非必选 string 搜索(价格从低到高)
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":{"total":3,"current_page":"1","page_size":"5","pages":1,"data":[{"id":1,"institution_name":"太原市小店区第1机构","institution_address":"小店区晋阳街500号","institution_img":"https:\/\/picsum.photos\/seed\/picsum\/200\/300","price":"1000.00","created_at":"2023-04-10 19:55"},{"id":3,"institution_name":"太原市小店区第2机构","institution_address":"小店区晋阳街56号","institution_img":"https:\/\/picsum.photos\/id\/870\/200\/300?grayscale&blur=2","price":"","created_at":"2023-04-10 17:08"},{"id":2,"institution_name":"太原市迎泽区XXX机构","institution_address":"迎泽区桃园南路20号","institution_img":"https:\/\/picsum.photos\/200\/300\/?blur=2","price":"500.00","created_at":"2023-04-10 22:41"}]}}
      *
