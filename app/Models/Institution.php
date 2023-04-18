@@ -48,8 +48,6 @@ class Institution extends Common
     }
 
 
-
-
     /**
      * 分页
      * @param $query
@@ -97,5 +95,11 @@ class Institution extends Common
     public static function getInstitutionId($id)
     {
         return self::where('id', $id)->value('institution_name');
+    }
+
+
+    public function prices($class = InstitutionHomeType::class)
+    {
+        return $this->hasMany($class, 'institution_id', 'id');
     }
 }

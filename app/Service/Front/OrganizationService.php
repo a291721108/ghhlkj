@@ -42,7 +42,16 @@ class OrganizationService
             $query->where('institution_name', 'like', "%" . $request->institution_serarch . "%");
         }
 
-        return $query->orderBy('page_view', 'desc');
+        if ($request->page_view) {
+            $query->orderBy('page_view', 'desc');
+        }
+
+//        if ($request->price_serarch){
+//            (new Institution)->prices()->orderBy('home_price','desc')->get()->toArray();
+//            dd((new InstitutionHomeType())->product());
+//        }
+
+        return $query;
     }
 
     /**
