@@ -119,7 +119,7 @@ class AuthService
         }
 
         $useInfo = User::where('phone', '=', $phone)->first();
-        $useInfo->user_password = md5($passwords);
+        $useInfo->password = md5($passwords);
         $useInfo->salt = rand(1, 100);
 
 
