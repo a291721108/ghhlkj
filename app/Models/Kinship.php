@@ -31,5 +31,11 @@ class Kinship extends Model
         return strtotime(parent::fromDateTime($value));
     }
 
-
+    /**
+     * 通过id获取亲友类型
+     */
+    public static function getIdByname($id)
+    {
+        return self::where('id',$id)->select('id','kinship_name')->get()->toArray();
+    }
 }

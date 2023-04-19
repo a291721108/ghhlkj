@@ -119,4 +119,13 @@ $router->group([
     // 亲友状态获取
     $router->get('/getRelativeStatus', 'Front\FriendController@getRelativeStatus');
 
+    // 添加亲友
+    $router->post('/relativeStatusAdd', 'Front\FriendController@relativeStatusAdd');
+
+    // 亲友列表
+    $router->get('/relativeStatusList', 'Front\FriendController@relativeStatusList');
+
+    // 删除亲友
+    $router->get('/relativeStatusDel', 'Front\FriendController@relativeStatusDel');
+
 });
