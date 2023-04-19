@@ -47,8 +47,12 @@ class PersonalCodeController extends BaseController
 
         // todo 二维码数据验证 待完善
 
+
+        //  --------------------------
+
+        $path = '/gh' . date("YmdHms_", time()) . $userInfo->id;
         $user = User::find($userInfo->id)->first();
-        $user->qr_code = env('APP_URL') . env('QRCODE_DIR') . '/gh' . $request->id . '.jpg';
+        $user->qr_code = env('APP_URL') . env('QRCODE_DIR') . $path . '.jpg';
 
         if (!$user->save()) {
             return $this->error("error");
@@ -58,7 +62,7 @@ class PersonalCodeController extends BaseController
 //        echo $result->getString();
 
         // Save it to a file
-        $result->saveToFile(env('QRCODE_DIR') . '/gh' . $request->id . '.jpg');
+        $result->saveToFile(env('QRCODE_DIR') . $path . '.jpg');
 
         $data = $userInfo->id . ',' . $userInfo->name . ',' . $userInfo->phone . ',' . $userInfo->img;
         $result = explode(",", $data);

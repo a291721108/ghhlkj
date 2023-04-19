@@ -39,13 +39,6 @@ class OrganizationService
     {
         $query = Institution::where('gh_institution.status','>',Institution::INSTITUTION_SYS_STATUS_TWO);
 
-        //SELECT i.*, MIN(h.home_price) as home_price
-        //FROM gh_institution AS i
-        //LEFT JOIN gh_institution_type AS h ON i.id = h.institution_id
-        //
-        //GROUP BY i.id;
-
-
         if ($request->institution_serarch) {
             $query->where('institution_name', 'like', "%" . $request->institution_serarch . "%");
         }
@@ -55,7 +48,10 @@ class OrganizationService
         }
 
         if ($request->price_serarch){
-            $query->leftJoin('gh_institution_type AS h', 'gh_institution.id', '=', 'h.institution_id')->select('gh_institution.*', DB::raw('MIN(h.home_price) AS home_price'))->orderBy('home_price', 'asc')->groupBy('gh_institution.id');
+            $query->leftJoin('gh_institution_type AS h', 'gh_institution.id', '=', 'h.institution_id')
+                ->select('gh_institution.*', DB::raw('MIN(h.home_price) AS home_price'))
+                ->orderBy('home_price', 'asc')
+                ->groupBy('gh_institution.id');
 
         }
 
