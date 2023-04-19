@@ -7,7 +7,7 @@ use App\Models\InstitutionHome;
 use App\Models\InstitutionHomeFacilities;
 use App\Models\InstitutionHomeType;
 use App\Service\Common\FunService;
-use Predis\Command\Traits\DB;
+use Illuminate\Support\Facades\DB;
 
 class OrganizationService
 {
@@ -55,7 +55,7 @@ class OrganizationService
         }
 
         if ($request->price_serarch){
-            $query->leftJoin('gh_institution_type AS h', 'gh_institution.id', '=', 'h.institution_id')->select('gh_institution.*', \Illuminate\Support\Facades\DB::raw('MIN(h.home_price) AS home_price'))->orderBy('home_price', 'asc')->groupBy('gh_institution.id');
+            $query->leftJoin('gh_institution_type AS h', 'gh_institution.id', '=', 'h.institution_id')->select('gh_institution.*', DB::raw('MIN(h.home_price) AS home_price'))->orderBy('home_price', 'asc')->groupBy('gh_institution.id');
 
         }
 

@@ -87,6 +87,8 @@ $router->group([
     // 安全退出
     $router->post('/safeWithdrawing', 'Front\AuthController@safeWithdrawing');
 
+    // 个人二维码
+    $router->post('/qrCode', 'Common\PersonalCodeController@qrCode');
 
 
     // 机构列表展示浏览量最高的5个
