@@ -24,18 +24,12 @@ class PersonalCodeController extends BaseController
     public function qrCode(Request $request)
     {
         $userInfo = Auth::user();
-
-//        $this->validate($request, [
-//            'id'    => 'required|numeric',
-//            'img'   => 'required',
-//            'name'  => 'required',
-//            'tel'   => 'required'
-//        ]);
+        $pattern = '/^1[3-9]\d{9}$/'; // 手机号的正则表达式
 
         $url = 'https://www.baidu.com/';
         $qrCode = new QrCode($url);
         // Create QR code
-        $qrCode->create($request->id.$request->name)
+        $qrCode->create($userInfo->id . $userInfo->name . $userInfo->phone . $userInfo->img)
             ->setEncoding(new Encoding('UTF-8'))
             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
             ->setSize(300)
@@ -45,30 +39,33 @@ class PersonalCodeController extends BaseController
             ->setBackgroundColor(new Color(255, 255, 255));
 
         // Create generic logo
-        $logo = Logo::create(env('QRCODE_DIR').'/img_logo.png')
+        $logo = Logo::create(env('QRCODE_DIR') . '/img_logo.png')
             ->setResizeToWidth(50);
 
         $writer = new PngWriter();
         $result = $writer->write($qrCode, $logo);
 
-        //二维码数据验证
-//        if (!$qrCode->validateResult($result,$request->id.$request->name)) {
-//            return 'error';
-//        }
+        // todo 二维码数据验证 待完善
 
         $user = User::find($userInfo->id)->first();
-        $user->qr_code = env('APP_URL').env('QRCODE_DIR').'/gh'.$request->id.'.jpg';
+        $user->qr_code = env('APP_URL') . env('QRCODE_DIR') . '/gh' . $request->id . '.jpg';
 
-        if (!$user->save()){
+        if (!$user->save()) {
             return $this->error("error");
         }
 
-        header('Content-Type: '.$result->getMimeType());
+        header('Content-Type: ' . $result->getMimeType());
 //        echo $result->getString();
 
         // Save it to a file
-        $result->saveToFile(env('QRCODE_DIR').'/gh'.$request->id.'.jpg');
-        return $this->success('success');
+        $result->saveToFile(env('QRCODE_DIR') . '/gh' . $request->id . '.jpg');
+
+        $data = $userInfo->id . ',' . $userInfo->name . ',' . $userInfo->phone . ',' . $userInfo->img;
+        $result = explode(",", $data);
+        $keys = array('id', 'name', 'phone', 'img'); // 自定义下标数组
+        $newArr = array_combine($keys, $result);
+
+        return $this->success('success', 200, $newArr);
 
     }
 }
