@@ -126,6 +126,8 @@ $router->group([
     $router->get('/relativeStatusList', 'Front\FriendController@relativeStatusList');
 
     // 删除亲友
-    $router->get('/relativeStatusDel', 'Front\FriendController@relativeStatusDel');
+    $router->post('/relativeStatusDel', 'Front\FriendController@relativeStatusDel');
 
+    // 编辑亲友
+    $router->post('/relativeStatusUp', 'Front\FriendController@relativeStatusUp');
 });

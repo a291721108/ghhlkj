@@ -100,12 +100,79 @@ class FriendController extends BaseController
 
     }
 
+    /**
+     * @catalog app端/亲友
+     * @title 亲友删除
+     * @description 亲友删除
+     * @method post
+     * @url 47.92.82.25/api/relativeStatusDel
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
     public function relativeStatusDel(Request $request)
     {
 
+        $this->validate($request, [
+            'id'        => 'required|numeric',
+        ]);
         $data = FriendService::relativeStatusDel($request);
 
-        return $this->success('success',200,$data);
+        if ($data == "success") {
+            return $this->success('success');
+        }
+
+        return $this->error('error');
+
+    }
+
+    /**
+     * @catalog app端/亲友
+     * @title 编辑亲友
+     * @description 编辑亲友
+     * @method post
+     * @url 47.92.82.25/api/relativeStatusUp
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param id 必选 int 亲友id
+     * @param friend_name 必选 string 亲友名字
+     * @param friend_card 非必选 string 亲友身份证
+     * @param friend_kinship 非必选 int 亲友关系
+     * @param friend_tel 非必选 int 亲友手机号
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function relativeStatusUp(Request $request)
+    {
+
+        $this->validate($request, [
+            'id'                => 'required|numeric',
+            'friend_name'       => 'required',
+            'friend_card'       => 'required',
+            'friend_kinship'    => 'required|numeric',
+            'friend_tel'        => 'required|numeric',
+        ]);
+        $data = FriendService::relativeStatusUp($request);
+
+        if ($data) {
+            return $this->success('success', '200', []);
+        }
+
+        return $this->error('error');
 
     }
 }

@@ -79,6 +79,45 @@ class FriendService
         return $result;
 
     }
+
+    /**
+     * 删除亲友
+     * @param $request
+     * @return mixed
+     */
+    public static function relativeStatusDel($request)
+    {
+        $friendId = $request->id;
+
+        $res = Friend::where('id', $friendId)->update(['status' => Friend::FRIEND_STATUS_TWO]);
+
+        if ($res) {
+            return "success";
+        }
+
+        return 'error';
+
+    }
+
+    /**
+     * 编辑亲友
+     * @param $request
+     * @return mixed
+     */
+    public static function relativeStatusUp($request)
+    {
+
+        $data = [
+            'friend_name'       => $request->friend_name,
+            'friend_card'       => $request->friend_card,
+            'friend_kinship'    => $request->friend_kinship,
+            'friend_tel'        => $request->friend_tel,
+            'updated_at'        => time()
+        ];
+
+        return Friend::where('id',$request->id)->update($data);
+
+    }
 }
 
 
