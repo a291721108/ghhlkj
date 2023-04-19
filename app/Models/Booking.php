@@ -13,8 +13,8 @@ class Booking extends Common
 
     public $timestamps = true;
 
+    const BOOKING_SYS_TYPE_ZERO = 0;  // 成功
     const BOOKING_SYS_TYPE_ONE = 1;  // 成功
-
     const BOOKING_SYS_TYPE_TWO = 2;  // 取消
     const BOOKING_SYS_TYPE_THERE = 3;  // 已过期
     const BOOKING_SYS_TYPE_FOUR = -1;  // 删除

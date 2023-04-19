@@ -27,7 +27,8 @@ class BookingService
             'check_in_date'     => strtotime($request->check_in_date),
             'contacts'          => $request->contacts,
             'contact_way'       => $request->contact_way,
-            'remark'            => $request->remark ?? '',
+            'remark'            => $request->remark,
+            'status'            => Booking::BOOKING_SYS_TYPE_ZERO,
             'created_at'        => time()
         ];
 
