@@ -21,6 +21,25 @@ use Mrgoon\AliSms\AliSms;
 class PersonalCodeController extends BaseController
 {
 
+    /**
+     * @catalog API/公共
+     * @title 个人二维码
+     * @description 个人二维码
+     * @method post
+     * @url 47.92.82.25/api/qrCode
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":{"id":"1","name":"admin","phone":"17821211068","img":"https:\/\/picsum.photos\/id\/237\/200\/300"}}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     * @return_param data array 返回数据
+     * @return_param url string 图片路径
+     *
+     * @remark
+     * @number 6
+     */
     public function qrCode(Request $request)
     {
         $userInfo = Auth::user();
