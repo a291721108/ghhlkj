@@ -121,7 +121,7 @@ class AuthService
         $useInfo = User::where('phone', '=', $phone)->first();
         $useInfo->password = md5($passwords);
         $useInfo->salt = rand(1, 100);
-
+        RedisService::del('gh_user_front_token_' . $useInfo->id);
 
         if ($useInfo->save()) {
             return 'success';
