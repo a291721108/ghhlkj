@@ -3,46 +3,72 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Factory as Auth;
-use App\Exceptions\ErrorCode;
-use App\Http\Controllers\Common\BaseController;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
+use Tymon\JWTAuth\JWTAuth;
 
-class Authenticate extends BaseController
+
+class Authenticate extends BaseMiddleware
 {
-    /**
-     * The authentication guard factory instance.
-     *
-     * @var \Illuminate\Contracts\Auth\Factory
-     */
-    protected $auth;
 
     /**
-     * Create a new middleware instance.
-     *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
-     * @return void
+     * 用于区分前后端请求
+     * @var string
      */
-    public function __construct(Auth $auth)
+    public $guard;
+
+
+    public function handle($request, Closure $next)
     {
-        $this->auth = $auth;
-    }
+        // 获取路径
+        $path = $request->path();
+        // 路径名称
+        $this->guard= substr($path, 0, stripos($path,'/'));
 
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
-     * @return mixed
-     */
-    public function handle($request, Closure $next, $guard = null)
-    {
-        if ($this->auth->guard($guard)->guest()) {
-            return $this->error('Unauthorized',401);
+        $this->checkForToken($request);
 
-//            return response('Unauthorized.', 401);
+        // 使用 try 包裹
+        try {
+
+            // 检测用户的登录状态，如果正常则通过
+            if (auth()->guard($this->guard)->check()) {
+                return $next($request);
+            }
+
+            // 如果捕获到此异常，即代表 refresh 也过期了，用户无法刷新令牌，需要重新登录。
+            $response = [
+                'meta' => [
+                    'status' => 400,
+                    'msg'    => '未登录'
+                ]
+            ];
+
+            return json_encode($response);
+        } catch (TokenExpiredException $exception) {
+            try {
+                // 刷新用户的 token
+                $token = $this->auth->refresh();
+                // 使用一次性登录以保证此次请求的成功
+                Auth::guard($this->guard)->onceUsingId($this->auth->manager()->getPayloadFactory()->buildClaimsCollection()->toPlainArray()['sub']);
+
+            } catch (JWTException $exception) {
+
+                // 如果捕获到此异常，即代表 refresh 也过期了，用户无法刷新令牌，需要重新登录。
+                $response = [
+                    'meta' => [
+                        'status' => 400,
+                        'msg'    => $exception->getMessage()
+                    ]
+                ];
+
+                return json_encode($response);
+            }
         }
 
-        return $next($request);
+        // 在响应头中返回新的 token
+        return $this->setAuthenticationHeader($next($request), $token);
     }
 }
