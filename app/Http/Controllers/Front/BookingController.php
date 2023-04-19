@@ -40,7 +40,7 @@ class BookingController extends BaseController
         $this->validate($request, [
             'institution_id'    => 'required|numeric',
             'home_type_id'      => 'required|numeric',
-            'check_in_date'     => 'required|numeric',
+            'check_in_date'     => 'required',
             'contacts'          => 'required',
             'contact_way'       => 'required|numeric',
         ]);

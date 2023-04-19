@@ -24,7 +24,7 @@ class BookingService
             'user_id'           => $userInfo->id,
             'institution_id'    => $request->institution_id,
             'home_type_id'      => $request->home_type_id,
-            'check_in_date'     => $request->check_in_date,
+            'check_in_date'     => strtotime($request->check_in_date),
             'contacts'          => $request->contacts,
             'contact_way'       => $request->contact_way,
             'remark'            => $request->remark ?? '',
