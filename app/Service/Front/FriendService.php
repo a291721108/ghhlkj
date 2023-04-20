@@ -145,6 +145,29 @@ class FriendService
         return Friend::where('id',$request->id)->update($data);
 
     }
+
+    /**
+     * 通过id获取亲友详情
+     * @param $request
+     * @return mixed
+     */
+    public static function getRelative($request)
+    {
+
+        $query = Friend::where('id',$request->id)->first();
+
+        return [
+            'id'            => $query->id,
+            'user_id'       => User::getIdByname($query->user_id),
+            'friend_name'   => $query->friend_name,
+            'friend_card'   => $query->friend_card,
+            'friend_kinship' => Kinship::getIdByname($query->friend_kinship),
+            'friend_tel'    => $query->friend_tel,
+            'friend_status' => Friend::FRIEND_STATUS_MSG_ARRAY[$query->friend_status],
+            'created_at'    => hourMinuteSecond(strtotime($query->created_at)),
+        ];
+
+    }
 }
 
 

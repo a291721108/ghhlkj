@@ -38,4 +38,5 @@ class Kinship extends Model
     {
         return self::where('id',$id)->select('id','kinship_name')->get()->toArray();
     }
+
 }

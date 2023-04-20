@@ -114,7 +114,7 @@ $router->group([
     $router->post('/placeAnOrder', 'Front\OrderController@placeAnOrder');
 
     // 订单列表
-    $router->get('/orderList', 'Front\OrderController@orderList');
+    $router->post('/orderList', 'Front\OrderController@orderList');
 
     // 亲友状态获取
     $router->get('/getRelativeStatus', 'Front\FriendController@getRelativeStatus');
@@ -130,6 +130,9 @@ $router->group([
 
     // 编辑亲友
     $router->post('/relativeStatusUp', 'Front\FriendController@relativeStatusUp');
+
+    // 通过id获取亲友详情
+    $router->post('/getRelative', 'Front\FriendController@getRelative');
 
     // 添加意见反馈
     $router->post('/feedbackAdd', 'Front\FeedbackController@feedbackAdd');

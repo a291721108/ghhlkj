@@ -182,4 +182,38 @@ class FriendController extends BaseController
         return $this->error('error');
 
     }
+
+    /***
+     * showdoc
+     * @catalog app端/亲友
+     * @title 通过id获取亲友详情
+     * @description 通过id获取亲友详情
+     * @method post
+     * @url 47.92.82.25/api/getRelative
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param id 必选 int 亲友id
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function getRelative(Request $request)
+    {
+
+        $this->validate($request, [
+            'id'                => 'required|numeric',
+        ]);
+        $data = FriendService::getRelative($request);
+
+        if (is_array($data)){
+            return $this->success('success',200,$data);
+        }
+        return 'error';
+    }
 }
