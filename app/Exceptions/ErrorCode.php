@@ -25,6 +25,7 @@ class ErrorCode
         'passwordNull'              => "密码为空",
         'close an account'          => "注销成功",
         'safe withdrawing'          => "安全退出",
+        'Dont no my phone'          => "不允许添加自己手机号",
 
         'code_send_success'         => "验证码发送成功",
         'code_expired'              => "验证码已过期",

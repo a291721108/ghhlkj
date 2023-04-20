@@ -48,6 +48,11 @@ class FriendService
         $userInfo = Auth::user();
         $code = $request->dxcodess;
 
+        //判断是不是自己手机号
+        if ($request->friend_tel == $userInfo->phone){
+            return 'Dont no my phone';
+        }
+
         // 判断是否有验证吗
         $sendInfo = UserSend::where('phone', '=', $userInfo->phone)->orderBy('id', 'desc')->first();
         if (!$sendInfo) {
@@ -74,7 +79,10 @@ class FriendService
             'created_at'        => time(),
         ];
 
-        return Friend::insert($data);
+        if (Friend::insert($data)){
+            return "success";
+        }
+        return 'error';
     }
 
     /**

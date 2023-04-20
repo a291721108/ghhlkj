@@ -73,8 +73,8 @@ class FriendController extends BaseController
 
         $data = FriendService::relativeStatusAdd($request);
 
-        if ($data) {
-            return $this->success('success', '200', []);
+        if ($data == 'success') {
+            return $this->success('success', '200', $data);
         }
 
         return $this->error($data);
