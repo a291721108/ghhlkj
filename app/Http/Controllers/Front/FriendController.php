@@ -38,7 +38,8 @@ class FriendController extends BaseController
 
     }
 
-    /**
+    /***
+     * showdoc
      * @catalog app端/亲友
      * @title 添加亲友
      * @description 添加亲友
@@ -46,6 +47,12 @@ class FriendController extends BaseController
      * @url 47.92.82.25/api/relativeStatusAdd
      *
      * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param friend_name 必选 string 亲友名字
+     * @param friend_card 必选 int 亲友身份证
+     * @param friend_kinship 必选 int 亲友类型
+     * @param friend_tel 必选 int 亲友手机号
+     * @param dxcode 必选 int 验证码
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *
@@ -57,12 +64,13 @@ class FriendController extends BaseController
      */
     public function relativeStatusAdd(Request $request)
     {
-        $this->validate($request, [
-            'friend_name'       => 'required',
-            'friend_card'       => 'required',
-            'friend_kinship'    => 'required|numeric',
-            'friend_tel'        => 'required|numeric',
-        ]);
+//        $this->validate($request, [
+//            'friend_name'       => 'required',
+//            'friend_card'       => 'required',
+//            'friend_kinship'    => 'required|numeric',
+//            'friend_tel'        => 'required|numeric',
+//            'dxcode'            => 'required|numeric',
+//        ]);
 
         $data = FriendService::relativeStatusAdd($request);
 

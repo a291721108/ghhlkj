@@ -11,6 +11,7 @@ use App\Models\InstitutionHomeType;
 use App\Models\Kinship;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\UserSend;
 use App\Service\Common\FunService;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,6 +46,23 @@ class FriendService
     public static function relativeStatusAdd($request)
     {
         $userInfo = Auth::user();
+        $code = $request->dxcodess;
+
+        // 判断是否有验证吗
+        $sendInfo = UserSend::where('phone', '=', $userInfo->phone)->orderBy('id', 'desc')->first();
+        if (!$sendInfo) {
+            return 'phone_error';
+        }
+
+        //  验证吗是否过期 有效期限五分钟
+        if (time() >= ($sendInfo->send_time + 300)) {
+            return 'code_expired';
+        }
+
+        // 验证码错误
+        if ($sendInfo->code !== intval($code)) {
+            return 'code_error';
+        }
 
         $data = [
             'user_id'           => $userInfo->id,
