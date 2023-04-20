@@ -70,6 +70,7 @@ class FriendService
             'friend_card'       => $request->friend_card,
             'friend_kinship'    => $request->friend_kinship,
             'friend_tel'        => $request->friend_tel,
+            'friend_status'     => Friend::FRIEND_STATUS_ONE,
             'created_at'        => time(),
         ];
 
