@@ -24,6 +24,7 @@ class OrderController extends BaseController
      * @param end_date 必选 string 结束时间
      * @param order_phone 必选 int 联系方式
      * @param payment_method 必选 int 支付方式
+     * @param amount_paid 必选 int 已支付定金
      * @param order_remark 非必选 string 备注
      * @param contacts 必选 string 联系人
      * @param contacts_card 必选 string 联系人身份证
@@ -46,6 +47,7 @@ class OrderController extends BaseController
             'end_date'              => 'required',
             'order_phone'           => 'required|numeric',
             'payment_method'        => 'required|numeric',
+            'amount_paid'           => 'required|numeric',
             'contacts'              => 'required',
             'contacts_card'         => 'required',
         ]);

@@ -25,6 +25,7 @@ class OrderService
             'user_id'           =>$userInfo->id,
             'order_no'          => FunService::orderNumber(),
             'total_amount'      => $request->total_amount,
+            'amount_paid'       => $request->amount_paid,
             'payment_method'    => $request->payment_method,
             'institution_id'    => $request->institution_id,
             'institution_type'  => $request->institution_type,
