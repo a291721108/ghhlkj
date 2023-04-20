@@ -139,4 +139,9 @@ class OrganizationController extends BaseController
         return $this->error('error');
     }
 
+    public function test()
+    {
+
+        echo "123";
+    }
 }
