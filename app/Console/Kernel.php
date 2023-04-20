@@ -14,8 +14,11 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        // 项目超期装填
+
         \App\Console\Commands\BookingExpired::class,
+
+        // 意见反馈
+        \App\Console\Commands\IdeaInform::class,
     ];
 
     /**
@@ -28,5 +31,8 @@ class Kernel extends ConsoleKernel
     {
         // 消息服务通知 每分钟监测一次
         $schedule->command('bookingExpired:ok')->everyMinute();
+
+        // 消息服务通知 每分钟监测一次
+        $schedule->command('ideaInform:ok')->everyMinute();
     }
 }

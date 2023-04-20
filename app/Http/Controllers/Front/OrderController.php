@@ -23,7 +23,7 @@ class OrderController extends BaseController
      * @param start_date 必选 string 看房日期
      * @param end_date 必选 string 联系人
      * @param order_phone 必选 int 联系方式
-     * @param payment_method 必选 int 联系方式
+     * @param payment_method 必选 int 支付方式
      * @param remark 必选 string 备注
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}

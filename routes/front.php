@@ -130,4 +130,11 @@ $router->group([
 
     // 编辑亲友
     $router->post('/relativeStatusUp', 'Front\FriendController@relativeStatusUp');
+
+    // 添加意见反馈
+    $router->post('/feedbackAdd', 'Front\FeedbackController@feedbackAdd');
+
+    // 意见反馈类型
+    $router->get('/feedbackType', 'Front\FeedbackController@feedbackType');
 });
+
