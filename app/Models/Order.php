@@ -16,6 +16,7 @@ class Order extends Common
     const ORDER_SYS_TYPE_THERE = 3;  // 已完成
     const ORDER_SYS_TYPE_FOUR = 4;  // 已取消
     const ORDER_SYS_TYPE_FIVE = 5;  // 定金已支付
+    const ORDER_SYS_TYPE_SIX = 6;  // 预约
 
     /**
      * 信息提示
@@ -26,6 +27,7 @@ class Order extends Common
         self::ORDER_SYS_TYPE_THERE    => "已完成",
         self::ORDER_SYS_TYPE_FOUR     => "已取消",
         self::ORDER_SYS_TYPE_FIVE     => "定金已支付",
+        self::ORDER_SYS_TYPE_SIX      => "预约",
     ];
     /**
      * 格式化时间

@@ -31,7 +31,7 @@ class HomeTypeService
 
         $result = InstitutionHomeType::where('status', '>', InstitutionHomeType::Home_TYPE_SYS_STATUS_TWO)
             ->where('id', $organizationId)
-            ->get()->toaRRAY();
+            ->get()->toArray();
 
         foreach ($result as $k => $v) {
             // 处理回参

@@ -151,9 +151,9 @@ class FriendController extends BaseController
      *
      * @param id 必选 int 亲友id
      * @param friend_name 必选 string 亲友名字
-     * @param friend_card 非必选 string 亲友身份证
-     * @param friend_kinship 非必选 int 亲友关系
-     * @param friend_tel 非必选 int 亲友手机号
+     * @param friend_card 必选 string 亲友身份证
+     * @param friend_kinship 必选 int 亲友关系
+     * @param friend_tel 必选 int 亲友手机号
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *

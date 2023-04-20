@@ -57,7 +57,7 @@ class InstitutionHomeType extends Common
      */
     public static function getInstitutionIdByName($id)
     {
-        return self::where('id', $id)->value('home_type');
+        return self::where('id', $id)->select('id','home_type','home_price')->get()->toArray();
     }
 
 }

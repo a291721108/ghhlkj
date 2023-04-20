@@ -35,7 +35,7 @@ class OrderService
             'order_remark'      => $request->order_remark,
             'contacts'          => $request->contacts,
             'contacts_card'     => $request->contacts_card,
-            'status'            => Order::ORDER_SYS_TYPE_ONE,
+            'status'            => $request->status,
             'created_at'        => time(),
         ];
 
@@ -81,7 +81,38 @@ class OrderService
         return $result;
     }
 
+    /**
+     * 订单详情
+     */
+    public static function userReservationRecord($request)
+    {
+        $userInfo = User::getUserInfo();
+        $orderId = $request->orderId;
 
+        $orderMsg = Order::where('id',$orderId)->first();
+
+        // 返回用户信息
+        return [
+            "id"                    => $orderMsg->id,
+            'user_id'               => $userInfo->name,
+            'order_no'              => $orderMsg->order_no,
+            'total_amount'          => $orderMsg->total_amount,
+            'amount_paid'           => $orderMsg->amount_paid,
+            'payment_method'        => $orderMsg->amount_paid ? '支付宝' : '微信',
+            'institution_id'        => Institution::getInstitutionId($orderMsg->institution_id),
+            'institution_type'      => InstitutionHomeType::getInstitutionIdByName($orderMsg->institution_type),
+            'discount_coupon'       => $orderMsg->discount_coupon,
+            'start_date'            => hourMinuteSecond($orderMsg->start_date),
+            'end_date'              => hourMinuteSecond($orderMsg->end_date),
+            'order_phone'           => $orderMsg->order_phone,
+            'order_remark'          => $orderMsg->order_remark,
+            'contacts'              => $orderMsg->contacts,
+            'contacts_card'         => $orderMsg->contacts_card,
+            'status'                => Order::INS_MSG_ARRAY[$orderMsg->status],
+            'created_at'            => hourMinuteSecond(strtotime($orderMsg->created_at)),
+            ];
+
+    }
 }
 
 

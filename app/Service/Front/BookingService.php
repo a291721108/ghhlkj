@@ -73,7 +73,7 @@ class BookingService
         $userInfo = User::getUserInfo();
         $bookingId = $request->booking_id;
 
-        $bookingMsg = Booking::where('id',$bookingId)->first();
+        $bookingMsg = Order::where('id',$bookingId)->first();
 
         // 返回用户信息
         return [

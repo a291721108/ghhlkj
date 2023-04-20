@@ -21,13 +21,13 @@ class OrderController extends BaseController
      * @param institution_id 必选 int 机构id
      * @param institution_type 必选 int 房间类型id
      * @param start_date 必选 string 开始时间
-     * @param end_date 必选 string 结束时间
      * @param order_phone 必选 int 联系方式
      * @param payment_method 必选 int 支付方式
      * @param amount_paid 必选 int 已支付定金
      * @param order_remark 非必选 string 备注
      * @param contacts 必选 string 联系人
      * @param contacts_card 必选 string 联系人身份证
+     * @param status 必选 int 状态1待付款,2已入住,3已完成,4已取消,5定金已支付,6预约
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *
@@ -44,12 +44,12 @@ class OrderController extends BaseController
             'institution_id'        => 'required|numeric',
             'institution_type'      => 'required|numeric',
             'start_date'            => 'required',
-            'end_date'              => 'required',
-            'order_phone'           => 'required|numeric',
             'payment_method'        => 'required|numeric',
             'amount_paid'           => 'required|numeric',
+            'order_phone'           => 'required|numeric',
             'contacts'              => 'required',
             'contacts_card'         => 'required',
+            'status'                => 'required|numeric'
         ]);
 
         $data = OrderService::placeAnOrder($request);
@@ -116,4 +116,19 @@ class OrderController extends BaseController
         return $this->error('error');
     }
 
+    public function userReservationRecord(Request $request)
+    {
+
+        $this->validate($request, [
+            'orderId'      => 'required|numeric',
+        ]);
+
+        $data = OrderService::userReservationRecord($request);
+
+        if ($data) {
+            return $this->success('success', '200', $data);
+        }
+
+        return $this->error('error');
+    }
 }
