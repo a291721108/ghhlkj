@@ -38,8 +38,7 @@ class FriendController extends BaseController
 
     }
 
-    /***
-     * showdoc
+    /**
      * @catalog app端/亲友
      * @title 添加亲友
      * @description 添加亲友
@@ -64,21 +63,21 @@ class FriendController extends BaseController
      */
     public function relativeStatusAdd(Request $request)
     {
-//        $this->validate($request, [
-//            'friend_name'       => 'required',
-//            'friend_card'       => 'required',
-//            'friend_kinship'    => 'required|numeric',
-//            'friend_tel'        => 'required|numeric',
-//            'dxcode'            => 'required|numeric',
-//        ]);
+        $this->validate($request, [
+            'friend_name'       => 'required',
+            'friend_card'       => 'required',
+            'friend_kinship'    => 'required|numeric',
+            'friend_tel'        => 'required|numeric',
+            'dxcode'            => 'required|numeric',
+        ]);
 
         $data = FriendService::relativeStatusAdd($request);
 
         if ($data) {
-            return $this->success('success');
+            return $this->success('success', '200', []);
         }
 
-        return $this->error('error');
+        return $this->error($data);
 
     }
 
