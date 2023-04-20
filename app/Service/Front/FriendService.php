@@ -46,7 +46,7 @@ class FriendService
     public static function relativeStatusAdd($request)
     {
         $userInfo = Auth::user();
-        $code = $request->$code;
+        $code = $request->dxcode;
 
         //判断是不是自己手机号
 //        if ($request->friend_tel == $userInfo->phone){
