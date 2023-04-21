@@ -116,6 +116,9 @@ $router->group([
     // 订单列表
     $router->post('/orderList', 'Front\OrderController@orderList');
 
+    // 订单列表
+    $router->post('/orderDel', 'Front\OrderController@orderDel');
+
     // 亲友状态获取
     $router->get('/getRelativeStatus', 'Front\FriendController@getRelativeStatus');
 

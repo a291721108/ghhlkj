@@ -113,6 +113,24 @@ class OrderService
             ];
 
     }
+
+    /**
+     * 订单删除
+     */
+    public static function orderDel($request)
+    {
+        $useInfo = User::getUserInfo();
+        $orderId = $request->orderId;
+
+        $orderMsg = Order::where('user_id',$useInfo->id)->where('id',$orderId)->first();
+        $orderMsg->status = Order::ORDER_SYS_TYPE_FOUR;
+
+        if ($orderMsg->save()){
+            return 'success';
+        }
+
+        return 'error';
+    }
 }
 
 

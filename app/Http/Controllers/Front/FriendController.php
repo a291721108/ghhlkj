@@ -183,8 +183,7 @@ class FriendController extends BaseController
 
     }
 
-    /***
-     * showdoc
+    /**
      * @catalog app端/亲友
      * @title 通过id获取亲友详情
      * @description 通过id获取亲友详情

@@ -167,4 +167,39 @@ class OrderController extends BaseController
 
         return $this->error('error');
     }
+
+    /**
+     * @catalog app端/订单
+     * @title 订单删除
+     * @description 订单删除
+     * @method post
+     * @url 47.92.82.25/api/orderDel
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param orderId 必选 int 订单id
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function orderDel(Request $request)
+    {
+
+        $this->validate($request, [
+            'orderId'      => 'required|numeric',
+        ]);
+
+        $data = OrderService::orderDel($request);
+
+        if ($data == 'success') {
+            return $this->success('success');
+        }
+
+        return $this->error('error');
+    }
 }
