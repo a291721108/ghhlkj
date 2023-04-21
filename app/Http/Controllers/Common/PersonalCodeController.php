@@ -22,6 +22,19 @@ class PersonalCodeController extends BaseController
 {
 
     /**
+     * 初始化
+     */
+    public function __construct()
+    {
+        $userInfo       = Auth::user();
+        $this->id       = $userInfo->id;
+        $this->name     = $userInfo->name;
+        $this->img      = $userInfo->img;
+        $this->qr_code  = $userInfo->qr_code;
+        $this->phone    = $userInfo->phone;
+    }
+
+    /**
      * @catalog API/公共
      * @title 个人二维码
      * @description 个人二维码
@@ -42,16 +55,17 @@ class PersonalCodeController extends BaseController
      */
     public function qrCode(Request $request)
     {
-        $userInfo = Auth::user();
-        $path = '/GH_qr_code' . $userInfo->id;
+
+        $path = '/GH_qr_code' . $this->phone;
+
         if (!file_exists($path)) {
-            $this->success('success', 200, [$userInfo->id, $userInfo->name, $userInfo->phone, $userInfo->qr_code]);
+            $this->success('success', 200, [$this->id, $this->name, $this->phone, $this->qr_code]);
         }
 
         $url = 'https://www.baidu.com/';
         $qrCode = new QrCode($url);
         // Create QR code
-        $qrCode->create($userInfo->id . $userInfo->name . $userInfo->phone . $userInfo->img)
+        $qrCode->create($this->id . $this->name . $this->phone . $this->img)
             ->setEncoding(new Encoding('UTF-8'))
             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
             ->setSize(300)
@@ -72,7 +86,7 @@ class PersonalCodeController extends BaseController
 
         //  --------------------------
 
-        $user = User::where('id', $userInfo->id)->first();
+        $user = User::where('id', $this->id)->first();
         $user->qr_code = env('APP_URL') . env('QRCODE_DIR') . $path . '.jpg';
 
         if (!$user->save()) {
