@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 
 use App\Models\Booking;
+use App\Models\Institution;
+use App\Models\Order;
 use Illuminate\Console\Command;
 
 class BookingExpired extends Command
@@ -17,19 +19,19 @@ class BookingExpired extends Command
     public function handle()
     {
 
-        $query = Booking::where('status', '>', Booking::BOOKING_SYS_TYPE_FOUR)->select()->get();
+        $query = Order::where('status', '=', Order::ORDER_SYS_TYPE_SIX)->select()->get();
 
         // 判断预约超期状态
         $arr = [];
         foreach ($query as $v) {
-            if (time() > strtotime(date('Y-m-d H:i:s',$v -> check_in_date+24*3600)) && $v->status != Booking::BOOKING_SYS_TYPE_FOUR) {
+            if (time() > strtotime(date('Y-m-d H:i:s',$v -> check_in_date+24*3600)) && $v->status != Order::ORDER_SYS_TYPE_ZERO) {
                 $arr[] = $v->id;
             }
         }
 
         if (!empty($arr)) {
-            Booking::whereIn('id', $arr)->update([
-                'status' => Booking::BOOKING_SYS_TYPE_THERE
+            Order::whereIn('id', $arr)->update([
+                'status' => Order::ORDER_SYS_TYPE_FOUR
             ]);
         }
 
