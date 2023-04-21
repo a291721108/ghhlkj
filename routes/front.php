@@ -107,9 +107,6 @@ $router->group([
     // 预约列表
     $router->get('/reservationList', 'Front\BookingController@reservationList');
 
-    // 获取预约详情
-//    $router->post('/userReservationRecord', 'Front\BookingController@userReservationRecord');
-
     // 获取订单详情
     $router->post('/userReservationRecord', 'Front\OrderController@userReservationRecord');
 

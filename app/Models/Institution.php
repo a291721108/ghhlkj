@@ -97,6 +97,13 @@ class Institution extends Common
         return self::where('id', $id)->value('institution_name');
     }
 
+    /**
+     * 通过机构id获取名字
+     */
+    public static function getInstitutionName($id)
+    {
+        return self::where('id', $id)->select('id','institution_name','institution_address')->get()->toArray();
+    }
 
     public function prices($class = InstitutionHomeType::class)
     {

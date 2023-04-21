@@ -99,7 +99,7 @@ class OrderService
             'total_amount'          => $orderMsg->total_amount,
             'amount_paid'           => $orderMsg->amount_paid,
             'payment_method'        => $orderMsg->amount_paid ? '支付宝' : '微信',
-            'institution_id'        => Institution::getInstitutionId($orderMsg->institution_id),
+            'institution_id'        => Institution::getInstitutionName($orderMsg->institution_id),
             'institution_type'      => InstitutionHomeType::getInstitutionIdByName($orderMsg->institution_type),
             'discount_coupon'       => $orderMsg->discount_coupon,
             'start_date'            => hourMinuteSecond($orderMsg->start_date),
