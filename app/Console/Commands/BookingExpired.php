@@ -24,7 +24,8 @@ class BookingExpired extends Command
         // 判断预约超期状态
         $arr = [];
         foreach ($query as $v) {
-            if (time() > strtotime(date('Y-m-d H:i:s',$v -> check_in_date+24*3600)) && $v->status != Order::ORDER_SYS_TYPE_FOUR) {
+
+            if ($v -> start_date > strtotime(date('Y-m-d H:i:s',$v -> start_date+24*3600)) && $v->status != Order::ORDER_SYS_TYPE_FOUR) {
                 $arr[] = $v->id;
             }
         }
