@@ -57,11 +57,6 @@ class PersonalCodeController extends BaseController
     {
 
         $path = '/GH_qr_code' . $this->phone;
-
-        if (!file_exists($path)) {
-            $this->success('success', 200, [$this->id, $this->name, $this->phone, $this->qr_code]);
-        }
-
         $url = 'https://www.baidu.com/';
         $qrCode = new QrCode($url);
         // Create QR code
