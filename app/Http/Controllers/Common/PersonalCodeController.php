@@ -43,7 +43,10 @@ class PersonalCodeController extends BaseController
     public function qrCode(Request $request)
     {
         $userInfo = Auth::user();
-        $pattern = '/^1[3-9]\d{9}$/'; // 手机号的正则表达式
+        $path = '/GH_qr_code' . $userInfo->id;
+        if (!file_exists($path)) {
+            $this->success('success', 200, [$userInfo->id, $userInfo->name, $userInfo->phone, $userInfo->qr_code]);
+        }
 
         $url = 'https://www.baidu.com/';
         $qrCode = new QrCode($url);
@@ -69,8 +72,7 @@ class PersonalCodeController extends BaseController
 
         //  --------------------------
 
-        $path = '/gh' . date("YmdHms_", time()) . $userInfo->id;
-        $user = User::find($userInfo->id)->first();
+        $user = User::where('id', $userInfo->id)->first();
         $user->qr_code = env('APP_URL') . env('QRCODE_DIR') . $path . '.jpg';
 
         if (!$user->save()) {
@@ -83,9 +85,9 @@ class PersonalCodeController extends BaseController
         // Save it to a file
         $result->saveToFile(env('QRCODE_DIR') . $path . '.jpg');
 
-        $data = $userInfo->id . ',' . $userInfo->name . ',' . $userInfo->phone . ',' . $userInfo->img;
+        $data = $user->id . ',' . $user->name . ',' . $user->phone . ',' . $user->qr_code;
         $result = explode(",", $data);
-        $keys = array('id', 'name', 'phone', 'img'); // 自定义下标数组
+        $keys = array('id', 'name', 'phone', 'qr_code'); // 自定义下标数组
         $newArr = array_combine($keys, $result);
 
         return $this->success('success', 200, $newArr);
