@@ -52,6 +52,7 @@ $app->singleton(Illuminate\Contracts\Console\Kernel::class, App\Console\Kernel::
 $app->configure('app');
 $app->configure('aliyunsms');
 $app->configure('cors');
+$app->configure('wechat');
 
 
 /*

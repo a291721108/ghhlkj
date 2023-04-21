@@ -142,5 +142,11 @@ $router->group([
 
     // 意见反馈类型
     $router->get('/feedbackType', 'Front\FeedbackController@feedbackType');
+
+    // 微信授权
+    $router->post('/auth', 'Common\WeChatController@auth');
+
+    // 授权回调
+    $router->get('/oauth_callback', 'Common\WeChatController@callback');
 });
 
