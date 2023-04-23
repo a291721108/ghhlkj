@@ -24,7 +24,7 @@ $router->group([
     'prefix'     => 'api',
     'middleware' => 'cors'
 ], function () use ($router) {
-    $router->get('/wechat', function (Request $request) {
+    $router->get('/', function (Request $request) {
         // 验证服务器地址的有效性
         $signature = $request->input('signature');
         $timestamp = $request->input('timestamp');
@@ -40,7 +40,7 @@ $router->group([
     });
 
 
-    $router->post('/wechat', function (Request $request) {
+    $router->post('/', function (Request $request) {
         $postStr = $request->getContent();
         if (!empty($postStr)) {
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
