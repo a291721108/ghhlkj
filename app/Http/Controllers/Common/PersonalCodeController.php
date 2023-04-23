@@ -60,7 +60,14 @@ class PersonalCodeController extends BaseController
         $path = $dir . '/GH_qr_code' . $this->phone . '.jpg';
 
         // Create QR code
-        $qrCode = QrCode::create($this->id . $this->name . $this->phone . $this->img)
+        $res = [
+            'id' => $this->id,
+            'name'  => $this->name,
+            'phone' => $this->phone,
+            'img'   => $this->img
+        ];
+        $qrCode = QrCode::create(json_encode($res))
+
             ->setEncoding(new Encoding('UTF-8'))
             ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
             ->setSize(300)
