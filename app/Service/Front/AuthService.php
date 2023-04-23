@@ -61,6 +61,7 @@ class AuthService
             'user_email'            => $useInfo->email,
             'user_address'          => $useInfo->address,
             'user_phone'            => $useInfo->phone,
+            'qr_code'               => $useInfo->qr_code,
             'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
             'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
             'data'                  => UserExt::getMsgByUserId($useInfo->id),
@@ -186,6 +187,7 @@ class AuthService
                 'user_email'        => $useInfo->email ?? '',
                 'user_address'      => $useInfo->address ?? '',
                 'user_phone'        => $useInfo->phone ?? '',
+                'qr_code'           => $useInfo->qr_code,
                 'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
                 'user_birthday'     => ytdTampTime($useInfo->birthday) ?? '',
                 'data'              => UserExt::getMsgByUserId($useInfo->id)
@@ -208,6 +210,7 @@ class AuthService
             'user_email'            => $useInfo->email ?? '',
             'user_address'          => $useInfo->address ?? '',
             'user_phone'            => $useInfo->phone,
+            'qr_code'               => $useInfo->qr_code,
             'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
             'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
             'data'                  => UserExt::getMsgByUserId($useInfo->id)
