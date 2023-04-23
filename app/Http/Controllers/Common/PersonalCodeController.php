@@ -57,8 +57,6 @@ class PersonalCodeController extends BaseController
     {
 
         $path = '/GH_qr_code' . $this->phone;
-//        $url = 'https://www.123.com/';
-//        $qrCode = new QrCode($url);
 
         // Create QR code
         $qrCode = QrCode::create($this->id . $this->name . $this->phone . $this->img)
@@ -89,18 +87,19 @@ class PersonalCodeController extends BaseController
             return $this->error("error");
         }
 
-        header('Content-Type: ' . $result->getMimeType());
+//        header('Content-Type: ' . $result->getMimeType());
 //        echo $result->getString();
 
         // Save it to a file
         $result->saveToFile(env('QRCODE_DIR') . $path . '.jpg');
 
-        $data = $user->id . ',' . $user->name . ',' . $user->phone . ',' . $user->qr_code;
-        $result = explode(",", $data);
-        $keys = array('id', 'name', 'phone', 'qr_code'); // 自定义下标数组
-        $newArr = array_combine($keys, $result);
-
-        return $this->success('success', 200, $newArr);
+        $data = [
+            'id'    => $this->id,
+            'name'  => $this->name,
+            'phone' => $this->phone,
+            'img'   => $this->img,
+        ];
+        return $this->success('success', 200, $data);
 
     }
 }
