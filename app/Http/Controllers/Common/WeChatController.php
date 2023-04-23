@@ -9,24 +9,22 @@ class WeChatController extends BaseController
 
     public function auth(Request $request)
     {
-        $token = 'Ghhlkj2023'; // 在公众号服务器配置中设置的 token
+        $signature = $request->signature;
+        $timestamp = $request->timestamp;
+        $nonce = $request->nonce;
 
-        $signature = $_GET['signature'];
-        $timestamp = $_GET['timestamp'];
-        $nonce = $_GET['nonce'];
-        $echostr = $_GET['echostr'];
-
+        $token = 'Ghhlkj2023';
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
-        $tmpStr = implode($tmpArr);
-        $tmpStr = sha1($tmpStr);
-
-        if ($tmpStr === $signature) {
-            // 验证通过，输出 echostr
-            echo $echostr;
-        } else {
-            // 验证失败
-            echo 'Token verification failed';
+        $tmpStr = implode( $tmpArr );
+        $tmpStr = sha1( $tmpStr );
+        echo $signature;
+        echo "--------------";
+        echo $tmpStr;
+        if( $tmpStr == $signature ){
+            return true;
+        }else{
+            return false;
         }
 
 //        // 读取配置文件中的微信公众号相关配置

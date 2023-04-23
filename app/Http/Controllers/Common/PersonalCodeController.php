@@ -57,8 +57,10 @@ class PersonalCodeController extends BaseController
     {
 
         $path = '/GH_qr_code' . $this->phone;
-        $url = 'https://www.baidu.com/';
-        $qrCode = new QrCode($url);
+//        $url = 'https://www.baidu.com/';
+//        $qrCode = new QrCode($url);
+
+        $qrCode = new QrCode();
         // Create QR code
         $qrCode->create($this->id . $this->name . $this->phone . $this->img)
             ->setEncoding(new Encoding('UTF-8'))
