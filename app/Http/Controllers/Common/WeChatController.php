@@ -13,7 +13,7 @@ class WeChatController extends BaseController
         $timestamp = $request->timestamp;
         $nonce = $request->nonce;
 
-        $token = 'Ghhlkj2023';
+        $token = 'Ghhlkj';
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
