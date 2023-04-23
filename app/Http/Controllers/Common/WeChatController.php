@@ -26,10 +26,7 @@ class WeChatController extends BaseController
 
         // 获取 OAuth 授权结果用户信息
         $oauth = $app->oauth;
-        dd($app);
-
-        $user = $oauth->user();
-
+        $user = $oauth->user()->toArray();
 
         dd($user);
         // 这里可以将用户信息存入数据库或者做其他操作
