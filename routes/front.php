@@ -22,7 +22,7 @@ $router->get('/wechat', function (Request $request) {
     $signature = $request->input('signature');
     $timestamp = $request->input('timestamp');
     $nonce = $request->input('nonce');
-    $token = "your_token";
+    $token = "ghhlkj2023";
     $tmpArr = array($token, $timestamp, $nonce);
     sort($tmpArr);
     $tmpStr = implode($tmpArr);
