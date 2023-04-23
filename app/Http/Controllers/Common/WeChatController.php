@@ -15,9 +15,7 @@ class WeChatController extends BaseController
         $config = config('wechat.official_account.default');
         $app = Factory::officialAccount($config);
         $response = $app->oauth->scopes(array(env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_SCOPES')))->redirect(env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK'));
-
-        var_dump($response);die();
-        return json_encode($response);
+        return $response;
     }
 
     public function callback()
@@ -25,12 +23,10 @@ class WeChatController extends BaseController
         $config = config('wechat.official_account.default');
 
         $app = Factory::officialAccount($config);
-        $oauth = $app->oauth;
 
         // 获取 OAuth 授权结果用户信息
-        $user = $oauth->user();
-        $openid = $user->getId();
-        $userInfo = $user->getOriginal();
+        $user = $app->oauth->user()->toArray();
+
 
         dd($user);
         // 这里可以将用户信息存入数据库或者做其他操作
