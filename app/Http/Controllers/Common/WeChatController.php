@@ -13,7 +13,7 @@ class WeChatController extends BaseController
     {
         $config = config('wechat.official_account.default');
         $app = Factory::officialAccount($config);
-        $response = $app->oauth->scopes('snsapi_userinfo')->redirect('http://47.92.82.25/api/callback');
+        $response = $app->oauth->scopes((array)'snsapi_userinfo')->redirect('http://47.92.82.25/api/callback');
         return $response;
     }
 
