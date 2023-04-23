@@ -9,40 +9,26 @@ class WeChatController extends BaseController
 
     public function auth(Request $request)
     {
-        // 验证服务器地址的有效性
-        $signature = $request->signature;
-        $timestamp = $request->timestamp;
-        $nonce = $request->nonce;
-        $token = "ghhlkj";
-        $tmpArr = array($token, $timestamp, $nonce);
-        sort($tmpArr);
-        $tmpStr = implode($tmpArr);
-        $tmpStr = sha1($tmpStr);
+        // 读取配置文件中的微信公众号相关配置
+        $config = config('wechat.official_account.default');
+        //        $config = [
+        //            'app_id' => env('WECHAT_APPID'),
+        //            'secret' => env('WECHAT_SECRET'),
+        //            'response_type' => 'array',
+        //            'oauth' => [
+        //                'scopes' => ['snsapi_userinfo'],
+        //                'callback' => env('WECHAT_OAUTH_CALLBACK'),
+        //            ],
+        //        ];
 
-        if ($tmpStr == $signature) {
-            return $request->input('echostr');
-        }
+        // 创建微信 SDK 对象
+        $app = Factory::officialAccount($config);
 
-//        // 读取配置文件中的微信公众号相关配置
-//        $config = config('wechat.official_account.default');
-//        //        $config = [
-//        //            'app_id' => env('WECHAT_APPID'),
-//        //            'secret' => env('WECHAT_SECRET'),
-//        //            'response_type' => 'array',
-//        //            'oauth' => [
-//        //                'scopes' => ['snsapi_userinfo'],
-//        //                'callback' => env('WECHAT_OAUTH_CALLBACK'),
-//        //            ],
-//        //        ];
-//
-//        // 创建微信 SDK 对象
-//        $app = Factory::officialAccount($config);
-//
-//        // 获取微信授权登录 URL
-//        $url = $app->oauth->redirect();
-//
-//        // 将 URL 返回给前端页面
-//        return response()->json(['url' => $url]);
+        // 获取微信授权登录 URL
+        $url = $app->oauth->redirect();
+
+        // 将 URL 返回给前端页面
+        return response()->json(['url' => $url]);
     }
 
     public function callback()

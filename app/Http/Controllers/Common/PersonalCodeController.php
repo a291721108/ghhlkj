@@ -43,7 +43,7 @@ class PersonalCodeController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @return {"meta":{"status":200,"msg":"成功"},"data":{"id":"1","name":"admin","phone":"17821211068","img":"https:\/\/picsum.photos\/id\/237\/200\/300"}}
+     * @return {"meta":{"status":200,"msg":"成功"},"data":{"qr_code":"http:\/\/47.92.82.25\/.\/upload\/qrcode\/GH_qr_code15135345970.jpg"}}
      *
      * @return_param code int 状态吗(200:请求成功,404:请求失败)
      * @return_param msg string 返回信息
