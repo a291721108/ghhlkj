@@ -9,22 +9,17 @@ class WeChatController extends BaseController
 
     public function auth(Request $request)
     {
-        $signature = $request->signature;
-        $timestamp = $request->timestamp;
-        $nonce = $request->nonce;
-
-        $token = 'Ghhlkj';
+        // 验证服务器地址的有效性
+        $signature = $request->input('signature');
+        $timestamp = $request->input('timestamp');
+        $nonce = $request->input('nonce');
+        $token = "ghhlkj";
         $tmpArr = array($token, $timestamp, $nonce);
-        sort($tmpArr, SORT_STRING);
-        $tmpStr = implode( $tmpArr );
-        $tmpStr = sha1( $tmpStr );
-        echo $signature;
-        echo "--------------";
-        echo $tmpStr;
-        if( $tmpStr == $signature ){
-            return true;
-        }else{
-            return false;
+        sort($tmpArr);
+        $tmpStr = implode($tmpArr);
+        $tmpStr = sha1($tmpStr);
+        if ($tmpStr == $signature) {
+            return $request->input('echostr');
         }
 
 //        // 读取配置文件中的微信公众号相关配置
