@@ -18,15 +18,16 @@ class WeChatController extends BaseController
         return $response;
     }
 
-    public function callback()
+    public function callback(Request $request)
     {
+        $code = $request->input('code');
         $config = config('wechat.official_account.default');
-
         $app = Factory::officialAccount($config);
 
         // 获取 OAuth 授权结果用户信息
         $oauth = $app->oauth;
-        $user = $oauth->user()->toArray();
+        $accessToken = $oauth->getAccessToken($code); // 获取授权后的access_token
+        $user = $app->oauth->userFromToken($accessToken['access_token']); // 获取用户信息
 
         dd($user);
         // 这里可以将用户信息存入数据库或者做其他操作
