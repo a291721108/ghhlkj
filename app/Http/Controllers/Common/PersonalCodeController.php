@@ -91,8 +91,12 @@ class PersonalCodeController extends BaseController
         // Save it to a file
         $result->saveToFile($path);
 
+        $data = [
+            'qr_code'   => env("APP_URL") . $path,
+        ];
+
         if (is_file($path)) {
-            return json_encode(['url' => env("APP_URL") . $path]);
+            return $this->success('success',200,$data);
         }
 
         $this->error('error');
