@@ -21,6 +21,7 @@ class WeChatController extends BaseController
     public function callback(Request $request)
     {
         $code = $request->input('code');
+        dd($code);
         $config = config('wechat.official_account.default');
         $app = Factory::officialAccount($config);
 
