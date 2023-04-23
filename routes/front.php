@@ -1,6 +1,6 @@
 <?php
 /** @var Router $router */
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -17,7 +17,39 @@ use Laravel\Lumen\Routing\Router;
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+$router->get('/wechat', function (Request $request) {
+    // 验证服务器地址的有效性
+    $signature = $request->input('signature');
+    $timestamp = $request->input('timestamp');
+    $nonce = $request->input('nonce');
+    $token = "your_token";
+    $tmpArr = array($token, $timestamp, $nonce);
+    sort($tmpArr);
+    $tmpStr = implode($tmpArr);
+    $tmpStr = sha1($tmpStr);
+    if ($tmpStr == $signature) {
+        return $request->input('echostr');
+    }
+});
 
+$router->post('/wechat', function (Re $request) {
+    $postStr = $request->getContent();
+    if (!empty($postStr)) {
+        $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $msgType = trim($postObj->MsgType);
+        switch ($msgType) {
+            case "event":
+                // 处理事件消息
+                break;
+            case "text":
+                // 处理文本消息
+                break;
+            default:
+                // 其他类型的消息
+                break;
+        }
+    }
+});
 
 $router->group([
     'prefix'     => 'api',
