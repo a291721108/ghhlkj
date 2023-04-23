@@ -25,7 +25,10 @@ class WeChatController extends BaseController
         $app = Factory::officialAccount($config);
 
         // 获取 OAuth 授权结果用户信息
-        $user = $app->oauth->user()->toArray();
+        $oauth = $app->oauth;
+        dd($app);
+
+        $user = $oauth->user();
 
 
         dd($user);

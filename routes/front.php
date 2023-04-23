@@ -93,7 +93,7 @@ $router->group([
     $router->post('/auth', 'Common\WeChatController@auth');
 
     // 授权回调
-    $router->get('/callback', 'Common\WeChatController@callback');
+    $router->post('/callback', 'Common\WeChatController@callback');
 
     // ceshi
     $router->get('/test', 'Front\OrganizationController@test');
