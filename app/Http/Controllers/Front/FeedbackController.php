@@ -20,7 +20,7 @@ class FeedbackController extends BaseController
      * @header api_token 必选 string api_token放到authorization中
      *
      * @param idea_type 必选 int 反馈类型id
-     * @param idea_content 必选 int 反馈内容
+     * @param idea_content 必选 string 反馈内容
      * @param idea_img 非必选 string 附加图片
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}

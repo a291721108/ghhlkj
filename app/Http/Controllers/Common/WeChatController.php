@@ -16,7 +16,9 @@ class WeChatController extends BaseController
         $config = config('wechat.official_account.default');
         $app = Factory::officialAccount($config);
         $response = $app->oauth->scopes(array(env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_SCOPES')))->redirect($redirect_uri);
-        return $response;
+
+        var_dump($response);die();
+        return json_encode($response);
     }
 
     public function callback()
