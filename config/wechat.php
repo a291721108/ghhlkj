@@ -89,6 +89,10 @@ return [
                  'callback'      => env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK', '/examples/oauth_callback.php'),
                  'enforce_https' => true,
              ],
+            'log' => [
+                'level' => 'debug',
+                'file' => 'storage/EasyWechat/EasyWechat.log',
+            ]
         ],
     ],
 

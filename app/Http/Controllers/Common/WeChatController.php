@@ -3,46 +3,23 @@ namespace App\Http\Controllers\Common;
 
 use EasyWeChat\Factory;
 use Illuminate\Http\Request;
+use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
+use Overtrue\LaravelWeChat\Facade as EasyWeChat;
 
 class WeChatController extends BaseController
 {
 
     public function auth(Request $request)
     {
-        // 读取配置文件中的微信公众号相关配置
         $config = config('wechat.official_account.default');
-        //        $config = [
-        //            'app_id' => env('WECHAT_APPID'),
-        //            'secret' => env('WECHAT_SECRET'),
-        //            'response_type' => 'array',
-        //            'oauth' => [
-        //                'scopes' => ['snsapi_userinfo'],
-        //                'callback' => env('WECHAT_OAUTH_CALLBACK'),
-        //            ],
-        //        ];
-
-        // 创建微信 SDK 对象
         $app = Factory::officialAccount($config);
-
-        // 获取微信授权登录 URL
-        $url = $app->oauth->redirect();
-
-        // 将 URL 返回给前端页面
-        return response()->json(['url' => $url]);
+        $response = $app->oauth->scopes('snsapi_userinfo')->redirect('http://47.92.82.25/api/callback');
+        return $response;
     }
 
     public function callback()
     {
         $config = config('wechat.official_account.default');
-        // 获取授权用户信息
-//        $config = [
-//            'app_id' => env('WECHAT_OFFICIAL_ACCOUNT_APPID'),
-//            'secret' => env('WECHAT_OFFICIAL_ACCOUNT_SECRET'),
-//            'oauth' => [
-//                'scopes'   => ['snsapi_userinfo'],
-//                'callback' => url('/wechat/callback'),
-//            ],
-//        ];
 
         $app = Factory::officialAccount($config);
         $oauth = $app->oauth;
@@ -52,6 +29,7 @@ class WeChatController extends BaseController
         $openid = $user->getId();
         $userInfo = $user->getOriginal();
 
+        dd($user);
         // 这里可以将用户信息存入数据库或者做其他操作
         // ...
 
