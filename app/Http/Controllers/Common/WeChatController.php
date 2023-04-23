@@ -12,7 +12,8 @@ class WeChatController extends BaseController
     public function auth(Request $request)
     {
         // 将编码后的回调 URL 解码
-        $callbackUrl = urldecode(env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK'));
+        $callbackUrl = env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK').'?debug=true';
+
 
         $config = config('wechat.official_account.default');
         $app = Factory::officialAccount($config);
