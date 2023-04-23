@@ -10,14 +10,15 @@ class WeChatController extends BaseController
     public function auth(Request $request)
     {
         // 验证服务器地址的有效性
-        $signature = $request->input('signature');
-        $timestamp = $request->input('timestamp');
-        $nonce = $request->input('nonce');
+        $signature = $request->signature;
+        $timestamp = $request->timestamp;
+        $nonce = $request->nonce;
         $token = "ghhlkj";
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr);
         $tmpStr = implode($tmpArr);
         $tmpStr = sha1($tmpStr);
+
         if ($tmpStr == $signature) {
             return $request->input('echostr');
         }
