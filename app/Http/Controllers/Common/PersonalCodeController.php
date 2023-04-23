@@ -26,12 +26,12 @@ class PersonalCodeController extends BaseController
      */
     public function __construct()
     {
-        $userInfo       = Auth::user();
-        $this->id       = $userInfo->id;
-        $this->name     = $userInfo->name;
-        $this->img      = $userInfo->img;
-        $this->qr_code  = $userInfo->qr_code;
-        $this->phone    = $userInfo->phone;
+        $userInfo = Auth::user();
+        $this->id = $userInfo->id;
+        $this->name = $userInfo->name;
+        $this->img = $userInfo->img;
+        $this->qr_code = $userInfo->qr_code;
+        $this->phone = $userInfo->phone;
     }
 
     /**
@@ -55,8 +55,9 @@ class PersonalCodeController extends BaseController
      */
     public function qrCode(Request $request)
     {
-
-        $path = '/GH_qr_code' . $this->phone;
+        // 保存位置
+        $dir = env("QRCODE_DIR");
+        $path = $dir . '/GH_qr_code' . $this->phone . '.jpg';
 
         // Create QR code
         $qrCode = QrCode::create($this->id . $this->name . $this->phone . $this->img)
@@ -69,7 +70,7 @@ class PersonalCodeController extends BaseController
             ->setBackgroundColor(new Color(255, 255, 255));
 
         // Create generic logo
-        $logo = Logo::create(env('QRCODE_DIR') . '/img_logo.png')
+        $logo = Logo::create($dir . '/img_logo.png')
             ->setResizeToWidth(50);
 
         $writer = new PngWriter();
@@ -77,11 +78,8 @@ class PersonalCodeController extends BaseController
 
         // todo 二维码数据验证 待完善
 
-
-        //  --------------------------
-
         $user = User::where('id', $this->id)->first();
-        $user->qr_code = env('APP_URL') . env('QRCODE_DIR') . $path . '.jpg';
+        $user->qr_code = env('APP_URL') . $path;
 
         if (!$user->save()) {
             return $this->error("error");
@@ -91,15 +89,13 @@ class PersonalCodeController extends BaseController
 //        echo $result->getString();
 
         // Save it to a file
-        $result->saveToFile(env('QRCODE_DIR') . $path . '.jpg');
+        $result->saveToFile($path);
 
-        $data = [
-            'id'    => $this->id,
-            'name'  => $this->name,
-            'phone' => $this->phone,
-            'img'   => $this->img,
-        ];
-        return $this->success('success', 200, $data);
+        if (is_file($path)) {
+            return json_encode(['url' => env("APP_URL") . $path]);
+        }
+
+        $this->error('error');
 
     }
 }
