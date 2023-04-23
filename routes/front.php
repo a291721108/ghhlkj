@@ -90,10 +90,10 @@ $router->group([
     $router->post('/organizationTypeDetails', 'Front\HomeTypeController@organizationTypeDetails');
 
     // 微信授权
-    $router->post('/auth', 'Common\WeChatController@auth');
+    $router->get('/auth', 'Common\WeChatController@auth');
 
     // 授权回调
-    $router->post('/callback', 'Common\WeChatController@callback');
+    $router->get('/callback', 'Common\WeChatController@callback');
 
     // ceshi
     $router->get('/test', 'Front\OrganizationController@test');

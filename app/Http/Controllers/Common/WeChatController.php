@@ -17,7 +17,7 @@ class WeChatController extends BaseController
         $response = $app->oauth->scopes(array(env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_SCOPES')))->redirect(env('WECHAT_OFFICIAL_ACCOUNT_OAUTH_CALLBACK'));
         $data = curlGet($response);
         $data = json_decode($data);
-
+dd($data);
         return $data;
     }
 
