@@ -63,7 +63,7 @@ class WeChatController extends BaseController
      */
     public function callback(Request $request)
     {
-
+        dd($request->all);
         $this->validate($request, [
             'code' => 'required',
         ]);
