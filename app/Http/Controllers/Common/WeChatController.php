@@ -77,8 +77,9 @@ class WeChatController extends BaseController
         $rawUser = $user->getRaw();
         $_SESSION['wechat_user'] = $user->toArray();
 
+        $userInfo = User::getUserInfo();
         $data = [
-            'user_id'       => $rawUser->id,
+            'user_id'       => $userInfo->id,
             'openid'	    =>	$rawUser['openid'],//用户在公众号中的唯一标识
             'nickname'      =>	$rawUser['nickname'],//varchar(50)	用户昵称
             'sex'           =>	$rawUser['sex'],	//用户性别(0-未知，1-男，2-女)
