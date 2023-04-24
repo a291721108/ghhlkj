@@ -84,7 +84,7 @@ class PersonalCodeController extends BaseController
         $result = $writer->write($qrCode, $logo);
 
         // todo 二维码数据验证 待完善
-
+        // ----------------------
         $user = User::where('id', $this->id)->first();
         $user->qr_code = env('APP_URL') . $path;
 

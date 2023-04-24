@@ -6,6 +6,7 @@ use App\Events\FrontLoginEvent;
 use App\Models\User;
 use App\Models\UserExt;
 use App\Models\UserSend;
+use App\Service\Common\FunService;
 use App\Service\Common\RedisService;
 use Illuminate\Support\Facades\Auth;
 use StdClass;
@@ -163,7 +164,7 @@ class AuthService
         if (!$useInfo) {
             //如果没有这个手机号插入数据库
             $data = [
-                'name'          => "游客111",
+                'name'          => FunService::userNumber(),
                 'phone'         => $phone,
                 'status'        => User::USER_STATUS_ONE,
                 'created_at'    => time()

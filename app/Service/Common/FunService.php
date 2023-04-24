@@ -74,4 +74,19 @@ class FunService
 
         return 'GH' . date("YmdHi",time()) . $num;
     }
+
+    /**
+     * 用户编号
+     * @return
+     * 公司简称（光晖互联=gh）+创建时间（20220727）+当年截至目前排序的序号（00001）
+     */
+    public static function userNumber()
+    {
+
+        $userCount = User::count();
+
+        $num=str_pad($userCount + 1 ,4,"0",STR_PAD_LEFT);
+
+        return '游客' .  $num;
+    }
 }
