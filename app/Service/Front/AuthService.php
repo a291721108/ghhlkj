@@ -166,6 +166,7 @@ class AuthService
             $data = [
                 'name'          => FunService::userNumber(),
                 'phone'         => $phone,
+                'img'           => env('APP_URL').env('qrcode_dir').'/my_img_default.png',
                 'status'        => User::USER_STATUS_ONE,
                 'created_at'    => time()
             ];
@@ -184,13 +185,13 @@ class AuthService
                 'user_id'           => $useInfo->id,
                 'user_username'     => $useInfo->name,
                 'password'          => $useInfo->password,
-                'user_img'          => $useInfo->img ?? '',
-                'user_email'        => $useInfo->email ?? '',
-                'user_address'      => $useInfo->address ?? '',
+                'user_img'          => $useInfo->img,
+                'user_email'        => $useInfo->email,
+                'user_address'      => $useInfo->address,
                 'user_phone'        => $useInfo->phone ?? '',
                 'qr_code'           => $useInfo->qr_code,
-                'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
-                'user_birthday'     => ytdTampTime($useInfo->birthday) ?? '',
+                'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender],
+                'user_birthday'     => ytdTampTime($useInfo->birthday),
                 'data'              => UserExt::getMsgByUserId($useInfo->id)
             ];
         }
