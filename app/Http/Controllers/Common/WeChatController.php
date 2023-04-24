@@ -13,7 +13,7 @@ class WeChatController extends BaseController
      * @catalog API/微信
      * @title 微信授权
      * @description 微信授权
-     * @method post
+     * @method get
      * @url 47.92.82.25/api/auth
      *
      * @return {"code":200,"msg":"成功","data":[]}
@@ -37,10 +37,30 @@ class WeChatController extends BaseController
 
     }
 
+    /**
+     * @catalog API/微信
+     * @title 授权回调
+     * @description 授权回调
+     * @method get
+     * @url 47.92.82.25/api/callback
+     *
+     * @param code 必选 string code
+     *
+     * @return {"code":200,"msg":"成功","data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     * @return_param data array 返回数据
+     *
+     * @remark
+     * @number 6
+     */
     public function callback(Request $request)
     {
 
-
+        $this->validate($request, [
+            'code' => 'required',
+        ]);
 
         $config = config('wechat.official_account.default');
         $app = Factory::officialAccount($config);
@@ -49,7 +69,7 @@ class WeChatController extends BaseController
         $oauth = $app->oauth;
         // 获取 OAuth 授权结果用户信息
         $code = "微信回调URL携带的 code";
-        $user = $oauth->userFromCode();
+        $user = $oauth->userFromCode($request->code);
 
         $_SESSION['wechat_user'] = $user->toArray();
 
