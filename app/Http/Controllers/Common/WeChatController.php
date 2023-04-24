@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers\Common;
 
+use App\Models\User;
+use App\Models\UserWxInfo;
 use EasyWeChat\Factory;
 use Illuminate\Http\Request;
 use Overtrue\LaravelWeChat\Events\WeChatUserAuthorized;
@@ -15,6 +17,8 @@ class WeChatController extends BaseController
      * @description 微信授权
      * @method get
      * @url 47.92.82.25/api/auth
+     *
+     * @header api_token 必选 string api_token放到authorization中
      *
      * @return {"code":200,"msg":"成功","data":[]}
      *
@@ -44,6 +48,8 @@ class WeChatController extends BaseController
      * @method get
      * @url 47.92.82.25/api/callback
      *
+     * @header api_token 必选 string api_token放到authorization中
+     *
      * @param code 必选 string code
      *
      * @return {"code":200,"msg":"成功","data":[]}
@@ -67,16 +73,27 @@ class WeChatController extends BaseController
 
         // 获取 OAuth 授权结果用户信息
         $oauth = $app->oauth;
-        // 获取 OAuth 授权结果用户信息
-        $code = "微信回调URL携带的 code";
         $user = $oauth->userFromCode($request->code);
-
+        $rawUser = $user->getRaw();
         $_SESSION['wechat_user'] = $user->toArray();
 
-        dd($user);
-        // 这里可以将用户信息存入数据库或者做其他操作
-        // ...
+        $data = [
+            'user_id'       => $rawUser->id,
+            'openid'	    =>	$rawUser['openid'],//用户在公众号中的唯一标识
+            'nickname'      =>	$rawUser['nickname'],//varchar(50)	用户昵称
+            'sex'           =>	$rawUser['sex'],	//用户性别(0-未知，1-男，2-女)
+            'province'      =>	$rawUser['province'],	//用户所在省份
+            'city'          =>	$rawUser['city'],	//用户所在城市
+            'country'	    =>	$rawUser['country'],//用户所在国家
+            'headimgurl'    =>	$rawUser['headimgurl'],	//用户头像URL
+            'wx_status'     => UserWxInfo::WX_USER_INFO_ONE,
+            'created_at'    =>	time(),	//创建时间
+        ];
 
-        return '授权成功';
+        if (UserWxInfo::insert($data)){
+            return $this->success('authorizationSucceeds', '200', []);
+        }
+
+        return $this->error('authorizationSucceeds');
     }
 }

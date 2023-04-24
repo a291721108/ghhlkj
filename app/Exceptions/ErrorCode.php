@@ -27,6 +27,10 @@ class ErrorCode
         'safe withdrawing'          => "安全退出",
         'Dont no my phone'          => "不允许添加自己手机号",
         'Picture already exists'    => "图片已存在",
+        'authorizationSucceeds'     => "授权成功",
+        'authorizationError'        => "授权失败",
+
+
 
         'code_send_success'         => "验证码发送成功",
         'code_expired'              => "验证码已过期",

@@ -89,11 +89,7 @@ $router->group([
     // 通过机构类型id获取机构类型详情
     $router->post('/organizationTypeDetails', 'Front\HomeTypeController@organizationTypeDetails');
 
-    // 微信授权
-    $router->get('/auth', 'Common\WeChatController@auth');
 
-    // 授权回调
-    $router->get('/callback', 'Common\WeChatController@callback');
 
     // ceshi
     $router->get('/test', 'Front\OrganizationController@test');
@@ -185,6 +181,10 @@ $router->group([
     // 意见反馈类型
     $router->get('/feedbackType', 'Front\FeedbackController@feedbackType');
 
+    // 微信授权
+    $router->get('/auth', 'Common\WeChatController@auth');
 
+    // 授权回调
+    $router->get('/callback', 'Common\WeChatController@callback');
 });
 
