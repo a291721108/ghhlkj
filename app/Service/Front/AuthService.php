@@ -166,7 +166,7 @@ class AuthService
             $data = [
                 'name'          => FunService::userNumber(),
                 'phone'         => $phone,
-                'img'           => env('APP_URL').env('qrcode_dir').'/my_img_default.png',
+                'img'           => env('APP_URL') . env('qrcode_dir') . '/my_img_default.png',
                 'status'        => User::USER_STATUS_ONE,
                 'created_at'    => time()
             ];
