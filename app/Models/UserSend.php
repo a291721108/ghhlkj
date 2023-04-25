@@ -14,6 +14,9 @@ class UserSend extends Model
      */
     const  USER_SEND_ONE = 1;  // 登录
     const  USER_SEND_TWO = 2;  // 密码修改
+    const  USER_SEND_THERE = 3;  // 亲友绑定
+    const  USER_SEND_FOUR = 4;  // 体现验证
+    const  USER_SEND_FIVE = 5;  // 重新实名认证
 
     /**
      * 格式化时间

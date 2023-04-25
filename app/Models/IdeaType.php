@@ -34,6 +34,8 @@ class IdeaType extends Common
         return strtotime(parent::fromDateTime($value));
     }
 
-
+    public static function getIdeaTypeById($id){
+        return self::where('id', $id)->value('type_name');
+    }
 
 }

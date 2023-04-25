@@ -185,6 +185,10 @@ $router->group([
     // 意见反馈类型
     $router->get('/feedbackType', 'Front\FeedbackController@feedbackType');
 
+    // 获取用户意见反馈
+    $router->post('/getFeedbackList', 'Front\FeedbackController@getFeedbackList');
 
+    // 反馈详情
+    $router->post('/FeedbackList', 'Front\FeedbackController@FeedbackList');
 });
 

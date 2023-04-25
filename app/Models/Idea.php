@@ -46,5 +46,13 @@ class Idea extends Common
     }
 
 
-
+    /**
+     * @param $page
+     * @param $pageSize
+     * @return array
+     */
+    public function getMsgPageList($page, $pageSize, $field = ['*'], $where = []): array
+    {
+        return $this->paginate($pageSize, $field, $page, 'page', $where);
+    }
 }
