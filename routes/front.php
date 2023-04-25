@@ -89,7 +89,7 @@ $router->group([
     // 通过机构类型id获取机构类型详情
     $router->post('/organizationTypeDetails', 'Front\HomeTypeController@organizationTypeDetails');
 
-// 微信授权
+    // 微信授权
     $router->get('/auth', 'Common\WeChatController@auth');
 
     // 授权回调
@@ -190,5 +190,8 @@ $router->group([
 
     // 反馈详情
     $router->post('/FeedbackList', 'Front\FeedbackController@FeedbackList');
+
+    // 授权回调
+    $router->get('/wechatAuthorization', 'Common\WeChatController@wechatAuthorization');
 });
 

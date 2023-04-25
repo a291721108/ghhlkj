@@ -330,6 +330,8 @@ class AuthService
         $obj = json_decode($res);
         $jsonStr = json_encode($obj);
 
+        // todo 身份证识别  待完善
+
 //        $new_json = str_replace(
 //            array('error_code', 'reason', 'result'),
 //            array('status', 'msg', 'data'),
@@ -377,6 +379,8 @@ class AuthService
         $res = curl_exec($curl);
         $obj = json_decode($res);
         $jsonStr = json_encode($obj);
+
+        // todo 身份证识别  待完善
 
 //        if ($obj->error_code == 0) {
 //            $new_json = str_replace(
