@@ -405,5 +405,85 @@ class AuthController extends BaseController
         return $this->error($res);
 
     }
+
+    /**
+     * @catalog app端/支付密码
+     * @title 设置支付密码
+     * @description 设置支付密码
+     * @method post
+     * @url 47.92.82.25/api/negativeRecognition
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param pay_password 必选 int 支付密码（6位数字）
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function setPayPassword(Request $request)
+    {
+        $this->validate($request, [
+            'pay_password'    => 'required|numeric',
+        ]);
+
+        // 密码格式 6-12位 字符加数字组合
+        if (strlen($request->pay_password) == 6) {
+            return $this->error('password_length_error');
+        }
+
+        $res = AuthService::setPayPassword($request);
+
+        if ($res) {
+            return $this->success($res);
+        }
+
+        return $this->error($res);
+
+    }
+
+    /**
+     * @catalog app端/支付密码
+     * @title 验证支付密码
+     * @description 验证支付密码
+     * @method post
+     * @url 47.92.82.25/api/upPayPassword
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param pay_password 必选 int 支付密码（6位数字）
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function upPayPassword(Request $request)
+    {
+        $this->validate($request, [
+            'pay_password'    => 'required|numeric',
+        ]);
+
+        // 密码格式 6-12位 字符加数字组合
+        if (strlen($request->pay_password) == 6) {
+            return $this->error('password_length_error');
+        }
+
+        $res = AuthService::upPayPassword($request);
+
+        if ($res) {
+            return $this->success($res);
+        }
+
+        return $this->error($res);
+
+    }
 }
 

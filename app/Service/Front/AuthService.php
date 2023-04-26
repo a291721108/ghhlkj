@@ -53,20 +53,22 @@ class AuthService
         $obj->id = $useInfo->id;
         event(new FrontLoginEvent($obj));
 
-        return [
-            'api_token'             => $token,
-            'user_id'               => $useInfo->id,
-            'user_username'         => $useInfo->name,
-            'password'              => $useInfo->password,
-            'user_img'              => $useInfo->img,
-            'user_email'            => $useInfo->email,
-            'user_address'          => $useInfo->address,
-            'user_phone'            => $useInfo->phone,
-            'qr_code'               => $useInfo->qr_code,
-            'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
-            'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
-            'data'                  => UserExt::getMsgByUserId($useInfo->id),
-        ];
+        return self::loginReturn($token,$useInfo);
+//        return [
+//            'api_token'             => $token,
+//            'user_id'               => $useInfo->id,
+//            'user_username'         => $useInfo->name,
+//            'password'              => $useInfo->password,
+//            'user_img'              => $useInfo->img,
+//            'user_email'            => $useInfo->email,
+//            'user_address'          => $useInfo->address,
+//            'user_phone'            => $useInfo->phone,
+//            'pay_password'          => $useInfo->pay_password,
+//            'qr_code'               => $useInfo->qr_code,
+//            'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
+//            'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
+//            'data'                  => UserExt::getMsgByUserId($useInfo->id),
+//        ];
 
     }
 
@@ -181,19 +183,21 @@ class AuthService
 
             UserExt::insert($dataExt);
 
-            return [
-                'user_id'           => $useInfo->id,
-                'user_username'     => $useInfo->name,
-                'password'          => $useInfo->password,
-                'user_img'          => $useInfo->img,
-                'user_email'        => $useInfo->email,
-                'user_address'      => $useInfo->address,
-                'user_phone'        => $useInfo->phone ?? '',
-                'qr_code'           => $useInfo->qr_code,
-                'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender],
-                'user_birthday'     => ytdTampTime($useInfo->birthday),
-                'data'              => UserExt::getMsgByUserId($useInfo->id)
-            ];
+            return self::loginReturn($token = '',$useInfo);
+//                [
+//                'user_id'           => $useInfo->id,
+//                'user_username'     => $useInfo->name,
+//                'password'          => $useInfo->password,
+//                'user_img'          => $useInfo->img,
+//                'user_email'        => $useInfo->email,
+//                'user_address'      => $useInfo->address,
+//                'user_phone'        => $useInfo->phone,
+//                'qr_code'           => $useInfo->qr_code,
+//                'pay_password'          => $useInfo->pay_password,
+//                'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender],
+//                'user_birthday'     => ytdTampTime($useInfo->birthday),
+//                'data'              => UserExt::getMsgByUserId($useInfo->id)
+//            ];
         }
 
         //  登录成功 为用户颁发token
@@ -203,6 +207,25 @@ class AuthService
         $key = "gh_user_front_token_" . $useInfo->id;
         RedisService::set($key, $token);
 
+        return self::loginReturn($token,$useInfo);
+//            [
+//            'api_token'             => $token,
+//            'user_id'               => $useInfo->id,
+//            'user_username'         => $useInfo->name,
+//            'password'              => $useInfo->password,
+//            'user_img'              => $useInfo->img,
+//            'user_email'            => $useInfo->email ?? '',
+//            'user_address'          => $useInfo->address ?? '',
+//            'user_phone'            => $useInfo->phone,
+//            'pay_password'          => $useInfo->pay_password,
+//            'qr_code'               => $useInfo->qr_code,
+//            'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
+//            'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
+//            'data'                  => UserExt::getMsgByUserId($useInfo->id)
+//        ];
+    }
+
+    public function loginReturn($token,$useInfo){
         return [
             'api_token'             => $token,
             'user_id'               => $useInfo->id,
@@ -212,6 +235,7 @@ class AuthService
             'user_email'            => $useInfo->email ?? '',
             'user_address'          => $useInfo->address ?? '',
             'user_phone'            => $useInfo->phone,
+            'pay_password'          => $useInfo->pay_password,
             'qr_code'               => $useInfo->qr_code,
             'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
             'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
@@ -416,6 +440,53 @@ class AuthService
         $userExt->updated_at        = strtotime(time());
 
         if ($userExt->save()) {
+            return 'success';
+        }
+
+        return 'error';
+    }
+
+    /**
+     * 设置支付密码
+     * @return string|bool
+     */
+    public static function setPayPassword($request)
+    {
+        $userInfo       = User::getUserInfo();
+
+        // 加密密码
+        $password = $request->pay_password;
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // 验证密码
+//        $isMatch = password_verify($password, $userInfo->pay_password);
+
+        $user = User::where('id',$userInfo->id)->first();
+        $user->pay_password = $hashedPassword;
+
+        if ($user->save()) {
+            return 'success';
+        }
+
+        return 'error';
+    }
+
+    /**
+     * 验证支付密码
+     * @return string|bool
+     */
+    public static function upPayPassword($request)
+    {
+        $userInfo       = User::getUserInfo();
+
+        // 加密密码
+        $password = $request->pay_password;
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // 验证密码
+        $isMatch = password_verify($password, $userInfo->pay_password);
+        if ($isMatch){
+
             return 'success';
         }
 

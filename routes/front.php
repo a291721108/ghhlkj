@@ -193,5 +193,11 @@ $router->group([
 
     // 授权回调
     $router->get('/wechatAuthorization', 'Common\WeChatController@wechatAuthorization');
+
+    // 设置支付密码
+    $router->post('/setPayPassword', 'Front\AuthController@setPayPassword');
+
+    // 修改支付密码
+    $router->post('/upPayPassword', 'Front\AuthController@upPayPassword');
 });
 
