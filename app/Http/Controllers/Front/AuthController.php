@@ -517,9 +517,50 @@ class AuthController extends BaseController
 
         $res = AuthService::validateCard($request);
 
-        if (is_array($res)) {
-            return $this->success('successful_authentication', '200', []);
+        if ($res == 'success') {
+            return $this->success('successful_authentication');
         }
+        return $this->error($res, '404', []);
+
+    }
+
+    /**
+     * @catalog API/短信
+     * @title 手机号验证
+     * @description 手机号验证
+     * @method post
+     * @url 47.92.82.25/api/validateTel
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param phone 必选 string 手机号
+     *
+     * @return {"code":200,"msg":"发送成功","data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     * @return_param data array 返回数据
+     *
+     * @remark
+     * @number 3
+     */
+    public function validateTel(Request $request)
+    {
+        $this->validate($request, [
+            'dxcodess'    => 'required',
+        ]);
+
+        // 验证手机号格式
+        if (!validatePhone($request->phone)) {
+            return $this->error('phone_error');
+        }
+
+        $res = AuthService::validateTel($request);
+
+        if ($res == 'success') {
+            return $this->success('successful_authentication');
+        }
+
         return $this->error($res, '404', []);
 
     }

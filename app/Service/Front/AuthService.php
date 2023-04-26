@@ -504,6 +504,35 @@ class AuthService
             return "card_verification_failure";
         }
 
-        return [];
+        return 'success';
+    }
+
+    /**
+     * 手机号验证
+     * @return array|string
+     */
+    public static function validateTel($request)
+    {
+        $userInfo   = User::getUserInfo();
+        $phone      = $userInfo->phone;
+        $code       = $request->dxcodess;
+
+        // 判断是否有验证吗
+        $sendInfo = UserSend::where('phone', '=', $phone)->orderBy('id', 'desc')->first();
+
+        if (!$sendInfo) {
+            return 'phone_error';
+        }
+
+        //  验证吗是否过期 有效期限五分钟
+        if (time() >= ($sendInfo->send_time + 300)) {
+            return 'code_expired';
+        }
+
+        // 验证码错误
+        if ($sendInfo->code !== intval($code)) {
+            return 'code_error';
+        }
+        return 'success';
     }
 }
