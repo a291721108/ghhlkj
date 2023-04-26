@@ -125,9 +125,9 @@ class WeChatController extends BaseController
             'unionid'   => 'required',
             'nickname'  => 'required',
             'sex'       => 'required',
-            'province'  => 'required',
-            'city'      => 'required',
-            'country'   => 'required',
+//            'province'  => 'required',
+//            'city'      => 'required',
+//            'country'   => 'required',
             'headimgurl' => 'required',
         ]);
 
