@@ -192,7 +192,7 @@ $router->group([
     $router->post('/FeedbackList', 'Front\FeedbackController@FeedbackList');
 
     // 授权回调
-    $router->get('/wechatAuthorization', 'Common\WeChatController@wechatAuthorization');
+    $router->post('/wechatAuthorization', 'Common\WeChatController@wechatAuthorization');
 
     // 设置支付密码
     $router->post('/setPayPassword', 'Front\AuthController@setPayPassword');

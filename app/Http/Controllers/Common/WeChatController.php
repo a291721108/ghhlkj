@@ -121,13 +121,13 @@ class WeChatController extends BaseController
     public function wechatAuthorization(Request $request)
     {
         $this->validate($request, [
-            'openid' => 'required',
-            'unionid'  => 'required',
-            'nickname' => 'required',
-            'sex' => 'required',
-            'province' => 'required',
-            'city' => 'required',
-            'country' => 'required',
+            'openid'    => 'required',
+            'unionid'   => 'required',
+            'nickname'  => 'required',
+            'sex'       => 'required',
+            'province'  => 'required',
+            'city'      => 'required',
+            'country'   => 'required',
             'headimgurl' => 'required',
         ]);
 
