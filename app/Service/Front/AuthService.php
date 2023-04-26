@@ -225,7 +225,7 @@ class AuthService
 //        ];
     }
 
-    public function loginReturn($token,$useInfo){
+    public static function loginReturn($token,$useInfo){
         return [
             'api_token'             => $token,
             'user_id'               => $useInfo->id,
