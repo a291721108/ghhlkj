@@ -6,6 +6,7 @@ use App\Events\FrontLoginEvent;
 use App\Models\User;
 use App\Models\UserExt;
 use App\Models\UserSend;
+use App\Models\UserWxInfo;
 use App\Service\Common\FunService;
 use App\Service\Common\RedisService;
 use Illuminate\Support\Facades\Auth;
@@ -136,7 +137,7 @@ class AuthService
 
     /**
      * 验证码登录
-     * @return array
+     * @return array|string
      */
     public static function sendSmsLogin($request)
     {
@@ -181,7 +182,19 @@ class AuthService
                 'created_at'    => time(),
             ];
 
-            UserExt::insert($dataExt);
+            $userExtSave = UserExt::insert($dataExt);
+            if (!$userExtSave){
+                return 'error';
+            }
+            $dataWx = [
+                'user_id'   => $ins,
+                'created_at'    => time(),
+            ];
+
+            $UserWxInfoSave = UserWxInfo::insert($dataWx);
+            if (!$UserWxInfoSave){
+                return 'error';
+            }
 
             return self::loginReturn($token = '',$useInfo);
 //                [
@@ -226,6 +239,7 @@ class AuthService
     }
 
     public static function loginReturn($token,$useInfo){
+
         return [
             'api_token'             => $token,
             'user_id'               => $useInfo->id,
@@ -239,6 +253,7 @@ class AuthService
             'qr_code'               => $useInfo->qr_code,
             'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
             'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
+            'wx_status'             => UserWxInfo::getIdByWxInfo($useInfo->id),
             'data'                  => UserExt::getMsgByUserId($useInfo->id)
         ];
     }

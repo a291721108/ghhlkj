@@ -142,11 +142,11 @@ class WeChatController extends BaseController
             'city'          =>	$request->city,	//用户所在城市
             'country'	    =>	$request->country,//用户所在国家
             'headimgurl'    =>	$request->headimgurl,	//用户头像URL
-            'wx_status'     => UserWxInfo::WX_USER_INFO_ONE,
+            'wx_status'     =>  UserWxInfo::WX_USER_INFO_ONE,
             'created_at'    =>	time(),	//创建时间
         ];
 
-        if (UserWxInfo::insert($data)){
+        if (UserWxInfo::save($data)){
             return $this->success('authorizationSucceeds', '200', []);
         }
 
