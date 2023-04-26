@@ -197,7 +197,10 @@ $router->group([
     // 设置支付密码
     $router->post('/setPayPassword', 'Front\AuthController@setPayPassword');
 
-    // 修改支付密码
+    // 验证支付密码
     $router->post('/upPayPassword', 'Front\AuthController@upPayPassword');
+
+    // 修改支付密码
+    $router->post('/validateCard', 'Front\AuthController@validateCard');
 });
 

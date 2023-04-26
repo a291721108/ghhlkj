@@ -383,4 +383,56 @@ if (!function_exists('getClientIp')) {
         return $ip;
     }
 }
+/**
+ * 身份证验证
+ */
+if (!function_exists('validateIdCard')) {
+    function validateIdCard(string $idCard): bool
+    {
+
+        // 身份证号必须为18位
+        if (strlen($idCard) !== 18) {
+            return false;
+        }
+
+        // 身份证号前17位必须为数字
+        if (!preg_match('/^\d{17}$/', substr($idCard, 0, 17))) {
+            return false;
+        }
+
+        // 校验码校验
+        $checkCode = getCheckCode(substr($idCard, 0, 17));
+        if ($checkCode !== substr($idCard, 17, 1)) {
+            return false;
+        }
+
+        return true;
+    }
+}
+
+/**
+ * 身份证加权
+ */
+if (!function_exists('getCheckCode')) {
+    function getCheckCode(string $idCardNo): string
+    {
+        // 加权因子
+        $factor = [
+            7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2,
+        ];
+
+        // 校验码对应值
+        $code = [
+            1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2,
+        ];
+
+        $sum = 0;
+        for ($i = 0; $i < 17; $i++) {
+            $sum += intval(substr($idCardNo, $i, 1)) * $factor[$i];
+        }
+
+        return strval($code[$sum % 11]);
+    }
+}
+
 

@@ -478,10 +478,8 @@ class AuthService
     public static function upPayPassword($request)
     {
         $userInfo       = User::getUserInfo();
-
         // 加密密码
         $password = $request->pay_password;
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // 验证密码
         $isMatch = password_verify($password, $userInfo->pay_password);
@@ -491,5 +489,21 @@ class AuthService
         }
 
         return 'error';
+    }
+
+    /**
+     * 验证身份证号
+     * @return array|string
+     */
+    public static function validateCard($request)
+    {
+        $userInfo       = User::getUserInfo();
+        $user = UserExt::where('user_id',$userInfo->id)->first();
+
+        if (getCheckCode($request->id_card) != getCheckCode($user->id_number)){
+            return "card_verification_failure";
+        }
+
+        return [];
     }
 }

@@ -29,7 +29,9 @@ class ErrorCode
         'Picture already exists'    => "图片已存在",
         'authorizationSucceeds'     => "授权成功",
         'authorizationError'        => "授权失败",
-
+        'card_format_wrong'         => "身份证格式错误",
+        'card_verification_failure' => "身份证校验失败",
+        'successful_authentication' => "验证成功",
 
 
         'code_send_success'         => "验证码发送成功",
