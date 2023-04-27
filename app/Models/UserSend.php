@@ -17,6 +17,8 @@ class UserSend extends Model
     const  USER_SEND_THERE = 3;  // 亲友绑定
     const  USER_SEND_FOUR = 4;  // 体现验证
     const  USER_SEND_FIVE = 5;  // 重新实名认证
+    const  USER_SEND_SIX = 6;  // 身份验证
+
 
     /**
      * 格式化时间
