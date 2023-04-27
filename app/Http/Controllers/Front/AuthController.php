@@ -574,6 +574,7 @@ class AuthController extends BaseController
      * @header api_token 必选 string api_token放到authorization中
      *
      * @param phone 必选 string 手机号
+     * @param dxcodess 必选 string 验证码
      *
      * @return {"code":200,"msg":"发送成功","data":[]}
      *
@@ -587,7 +588,8 @@ class AuthController extends BaseController
     public function validateTel(Request $request)
     {
         $this->validate($request, [
-            'dxcodess'    => 'required',
+            'phone'     => 'required|numeric',
+            'dxcodess'  => 'required|numeric',
         ]);
 
         // 验证手机号格式
