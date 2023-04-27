@@ -120,6 +120,42 @@ class AuthController extends BaseController
 
     /**
      * @catalog app端/用户相关
+     * @title 手机号修改
+     * @description 手机号修改
+     * @method post
+     * @url 47.92.82.25/api/upTel
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param tel 必选 int 手机号
+     * @param code 必选 string 验证码
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param
+     *
+     * @remark
+     * @number 1
+     */
+    public function upTel(Request $request)
+    {
+        // 数据校验
+        $this->validate($request, [
+            'tel'      => 'required|numeric',
+            'code'     => 'required|numeric',
+        ]);
+
+        $res = AuthService::upTel($request);
+
+        if ($res == 'success') {
+            return $this->success('success');
+        }
+
+        return $this->error($res);
+    }
+
+    /**
+     * @catalog app端/用户相关
      * @title 忘记密码
      * @description 忘记密码接口
      * @method post

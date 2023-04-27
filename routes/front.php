@@ -114,6 +114,9 @@ $router->group([
     // 用户基本信息修改
     $router->post('/upInfo', 'Front\AuthController@upInfo');
 
+    // 修改手机号
+    $router->post('/upTel', 'Front\AuthController@upTel');
+
     // 身份证正面
     $router->post('/fontPhotoCard', 'Front\AuthController@fontPhotoCard');
 

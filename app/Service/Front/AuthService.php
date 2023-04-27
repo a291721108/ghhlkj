@@ -105,6 +105,44 @@ class AuthService
     }
 
     /**
+     * 修改手机号
+     * @param $request
+     */
+    public static function upTel($request)
+    {
+        $userInfo = Auth::user();
+        $phone    = $userInfo->phone;
+        $code     = $request->code;
+
+        // 判断是否有验证吗
+        $sendInfo = UserSend::where('phone', '=', $phone)->orderBy('id', 'desc')->first();
+
+        if (!$sendInfo) {
+            return 'phone_error';
+        }
+
+        //  验证吗是否过期 有效期限五分钟
+        if (time() >= ($sendInfo->send_time + 300)) {
+            return 'code_expired';
+        }
+
+        // 验证码错误
+        if ($sendInfo->code !== intval($code)) {
+            return 'code_error';
+        }
+        // 判断用户是否存在
+        $useInfo                = User::where('id', '=', $userInfo->id)->first();
+
+        $useInfo->phone         = $request->tel;
+        $useInfo->updated_at    = time();
+
+        if ($useInfo->save()){
+            return 'success';
+        }
+        return 'error';
+    }
+
+    /**
      * 忘记密码
      * @return string|bool
      */
