@@ -85,6 +85,23 @@ class AuthService
      * 基本信息修改
      * @param $request
      */
+    public static function getInfo()
+    {
+        $userInfo = Auth::user();
+
+        return [
+            'name'      => $userInfo->name,
+            'img'       => $userInfo->img,
+            'gender'    => User::GENDER_MSG_ARRAY[$userInfo->gender],
+            'birthday'  => ytdTampTime($userInfo->birthday),
+        ];
+
+    }
+
+    /**
+     * 基本信息修改
+     * @param $request
+     */
     public static function upInfo($request)
     {
         $userInfo = Auth::user();

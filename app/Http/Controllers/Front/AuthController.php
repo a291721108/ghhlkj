@@ -80,6 +80,29 @@ class AuthController extends BaseController
 
     /**
      * @catalog app端/用户相关
+     * @title 获取用户基本信息
+     * @description 获取用户基本信息
+     * @method post
+     * @url 47.92.82.25/api/getInfo
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param
+     *
+     * @remark
+     * @number 1
+     */
+    public function getInfo()
+    {
+        $res = AuthService::getInfo();
+
+        return $this->success('success', 200, $res);
+    }
+
+    /**
+     * @catalog app端/用户相关
      * @title 基本信息修改
      * @description 基本信息修改
      * @method post

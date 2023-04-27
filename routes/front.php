@@ -111,6 +111,9 @@ $router->group([
     // 账号注销
     $router->post('/closeAnAccount', 'Front\AuthController@closeAnAccount');
 
+    // 获取用户基本信息
+    $router->post('/getInfo', 'Front\AuthController@getInfo');
+
     // 用户基本信息修改
     $router->post('/upInfo', 'Front\AuthController@upInfo');
 
