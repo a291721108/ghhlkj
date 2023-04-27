@@ -128,12 +128,13 @@ class AuthService
     public static function upTel($request)
     {
         $userInfo = Auth::user();
-        $phone    = $userInfo->phone;
+
+        $phone    = $request->tel;
         $code     = $request->code;
 
         // 判断是否有验证吗
         $sendInfo = UserSend::where('phone', '=', $phone)->orderBy('id', 'desc')->first();
-
+//        dd($sendInfo);
         if (!$sendInfo) {
             return 'phone_error';
         }

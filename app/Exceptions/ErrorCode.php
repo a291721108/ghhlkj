@@ -22,6 +22,7 @@ class ErrorCode
         'update_true'               => "修改密码成功",
         'login_success'             => "登录成功",
         'New user login'            => "新用户登录",
+        'phone_error'             => "手机号错误",
         'passwordNull'              => "密码为空",
         'close an account'          => "注销成功",
         'safe withdrawing'          => "安全退出",
