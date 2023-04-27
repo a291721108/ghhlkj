@@ -55,26 +55,11 @@ class AuthService
         event(new FrontLoginEvent($obj));
 
         return self::loginReturn($token,$useInfo);
-//        return [
-//            'api_token'             => $token,
-//            'user_id'               => $useInfo->id,
-//            'user_username'         => $useInfo->name,
-//            'password'              => $useInfo->password,
-//            'user_img'              => $useInfo->img,
-//            'user_email'            => $useInfo->email,
-//            'user_address'          => $useInfo->address,
-//            'user_phone'            => $useInfo->phone,
-//            'pay_password'          => $useInfo->pay_password,
-//            'qr_code'               => $useInfo->qr_code,
-//            'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
-//            'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
-//            'data'                  => UserExt::getMsgByUserId($useInfo->id),
-//        ];
 
     }
 
     /**
-     * 用户信息修改
+     * 密码修改
      * @param $request
      */
     public static function register($request)
@@ -94,6 +79,29 @@ class AuthService
 
         return $useInfo->save();
 
+    }
+
+    /**
+     * 基本信息修改
+     * @param $request
+     */
+    public static function upInfo($request)
+    {
+        $userInfo = Auth::user();
+
+        // 判断用户是否存在
+        $useInfo                = User::where('id', '=', $userInfo->id)->first();
+
+        $useInfo->name          = $request->name;
+        $useInfo->img           = $request->img;
+        $useInfo->gender        = $request->email;
+        $useInfo->birthday      = $request->birthday;
+        $useInfo->updated_at    = time();
+
+        if ($useInfo->save()){
+            return 'success';
+        }
+        return 'error';
     }
 
     /**
@@ -197,20 +205,6 @@ class AuthService
             }
 
             return self::loginReturn($token = '',$useInfo);
-//                [
-//                'user_id'           => $useInfo->id,
-//                'user_username'     => $useInfo->name,
-//                'password'          => $useInfo->password,
-//                'user_img'          => $useInfo->img,
-//                'user_email'        => $useInfo->email,
-//                'user_address'      => $useInfo->address,
-//                'user_phone'        => $useInfo->phone,
-//                'qr_code'           => $useInfo->qr_code,
-//                'pay_password'          => $useInfo->pay_password,
-//                'user_gender'       => User::GENDER_MSG_ARRAY[$useInfo->gender],
-//                'user_birthday'     => ytdTampTime($useInfo->birthday),
-//                'data'              => UserExt::getMsgByUserId($useInfo->id)
-//            ];
         }
 
         //  登录成功 为用户颁发token
@@ -221,21 +215,6 @@ class AuthService
         RedisService::set($key, $token);
 
         return self::loginReturn($token,$useInfo);
-//            [
-//            'api_token'             => $token,
-//            'user_id'               => $useInfo->id,
-//            'user_username'         => $useInfo->name,
-//            'password'              => $useInfo->password,
-//            'user_img'              => $useInfo->img,
-//            'user_email'            => $useInfo->email ?? '',
-//            'user_address'          => $useInfo->address ?? '',
-//            'user_phone'            => $useInfo->phone,
-//            'pay_password'          => $useInfo->pay_password,
-//            'qr_code'               => $useInfo->qr_code,
-//            'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
-//            'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
-//            'data'                  => UserExt::getMsgByUserId($useInfo->id)
-//        ];
     }
 
     public static function loginReturn($token,$useInfo){

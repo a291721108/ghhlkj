@@ -46,8 +46,8 @@ class AuthController extends BaseController
 
     /**
      * @catalog app端/用户相关
-     * @title 用户信息修改
-     * @description 用户信息修改
+     * @title 密码修改
+     * @description 密码修改
      * @method post
      * @url 47.92.82.25/api/register
      *
@@ -72,6 +72,46 @@ class AuthController extends BaseController
         $res = AuthService::register($request);
 
         if (is_bool($res)) {
+            return $this->success('success');
+        }
+
+        return $this->error($res);
+    }
+
+    /**
+     * @catalog app端/用户相关
+     * @title 基本信息修改
+     * @description 基本信息修改
+     * @method post
+     * @url 47.92.82.25/api/upInfo
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param name 必选 int 姓名
+     * @param img 必选 string 头像
+     * @param gender 必选 int 性别
+     * @param birthday 必选 string 生日
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param
+     *
+     * @remark
+     * @number 1
+     */
+    public function upInfo(Request $request)
+    {
+        // 数据校验
+        $this->validate($request, [
+            'name'      => 'required|numeric',
+            'img'       => 'required',
+            'gender'    => 'required',
+            'birthday'  => 'required',
+        ]);
+
+        $res = AuthService::upInfo($request);
+
+        if ($res == 'success') {
             return $this->success('success');
         }
 

@@ -71,7 +71,7 @@ $router->group([
     //验证码登录
     $router->post('/sendSmsLogin', 'Front\AuthController@sendSmsLogin');
 
-    //用户消息修改
+    //用户信息修改
     $router->post('/register', 'Front\AuthController@register');
 
     // 图片上传
@@ -110,6 +110,9 @@ $router->group([
 ], function () use ($router) {
     // 账号注销
     $router->post('/closeAnAccount', 'Front\AuthController@closeAnAccount');
+
+    // 用户基本信息修改
+    $router->post('/upInfo', 'Front\AuthController@upInfo');
 
     // 身份证正面
     $router->post('/fontPhotoCard', 'Front\AuthController@fontPhotoCard');
