@@ -211,19 +211,19 @@ class AuthService
         // 判断是否有验证吗
         $sendInfo = UserSend::where('phone', '=', $phone)->orderBy('id', 'desc')->first();
 
-        if (!$sendInfo) {
-            return 'phone_error';
-        }
-
-        //  验证吗是否过期 有效期限五分钟
-        if (time() >= ($sendInfo->send_time + 300)) {
-            return 'code_expired';
-        }
-
-        // 验证码错误
-        if ($sendInfo->code !== intval($code)) {
-            return 'code_error';
-        }
+//        if (!$sendInfo) {
+//            return 'phone_error';
+//        }
+//
+//        //  验证吗是否过期 有效期限五分钟
+//        if (time() >= ($sendInfo->send_time + 300)) {
+//            return 'code_expired';
+//        }
+//
+//        // 验证码错误
+//        if ($sendInfo->code !== intval($code)) {
+//            return 'code_error';
+//        }
 
         // 判断用户是否存在
         $useInfo = User::where('phone', '=', $phone)->where('status', '=', User::USER_STATUS_ONE)->first();
@@ -276,20 +276,20 @@ class AuthService
     public static function loginReturn($token,$useInfo){
 
         return [
-            'api_token'             => $token,
-            'user_id'               => $useInfo->id,
-            'user_username'         => $useInfo->name,
-            'password'              => $useInfo->password,
-            'user_img'              => $useInfo->img,
+            'api_token'             => $token ?? '',
+            'user_id'               => $useInfo->id ?? '',
+            'user_username'         => $useInfo->name?? '',
+            'password'              => $useInfo->password?? '',
+            'user_img'              => $useInfo->img?? '',
             'user_email'            => $useInfo->email ?? '',
             'user_address'          => $useInfo->address ?? '',
-            'user_phone'            => $useInfo->phone,
-            'pay_password'          => $useInfo->pay_password,
-            'qr_code'               => $useInfo->qr_code,
+            'user_phone'            => $useInfo->phone?? '',
+            'pay_password'          => $useInfo->pay_password?? '',
+            'qr_code'               => $useInfo->qr_code?? '',
             'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
             'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
-            'wx_status'             => UserWxInfo::getIdByWxInfo($useInfo->id),
-            'data'                  => UserExt::getMsgByUserId($useInfo->id)
+            'wx_status'             => UserWxInfo::getIdByWxInfo($useInfo->id) ?? '',
+            'data'                  => UserExt::getMsgByUserId($useInfo->id) ?? '',
         ];
     }
 
