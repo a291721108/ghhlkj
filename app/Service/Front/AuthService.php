@@ -54,22 +54,7 @@ class AuthService
         $obj->id = $useInfo->id;
         event(new FrontLoginEvent($obj));
 
-        return [
-            'api_token'             => $token,
-            'user_id'               => $useInfo->id ?? '',
-            'user_username'         => $useInfo->name,
-            'password'              => $useInfo->password,
-            'user_img'              => $useInfo->img,
-            'user_email'            => $useInfo->email ?? '',
-            'user_address'          => $useInfo->address ?? '',
-            'user_phone'            => $useInfo->phone,
-            'pay_password'          => $useInfo->pay_password,
-            'qr_code'               => $useInfo->qr_code,
-            'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
-            'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
-            'wx_status'             => UserWxInfo::getIdByWxInfo($useInfo->id),
-            'data'                  => UserExt::getMsgByUserId($useInfo->id)
-        ];
+        return self::loginReturn($useInfo);
 
     }
 
@@ -243,8 +228,6 @@ class AuthService
         // 判断用户是否存在
         $useInfo = User::where('phone', '=', $phone)->where('status', '=', User::USER_STATUS_ONE)->first();
 
-
-
         if (!$useInfo) {
             //如果没有这个手机号插入数据库
             $data = [
@@ -276,38 +259,30 @@ class AuthService
             if (!$UserWxInfoSave){
                 return 'error';
             }
-            //  登录成功 为用户颁发token
-            $token = Auth::guard('api')->login($useInfo);
-            // 将token存在redis中 过期时间设置为1天
-            $key = "gh_user_front_token_" . $useInfo->id;
-            RedisService::set($key, $token);
-            return [
-                'api_token'             => $token,
-                'user_id'               => $useInfo->id ?? '',
-                'user_username'         => $useInfo->name,
-                'password'              => $useInfo->password,
-                'user_img'              => $useInfo->img,
-                'user_email'            => $useInfo->email ?? '',
-                'user_address'          => $useInfo->address ?? '',
-                'user_phone'            => $useInfo->phone,
-                'pay_password'          => $useInfo->pay_password,
-                'qr_code'               => $useInfo->qr_code,
-                'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
-                'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
-                'wx_status'             => UserWxInfo::getIdByWxInfo($useInfo->id),
-                'data'                  => UserExt::getMsgByUserId($useInfo->id)
-            ];
+
+            return self::loginReturn($useInfo);
         }
 
+//        //  登录成功 为用户颁发token
+//        $token = Auth::guard('api')->login($useInfo);
+//
+//        // 将token存在redis中 过期时间设置为1天
+//        $key = "gh_user_front_token_" . $useInfo->id;
+//        RedisService::set($key, $token);
+
+        return self::loginReturn($useInfo);
+    }
+
+    public static function loginReturn($useInfo){
         //  登录成功 为用户颁发token
         $token = Auth::guard('api')->login($useInfo);
+
         // 将token存在redis中 过期时间设置为1天
         $key = "gh_user_front_token_" . $useInfo->id;
         RedisService::set($key, $token);
-
         return [
             'api_token'             => $token,
-            'user_id'               => $useInfo->id ?? '',
+            'user_id'               => $useInfo->id,
             'user_username'         => $useInfo->name,
             'password'              => $useInfo->password,
             'user_img'              => $useInfo->img,
