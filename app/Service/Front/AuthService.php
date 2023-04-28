@@ -111,7 +111,7 @@ class AuthService
 
         $useInfo->name          = $request->name;
         $useInfo->img           = $request->img;
-        $useInfo->gender        = $request->email;
+        $useInfo->gender        = $request->gender;
         $useInfo->birthday      = strtotime($request->birthday);
         $useInfo->updated_at    = time();
 
