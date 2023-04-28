@@ -260,7 +260,8 @@ class AuthService
                 return 'error';
             }
 
-            return self::loginReturn($ins);
+            $userInfo = User::where('id', '=', $ins)->where('status', '=', User::USER_STATUS_ONE)->first();
+            return self::loginReturn($userInfo);
         }
 
 //        //  登录成功 为用户颁发token
