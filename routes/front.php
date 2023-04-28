@@ -71,6 +71,9 @@ $router->group([
     //验证码登录
     $router->post('/sendSmsLogin', 'Front\AuthController@sendSmsLogin');
 
+    // 手机号验证
+    $router->post('/validateTel', 'Front\AuthController@validateTel');
+
     //用户信息修改
     $router->post('/register', 'Front\AuthController@register');
 
