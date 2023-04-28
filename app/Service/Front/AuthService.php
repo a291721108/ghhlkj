@@ -92,7 +92,7 @@ class AuthService
         return [
             'name'      => $userInfo->name,
             'img'       => $userInfo->img,
-            'gender'    => User::GENDER_MSG_ARRAY[$userInfo->gender] ?? '',
+            'gender'    => $userInfo->gender ?? '',
             'birthday'  => ytdTampTime($userInfo->birthday),
         ];
 
