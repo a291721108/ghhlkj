@@ -54,7 +54,7 @@ class SendMsgController extends BaseController
         }
 
         $num = rand(100000, 999999);
-        $res = $aliSms->sendSms($phone, 'SMS_154950909', ['code' => $num]);
+        $res = $aliSms->sendSms($phone, 'SMS_460725196', ['code' => $num]);
 
         if ($res->Code == "OK") {
             // 把手机号码存入redis缓存 300秒有效期限
