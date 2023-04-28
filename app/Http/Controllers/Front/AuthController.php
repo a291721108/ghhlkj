@@ -126,7 +126,7 @@ class AuthController extends BaseController
     {
         // 数据校验
         $this->validate($request, [
-            'name'      => 'required|numeric',
+            'name'      => 'required',
             'img'       => 'required',
             'gender'    => 'required',
             'birthday'  => 'required',
