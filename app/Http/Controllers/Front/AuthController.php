@@ -43,7 +43,7 @@ class AuthController extends BaseController
         if (strlen($request->password) < 6 || strlen($request->password) > 12) {
             return $this->error('password_length_error');
         }
-        
+
         $res = AuthService::login($request);
 
         if (is_array($res)) {
@@ -144,13 +144,6 @@ class AuthController extends BaseController
      */
     public function upInfo(Request $request)
     {
-        // 数据校验
-        $this->validate($request, [
-            'name'      => 'required',
-            'img'       => 'required',
-            'gender'    => 'required',
-            'birthday'  => 'required',
-        ]);
 
         $res = AuthService::upInfo($request);
 
