@@ -291,7 +291,7 @@ class AuthService
             'user_email'            => $useInfo->email ?? '',
             'user_address'          => $useInfo->address ?? '',
             'user_phone'            => $useInfo->phone,
-            'pay_password'          => $useInfo->pay_password,
+//            'pay_password'          => $useInfo->pay_password,
             'qr_code'               => $useInfo->qr_code,
             'user_gender'           => User::GENDER_MSG_ARRAY[$useInfo->gender] ?? '',
             'user_birthday'         => ytdTampTime($useInfo->birthday) ?? '',
@@ -503,6 +503,20 @@ class AuthService
         return 'error';
     }
 
+    /**
+     * 查询用户是否设置支付密码
+     * @return string|bool
+     */
+    public static function getPayPassword($request)
+    {
+        $userInfo       = User::getUserInfo();
+
+        if ($userInfo->pay_password){
+            return true;
+        }
+
+        return false;
+    }
     /**
      * 设置支付密码
      * @return string|bool

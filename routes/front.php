@@ -206,6 +206,9 @@ $router->group([
     // 授权回调
     $router->post('/wechatAuthorization', 'Common\WeChatController@wechatAuthorization');
 
+    // 查询用户是否设置支付密码
+    $router->post('/getPayPassword', 'Front\AuthController@getPayPassword');
+
     // 设置支付密码
     $router->post('/setPayPassword', 'Front\AuthController@setPayPassword');
 

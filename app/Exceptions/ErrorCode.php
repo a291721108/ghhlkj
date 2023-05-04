@@ -21,6 +21,9 @@ class ErrorCode
         'pay_password_length_error' => "密码格式错误,请输入6位字符密码",
         'password_style_error'      => "密码格式不正确",
         'update_true'               => "修改密码成功",
+        'have set'               => "已设置支付密码",
+        'not set'               => "未设置支付密码",
+
         'login_success'             => "登录成功",
         'New user login'            => "新用户登录",
         'phone_error'             => "手机号错误",

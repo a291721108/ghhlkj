@@ -520,6 +520,36 @@ class AuthController extends BaseController
 
     /**
      * @catalog app端/支付密码
+     * @title 查询用户是否设置支付密码
+     * @description 查询用户是否设置支付密码
+     * @method post
+     * @url 47.92.82.25/api/getPayPassword
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @return {"meta":{"status":200,"msg":"已设置支付密码"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function getPayPassword(Request $request)
+    {
+
+        $res = AuthService::getPayPassword($request);
+
+        if ($res) {
+            return $this->success('have set');
+        }
+
+        return $this->error('not set');
+
+    }
+
+    /**
+     * @catalog app端/支付密码
      * @title 设置支付密码
      * @description 设置支付密码
      * @method post
