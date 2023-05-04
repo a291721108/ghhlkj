@@ -16,8 +16,8 @@ class UserWxInfo extends Model
     const  WX_USER_INFO_ONE = 1;  // 以授权
 
     const   WX_USER_MSG_ARRAY = [
-        self::WX_USER_INFO_ZERO      => "正常",
-        self::WX_USER_INFO_ONE      => "禁用",
+        self::WX_USER_INFO_ZERO      => "未授权",
+        self::WX_USER_INFO_ONE       => "以授权",
     ];
 
     /**
@@ -35,6 +35,6 @@ class UserWxInfo extends Model
      */
     public static function getIdByWxInfo($id)
     {
-        return self::where('user_id',$id)->select('id','openid','unionid','wx_status')->get()->toArray();
+        return self::where('user_id',$id)->value('wx_status');
     }
 }
