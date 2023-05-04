@@ -34,6 +34,21 @@ class AuthController extends BaseController
             'password' => 'required'
         ]);
 
+        // 验证手机号格式
+        if (!validatePhone($request->phone)) {
+            return $this->error('phone_error');
+        }
+
+        // 密码格式 6-12位 字符加数字组合
+        if (strlen($request->password) < 6 || strlen($request->password) > 12) {
+            return $this->error('password_length_error');
+        }
+
+        // 验证密码是否由字符和数字组成
+        if (!validatePassword($request->password)) {
+            return $this->error('password_style_error');
+        }
+
         $res = AuthService::login($request);
 
         if (is_array($res)) {
@@ -68,6 +83,21 @@ class AuthController extends BaseController
             'phone' => 'required|numeric',
             'password' => 'required',
         ]);
+
+        // 验证手机号格式
+        if (!validatePhone($request->phone)) {
+            return $this->error('phone_error');
+        }
+
+        // 密码格式 6-12位 字符加数字组合
+        if (strlen($request->password) < 6 || strlen($request->password) > 12) {
+            return $this->error('password_length_error');
+        }
+
+        // 验证密码是否由字符和数字组成
+        if (!validatePassword($request->password)) {
+            return $this->error('password_style_error');
+        }
 
         $res = AuthService::register($request);
 
@@ -510,7 +540,7 @@ class AuthController extends BaseController
      * @title 设置支付密码
      * @description 设置支付密码
      * @method post
-     * @url 47.92.82.25/api/negativeRecognition
+     * @url 47.92.82.25/api/setPayPassword
      *
      * @header api_token 必选 string api_token放到authorization中
      *
