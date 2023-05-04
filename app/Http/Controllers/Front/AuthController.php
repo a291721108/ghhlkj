@@ -43,12 +43,7 @@ class AuthController extends BaseController
         if (strlen($request->password) < 6 || strlen($request->password) > 12) {
             return $this->error('password_length_error');
         }
-
-        // 验证密码是否由字符和数字组成
-        if (!validatePassword($request->password)) {
-            return $this->error('password_style_error');
-        }
-
+        
         $res = AuthService::login($request);
 
         if (is_array($res)) {
@@ -92,11 +87,6 @@ class AuthController extends BaseController
         // 密码格式 6-12位 字符加数字组合
         if (strlen($request->password) < 6 || strlen($request->password) > 12) {
             return $this->error('password_length_error');
-        }
-
-        // 验证密码是否由字符和数字组成
-        if (!validatePassword($request->password)) {
-            return $this->error('password_style_error');
         }
 
         $res = AuthService::register($request);
