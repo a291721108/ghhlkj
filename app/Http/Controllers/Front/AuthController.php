@@ -545,7 +545,7 @@ class AuthController extends BaseController
 
         // 密码格式 6-12位 字符加数字组合
         if (strlen($request->pay_password) == 6) {
-            return $this->error('password_length_error');
+            return $this->error('pay_password_length_error');
         }
 
         $res = AuthService::setPayPassword($request);

@@ -18,6 +18,7 @@ class ErrorCode
         'User already exists.'      => "用户已存在",
         'password_error'            => "密码错误",
         'password_length_error'     => "密码格式错误,请输入6-12位字符密码",
+        'pay_password_length_error' => "密码格式错误,请输入6位字符密码",
         'password_style_error'      => "密码格式不正确",
         'update_true'               => "修改密码成功",
         'login_success'             => "登录成功",
