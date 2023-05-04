@@ -69,7 +69,7 @@ class AuthService
         $password = $request->password;
 
         // 判断用户是否存在
-        $useInfo                = User::where('phone', '=', $phone)->first();
+        $useInfo                = User::where('phone', '=', $phone)->where('status', '=', User::USER_STATUS_ONE)->first();
         $useInfo->password      = md5($password);
         $useInfo->salt          = rand(1, 100);
         $useInfo->updated_at    = time();
@@ -107,7 +107,7 @@ class AuthService
         $userInfo = Auth::user();
 
         // 判断用户是否存在
-        $useInfo                = User::where('id', '=', $userInfo->id)->first();
+        $useInfo                = User::where('id', '=', $userInfo->id)->where('status', '=', User::USER_STATUS_ONE)->first();
 
         $useInfo->name          = $request->name;
         $useInfo->img           = $request->img;
@@ -149,7 +149,7 @@ class AuthService
             return 'code_error';
         }
         // 判断用户是否存在
-        $useInfo                = User::where('id', '=', $userInfo->id)->first();
+        $useInfo                = User::where('id', '=', $userInfo->id)->where('status', '=', User::USER_STATUS_ONE)->first();
 
         $useInfo->phone         = $request->tel;
         $useInfo->updated_at    = time();
@@ -187,7 +187,7 @@ class AuthService
             return 'code_error';
         }
 
-        $useInfo = User::where('phone', '=', $phone)->first();
+        $useInfo = User::where('phone', '=', $phone)->where('status', '=', User::USER_STATUS_ONE)->first();
         $useInfo->password = md5($passwords);
         $useInfo->salt = rand(1, 100);
         RedisService::del('gh_user_front_token_' . $useInfo->id);
@@ -518,7 +518,7 @@ class AuthService
         // 验证密码
 //        $isMatch = password_verify($password, $userInfo->pay_password);
 
-        $user = User::where('id',$userInfo->id)->first();
+        $user = User::where('id',$userInfo->id)->where('status', '=', User::USER_STATUS_ONE)->first();
         $user->pay_password = $hashedPassword;
 
         if ($user->save()) {
