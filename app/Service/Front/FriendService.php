@@ -47,14 +47,10 @@ class FriendService
     {
         $userInfo = Auth::user();
         $code = $request->dxcode;
-
-        //判断是不是自己手机号
-//        if ($request->friend_tel == $userInfo->phone){
-//            return 'Dont no my phone';
-//        }
+        $phone = $request->friend_tel;
 
         // 判断是否有验证吗
-        $sendInfo = UserSend::where('phone', '=', $userInfo->phone)->orderBy('id', 'desc')->first();
+        $sendInfo = UserSend::where('phone', '=', $phone)->orderBy('id', 'desc')->first();
         if (!$sendInfo) {
             return 'phone_error';
         }
