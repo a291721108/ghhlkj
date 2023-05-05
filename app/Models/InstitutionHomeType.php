@@ -40,7 +40,7 @@ class InstitutionHomeType extends Common
      */
     public static function getHomeTypeName($homeTpyeId)
     {
-        return self::where('institution_id', $homeTpyeId)->where('status', '>', self::Home_TYPE_SYS_STATUS_TWO)->select('id','home_type','home_price','home_facility')->get()->toArray();
+        return self::where('institution_id', $homeTpyeId)->where('status', '>', self::Home_TYPE_SYS_STATUS_TWO)->select('id','home_type','home_price','home_detail')->get()->toArray();
     }
 
 
