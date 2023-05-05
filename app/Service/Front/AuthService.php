@@ -326,7 +326,7 @@ class AuthService
         $userInfo   = User::logout();
         // 将token存在redis中 过期时间设置为1天
         RedisService::del('gh_user_front_token_' . $user->id);
-        if (!$userInfo) {
+        if ($userInfo) {
             return "safe withdrawing";
         }
         return "error";
