@@ -112,7 +112,7 @@ class FriendService
     {
         $friendId = $request->id;
 
-        $res = Friend::where('id', $friendId)->update(['status' => Friend::FRIEND_STATUS_TWO]);
+        $res = Friend::where('id', $friendId)->update(['friend_status' => Friend::FRIEND_STATUS_TWO]);
 
         if ($res) {
             return "success";
