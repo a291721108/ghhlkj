@@ -43,6 +43,10 @@ class OrganizationService
             $query->where('institution_name', 'like', "%" . $request->institution_serarch . "%");
         }
 
+        if ($request->institution_address) {
+            $query->where('institution_address', 'like', "%" . $request->institution_address . "%");
+        }
+
         if ($request->page_view) {
             $query->orderBy('page_view', 'desc');
         }
