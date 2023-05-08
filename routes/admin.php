@@ -25,6 +25,9 @@ $router->group([
     // 登录
     $router->post('/register', 'Admin\AdminController@register');
 
+    $router->post('/recognizeBusinessLicense', 'Admin\AdminController@recognizeBusinessLicense');
+
+
 });
 
 

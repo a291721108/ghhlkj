@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Libraries\AliyunOcr;
 use App\Service\Admin\AdminService;
-//use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Common\BaseController;
 
@@ -118,5 +118,31 @@ class AdminController extends BaseController
         $userInfo = AdminService::register($request);
 
         return $this->success('success', '200', $userInfo);
+    }
+
+    /**
+     * 识别营业执照信息。
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function recognizeBusinessLicense(Request $request)
+    {
+        $imageUrl = 'https://www.ghhlkj.com///upload//front//20230508110520_d82187c3df56d29831315f2ec925c74.jpg';
+        $accessKeyId = 'LTAI5t5rmQ17MaK5H6MTJnPtaaa';
+        $accessKeySecret = 'ngXahrhVSI4QiCyynQwd099iuwWkSp';
+
+        $result = AliyunOcr::recognizeBusinessLicense($accessKeyId, $accessKeySecret, $imageUrl);
+
+        return response()->json($result);
+
+//        $accessKeyId = 'LTAI5t5rmQ17MaK5H6MTJnPtaaa';
+//        $accessKeySecret = 'ngXahrhVSI4QiCyynQwd099iuwWkSp';
+//        $imageUrl = 'https://www.ghhlkj.com///upload//front//20230508110520_d82187c3df56d29831315f2ec925c74.jpg';
+//
+//        $data = AliyunOcr::recognizeBusinessLicense($accessKeyId,$accessKeySecret,$imageUrl);
+//
+//        dd($data);
+
     }
 }
