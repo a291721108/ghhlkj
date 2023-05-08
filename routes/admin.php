@@ -17,8 +17,31 @@ use Laravel\Lumen\Routing\Router;
 
 $router->group([
     'prefix'     => 'admin',
-//    'middleware' => 'cors'
+    'middleware' => 'cors'
 ], function () use ($router) {
     // 登录
-    $router->get('/login', 'Admin\AdminController@login');
+    $router->post('/login', 'Admin\AdminController@login');
+
+    // 登录
+    $router->post('/register', 'Admin\AdminController@register');
+
+});
+
+
+// 需要检查token
+$router->group([
+    'prefix'     => 'admin',
+    'middleware' => [
+        'auth',
+        'cors',
+//        'authData'
+    ]
+], function () use ($router) {
+
+    // 获取用户信息
+    $router->get('/getAdminInfo', 'Admin\AdminController@getAdminInfo');
+
+    // 修改密码
+    $router->post('/changePassword', 'Admin\AdminController@changePassword');
+
 });

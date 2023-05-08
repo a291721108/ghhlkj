@@ -2,8 +2,9 @@
 
 namespace App\Service\Admin;
 
-
-
+use App\Models\InstitutionAdmin;
+use App\Models\UserSend;
+use App\Service\Common\RedisService;
 use Illuminate\Support\Facades\Auth;
 
 class AdminService
@@ -14,14 +15,14 @@ class AdminService
      * @param $request
      * @return array|string
      */
-    public function login($request)
+    public static function login($request)
     {
 
         $adminPhone    = $request->admin_phone;
         $adminPassword = $request->admin_password;
 
         // 判断用户是否存在
-        $adminInfo = CompanyAdmin::where('admin_phone', '=', $adminPhone)->first();
+        $adminInfo = InstitutionAdmin::where('admin_phone', '=', $adminPhone)->first();
 
         if (!$adminInfo) {
             return 'user_not_exists';
@@ -35,7 +36,7 @@ class AdminService
         }
 
         //判断该账号是否可以登录
-        if ($adminInfo['status'] == CompanyAdmin::ADMIN_STATUS_TWO) {
+        if ($adminInfo['status'] == InstitutionAdmin::INSTITUTION_ADMIN_STATUS_TWO) {
             return 'account_disabled';
         }
 
@@ -52,12 +53,11 @@ class AdminService
         }
 
         return [
-            'token'       => $token,
-            'bind_user'   => $adminInfo->bind_user,
-            'admin_name'  => $adminInfo->admin_name,
-            'admin_phone' => $adminInfo->admin_phone,
-            'company_id'  => $adminInfo->company_id,
-            'created_at'  => time()
+            'token'                 => $token,
+            'admin_name'            => $adminInfo->admin_name,
+            'admin_phone'           => $adminInfo->admin_phone,
+            'admin_institution_id'  => $adminInfo->admin_institution_id,
+            'created_at'            => time()
         ];
     }
 
@@ -69,10 +69,10 @@ class AdminService
         $adminPhone    = $request->admin_phone;
         $adminPassword = $request->admin_password;
 
-        $adminInfo     = CompanyAdmin::getAdminInfo();
+        $adminInfo     = InstitutionAdmin::getAdminInfo();
         $adminPassword = md5($adminPassword . $adminInfo->salt);
 
-        return CompanyAdmin::where('id', $adminInfo->id)->update([
+        return InstitutionAdmin::where('id', $adminInfo->id)->update([
             'admin_phone'    => $adminPhone,
             'admin_password' => $adminPassword
         ]);
@@ -84,33 +84,47 @@ class AdminService
      */
     public static function getAdminInfo()
     {
-        $adminInfo = CompanyAdmin::getAdminInfo();
+        $adminInfo = InstitutionAdmin::getAdminInfo();
 
-        $roleList = CompanyRole::where('id', $adminInfo->role_id)->value('role_id');
-        $menuList = [];
+        return $adminInfo;
+    }
 
-        if (!empty($roleList)) {
-            $roleList = explode(',', $roleList);
-            $menuList = Menu::whereIn('id', $roleList)->pluck('path')->toArray();
+    /**
+     * 商家端注册
+     */
+    public static function register($request)
+    {
+        $code = $request->dxcodess;
+        $adminPhone = $request->admin_phone;
+
+        // 判断是否有验证吗
+        $sendInfo = UserSend::where('phone', '=', $adminPhone)->orderBy('id', 'desc')->first();
+
+        if (!$sendInfo) {
+            return 'phone_error';
         }
 
-        $userInfo = User::where('id', $adminInfo->bind_user)->select('avatar_url', 'openid', 'user_position', 'department_id')->first();
+        //  验证吗是否过期 有效期限五分钟
+//        if (time() >= ($sendInfo->send_time + 300)) {
+//            return 'code_expired';
+//        }
 
-        $dept     = FunService::getDeptCategory();
-        $position = FunService::getPositionCategory();
+        // 验证码错误
+        if ($sendInfo->code !== intval($code)) {
+            return 'code_error';
+        }
 
-        return [
-            'admin_name'    => $adminInfo->admin_name,
-            'admin_phone'   => $adminInfo->admin_phone,
-            'company_id'    => $adminInfo->company_id,
-            'role'          => $adminInfo->role_id,
-            'openid'        => $userInfo->openid,
-            'avatar_url'    => $userInfo->avatar_url,
-            'user_position' => $position[$userInfo->user_position],
-            'department_id' => $dept[$userInfo->department_id],
-            'role_list'     => implode(',', $menuList) ?? '',
-            'roles'         => 'admin'
-        ];
+        // 判断用户是否存在
+        $useInfo = InstitutionAdmin::where('admin_phone', '=', $adminPhone)->where('status', '=', InstitutionAdmin::INSTITUTION_ADMIN_STATUS_ONE)->first();
+
+        if ($useInfo){
+            return 'The user does not exist.';
+        }
+
+
+        dd($useInfo);
+        return "123";
+
     }
 
 

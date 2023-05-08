@@ -16,6 +16,7 @@ class ErrorCode
         'error'                     => "失败",
         'The user does not exist.'  => "用户不存在",
         'User already exists.'      => "用户已存在",
+        "account_disabled"        => "该账号已禁用",
         'password_error'            => "密码错误",
         'password_length_error'     => "密码格式错误,请输入6-12位字符密码",
         'pay_password_length_error' => "密码格式错误,请输入6位字符密码",
