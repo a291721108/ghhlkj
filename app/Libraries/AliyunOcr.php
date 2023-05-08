@@ -20,19 +20,20 @@ class AliyunOcr
      * @param  string  $accessKeySecret
      * @return Ocrapi
      */
-    public static function createClient(string $accessKeyId, string $accessKeySecret): Ocrapi
+    private function createClient(string $accessKeyId, string $accessKeySecret): Ocrapi
     {
         $config = new Config([
-            'accessKeyId'     => $accessKeyId,
-            'accessKeySecret' => $accessKeySecret,
+            // 必填，您的 AccessKey ID
+            "accessKeyId" => $accessKeyId,
+            // 必填，您的 AccessKey Secret
+            "accessKeySecret" => $accessKeySecret
         ]);
-
+        // 访问的域名
         $config->endpoint = "ocr-api.cn-hangzhou.aliyuncs.com";
-
-        $client = new Ocrapi($config);
-
-        return $client;
+        return new Ocrapi($config);
     }
+
+
     /**
      * 调用阿里云 OCR API 识别营业执照信息。
      *
@@ -41,26 +42,25 @@ class AliyunOcr
      * @param  string  $imageUrl
      * @return array|null
      */
-    public static function recognizeBusinessLicense(string $accessKeyId, string $accessKeySecret, string $imageUrl): ?array
+    public function recognizeBusinessLicense(string $accessKeyId, string $accessKeySecret, string $imageUrl): ?array
     {
-        $client = self::createClient($accessKeyId, $accessKeySecret);
-        $request = new RecognizeBusinessLicenseRequest([
-            'imageURL' => $imageUrl,
+        // 工程代码泄露可能会导致AccessKey泄露，并威胁账号下所有资源的安全性。以下代码示例仅供参考，建议使用更安全的 STS 方式，更多鉴权访问方式请参见：https://help.aliyun.com/document_detail/311677.html
+        $client = $this->createClient($accessKeyId, $accessKeySecret);
+        $recognizeBusinessLicenseRequest = new RecognizeBusinessLicenseRequest([
+            "url" => $imageUrl
         ]);
         $runtime = new RuntimeOptions([]);
-
-        // 禁用 cURL
-
         try {
-            $response = $client->recognizeBusinessLicenseWithOptions($request, $runtime);
-
-            return $response->result;
-        } catch (Exception $e) {
-            var_dump($e);die();
-            if (!($e instanceof TeaError)) {
-                $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
+            $response = $client->recognizeBusinessLicenseWithOptions($recognizeBusinessLicenseRequest, $runtime);
+            return response()->json($response);
+        } catch (Exception $error) {
+            if (!($error instanceof TeaError)) {
+                $error = new TeaError([], $error->getMessage(), $error->getCode(), $error);
             }
-            return null;
+            return response()->json([
+                'error' => $error->getMessage()
+            ], 400);
         }
+
     }
 }
