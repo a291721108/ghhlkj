@@ -6,6 +6,13 @@ use App\Libraries\AliyunOcr;
 use App\Service\Admin\AdminService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Common\BaseController;
+use AlibabaCloud\SDK\Ocrapi\V20210707\Ocrapi;
+use AlibabaCloud\SDK\Ocrapi\V20210707\Models\RecognizeBusinessLicenseRequest;
+use AlibabaCloud\Tea\Exception\TeaError;
+use AlibabaCloud\Tea\Utils\Utils;
+use Darabonba\OpenApi\Models\Config;
+use AlibabaCloud\Tea\Utils\Utils\RuntimeOptions;
+use Exception;
 
 class AdminController extends BaseController
 {
@@ -120,29 +127,48 @@ class AdminController extends BaseController
         return $this->success('success', '200', $userInfo);
     }
 
-    /**
-     * 识别营业执照信息。
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+//    /**
+//     * 识别营业执照信息。
+//     *
+//     * @param  Request  $request
+//     * @return \Illuminate\Http\JsonResponse
+//     */
+    private function createClient($accessKeyId, $accessKeySecret)
+    {
+        $config = new Config([
+            // 必填，您的 AccessKey ID
+            "accessKeyId" => $accessKeyId,
+            // 必填，您的 AccessKey Secret
+            "accessKeySecret" => $accessKeySecret
+        ]);
+        // 访问的域名
+        $config->endpoint = "ocr-api.cn-hangzhou.aliyuncs.com";
+        return new Ocrapi($config);
+    }
+
     public function recognizeBusinessLicense(Request $request)
     {
-        $imageUrl = 'https://www.ghhlkj.com///upload//front//20230508110520_d82187c3df56d29831315f2ec925c74.jpg';
-        $accessKeyId = 'LTAI5t5rmQ17MaK5H6MTJnPtaaa';
-        $accessKeySecret = 'ngXahrhVSI4QiCyynQwd099iuwWkSp';
+        $this->validate($request, [
+            'url' => 'required|string|url'
+        ]);
 
-        $result = AliyunOcr::recognizeBusinessLicense($accessKeyId, $accessKeySecret, $imageUrl);
-
-        return response()->json($result);
-
-//        $accessKeyId = 'LTAI5t5rmQ17MaK5H6MTJnPtaaa';
-//        $accessKeySecret = 'ngXahrhVSI4QiCyynQwd099iuwWkSp';
-//        $imageUrl = 'https://www.ghhlkj.com///upload//front//20230508110520_d82187c3df56d29831315f2ec925c74.jpg';
-//
-//        $data = AliyunOcr::recognizeBusinessLicense($accessKeyId,$accessKeySecret,$imageUrl);
-//
-//        dd($data);
+        // 工程代码泄露可能会导致AccessKey泄露，并威胁账号下所有资源的安全性。以下代码示例仅供参考，建议使用更安全的 STS 方式，更多鉴权访问方式请参见：https://help.aliyun.com/document_detail/311677.html
+        $client = $this->createClient("LTAI5t5rmQ17MaK5H6MTJnPt", "ngXahrhVSI4QiCyynQwd099iuwWkSp");
+        $recognizeBusinessLicenseRequest = new RecognizeBusinessLicenseRequest([
+            "url" => $request->url
+        ]);
+        $runtime = new RuntimeOptions([]);
+        try {
+            $response = $client->recognizeBusinessLicenseWithOptions($recognizeBusinessLicenseRequest, $runtime);
+            return response()->json($response);
+        } catch (Exception $error) {
+            if (!($error instanceof TeaError)) {
+                $error = new TeaError([], $error->getMessage(), $error->getCode(), $error);
+            }
+            return response()->json([
+                'error' => $error->getMessage()
+            ], 400);
+        }
 
     }
 }

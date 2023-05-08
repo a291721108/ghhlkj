@@ -53,9 +53,10 @@ class AliyunOcr
 
         try {
             $response = $client->recognizeBusinessLicenseWithOptions($request, $runtime);
-dd($response);
+
             return $response->result;
         } catch (Exception $e) {
+            var_dump($e);die();
             if (!($e instanceof TeaError)) {
                 $e = new TeaError([], $e->getMessage(), $e->getCode(), $e);
             }
