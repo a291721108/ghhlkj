@@ -122,34 +122,4 @@ class AdminController extends BaseController
         return $this->success('success', '200', $userInfo);
     }
 
-//    /**
-//     * 识别营业执照信息。
-//     *
-//     * @param  Request  $request
-//     * @return \Illuminate\Http\JsonResponse
-//     */
-    public function recognizeBusinessLicense(Request $request)
-    {
-        AlibabaCloud::accessKeyClient(env('ALIYUN_SMS_AK'), env('ALIYUN_SMS_AS'))
-            ->regionId('cn-hangzhou')
-            ->asDefaultClient();
-
-        $response = AlibabaCloud::rpc()
-            ->product('ocr-api')
-            ->version('2021-07-07')
-            ->action('RecognizeBusinessLicense')
-            ->method('POST')
-            ->host('ocr-api.cn-hangzhou.aliyuncs.com')
-            ->options([
-                'query' => [
-                    'Url' => $request->url,
-                ],
-            ])
-            ->request();
-
-        $query = $response->Data;
-        $result = json_decode($query);
-
-        return $this->success('success', '200', (array)$result->data);
-    }
 }
