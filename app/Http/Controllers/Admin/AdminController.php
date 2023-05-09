@@ -147,7 +147,9 @@ class AdminController extends BaseController
             ])
             ->request();
 
-        return $response->toArray();
+        $query = $response->Data;
+        $result = json_decode($query);
 
+        return $result->data;
     }
 }
