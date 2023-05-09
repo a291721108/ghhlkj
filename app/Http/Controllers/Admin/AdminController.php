@@ -6,16 +6,8 @@ use App\Libraries\AliyunOcr;
 use App\Service\Admin\AdminService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Common\BaseController;
-use AlibabaCloud\SDK\Ocrapi\V20210707\Ocrapi;
-use AlibabaCloud\SDK\Ocrapi\V20210707\Models\RecognizeBusinessLicenseRequest;
-use AlibabaCloud\Tea\Exception\TeaError;
-use AlibabaCloud\Tea\Utils\Utils;
-use Darabonba\OpenApi\Models\Config;
-use AlibabaCloud\Tea\Utils\Utils\RuntimeOptions;
-use Exception;
 use AlibabaCloud\Client\AlibabaCloud;
-use AlibabaCloud\Client\Exception\ClientException;
-use AlibabaCloud\Client\Exception\ServerException;
+
 
 class AdminController extends BaseController
 {
