@@ -150,6 +150,6 @@ class AdminController extends BaseController
         $query = $response->Data;
         $result = json_decode($query);
 
-        return $result->data;
+        return $this->success('success', '200', (array)$result->data);
     }
 }
