@@ -3,6 +3,8 @@
 namespace App\Service\Front;
 
 use App\Models\BookingRoom;
+use App\Models\Institution;
+use App\Models\InstitutionHomeType;
 use App\Models\User;
 use App\Models\UserExt;
 use App\Service\Common\FunService;
@@ -35,6 +37,35 @@ class BookingRoomService
         ];
 
         return BookingRoom::insert($data);
+    }
+
+    /**
+     * 获取单条订房信息
+     */
+    public static function getBookRoomOneMsg($request)
+    {
+        $userInfo = User::getUserInfo();
+        $bookingId = $request->bookingRoomId;
+
+        $bookingRoomMsg = BookingRoom::where('id',$bookingId)->first();
+
+        // 返回用户信息
+        return [
+            "id"                => $bookingRoomMsg->id,
+            'orderName'         => UserExt::getMsgByUserName($userInfo->id),
+            'orderIDcard'       => UserExt::getMsgByUserCard($userInfo->id),
+            'orderPhone'        => $bookingRoomMsg->orderPhone,
+            'institution_name'  => Institution::getInstitutionId($bookingRoomMsg->institutionId),
+            'typeId'            => InstitutionHomeType::getInstitutionIdByName($bookingRoomMsg->typeId),
+            'startDate'         => hourMinuteSecond($bookingRoomMsg->startDate),
+            'leaveDate'         => hourMinuteSecond($bookingRoomMsg->startDate),
+            'payment'           => $bookingRoomMsg->payment,
+            'remark'            => $bookingRoomMsg->remark,
+            'roomId'            => $bookingRoomMsg->roomId,
+            'status'            => BookingRoom::INS_MSG_ARRAY[$bookingRoomMsg->orderState],
+            'created_at'        => hourMinuteSecond(strtotime($bookingRoomMsg->created_at)),
+        ];
+
     }
 }
 
