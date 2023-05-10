@@ -21,20 +21,20 @@ class BookingService
         $userInfo = User::getUserInfo();
 
         $data = [
-            'userId'         => $userInfo->id,
-            'orderName'      => UserExt::getMsgByUserName($userInfo->id),
-            'orderPhone'     => $request->orderPhone,
-            'orderIDcard'    => UserExt::getMsgByUserCard($userInfo->id),
-            'institutionId'  => $request->institutionId,
-            'typeId'         => $request->typeId,
-            'arrireDate'     => strtotime($request->arrireDate),
-            'orderState'     => Booking::BOOKING_SYS_TYPE_ONE,
-            'roomId'         => FunService::orderNumber(),
-            'remark'         => $request->remark,
-            'created_at'     => time()
+            'userId'            => $userInfo->id,
+            'contacts'          => UserExt::getMsgByUserName($userInfo->id),
+            'order_phone'       => $request->orderPhone,
+            'contacts_card'     => UserExt::getMsgByUserCard($userInfo->id),
+            'institution_id'    => $request->institutionId,
+            'institution_type'  => $request->typeId,
+            'visitDate'         => strtotime($request->arrireDate),
+            'status'            => Order::ORDER_SYS_TYPE_FOUR,
+            'roomId'            => FunService::orderNumber(),
+            'remark'            => $request->remark,
+            'created_at'        => time()
         ];
 
-        return Booking::insert($data);
+        return Order::insert($data);
     }
 
     /**
@@ -46,7 +46,7 @@ class BookingService
         $userInfo = User::getUserInfo();
         $userId = $userInfo->id;
 
-        $query    = Booking::where('userId',$userId)->get()->toArray();
+        $query    = Order::where('userId',$userId)->get()->toArray();
 
         foreach ($query as $k => $v) {
             // 处理回参

@@ -49,38 +49,67 @@ class OrderService
      * @param $request
      * @return array
      */
-    public static function orderList($request)
+    public static function orderList($request): array
     {
         $userInfo = Auth::user();
-
         $page     = $request->page ?? 1;
         $pageSize = $request->page_size ?? 20;
-        $status   = $request->status;
 
-        $where = [
-            'user_id' => $userInfo->id,
-        ];
+        $userId = $userInfo->id;
 
-        // 按状态搜索
-        if (isset($status)) {
-            $where['status'] = $status;
-        }
+        $query    = self::makeSearchWhere($request,$userId);
 
         // 获取分页数据
-        $result = (new Order())->getMsgPageList($page, $pageSize,['*'], $where);
-        foreach ($result['data'] as &$v) {
-            // 处理回参
-            $v['user_id']               = User::getUserInfoById($v['user_id']);
-            $v['status']                = Order::INS_MSG_ARRAY[$v['status']];
-            $v['institution_id']        = Institution::getInstitutionId($v['institution_id']);
-            $v['institution_type']      = InstitutionHomeType::getInstitutionIdByName($v['institution_type']);
-            $v['start_date']            = hourMinuteSecond($v['start_date']);
-            $v['end_date']              = hourMinuteSecond($v['end_date']);
-            $v['created_at']            = hourMinuteSecond(strtotime($v['created_at']));
-        }
+        $result = (new Order())->getMsgPageList($query, $page, $pageSize);
+
+        // 处理特殊字段
+        $result['data'] = self::dealReturnData($result['data']);
+
         return $result;
     }
 
+    /**
+     * @param $request
+     * @return mixed
+     */
+    protected static function makeSearchWhere($request,$userId)
+    {
+        $query = Order::where('user_id', $userId);
+
+        // 状态查询
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+
+        return $query;
+    }
+
+    /**
+     * 处理数组
+     * @param $query
+     * @param array $data
+     * @return array
+     */
+    public static function dealReturnData($query, array $data = [])
+    {
+
+        foreach ($query as $k => $v) {
+
+            // 处理回参
+            $data[$k] = [
+                'id'                 => $v['id'],
+                'institution_id'     => Institution::getInstitutionId($v['institution_id']),
+                'institution_type'   => InstitutionHomeType::getInstitutionIdByName($v['institution_type']),
+                'contacts'           => $v['contacts'],
+                'start_date'         => $v['start_date'],
+                'status'            => $v['status'],
+
+            ];
+        }
+
+        return $data;
+    }
+//----------------------------------------------------------------------------
     /**
      * 订单详情
      */

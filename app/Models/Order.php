@@ -11,10 +11,11 @@ class Order extends Common
     protected $table = 'gh_orders';
     public $timestamps = true;
 
-    const ORDER_SYS_TYPE_ZERO = -1;  // 删除
+    const ORDER_SYS_TYPE_ZERO = 0;  // 已取消
     const ORDER_SYS_TYPE_ONE = 1;  // 待付款
     const ORDER_SYS_TYPE_TWO = 2;  // 已入住
     const ORDER_SYS_TYPE_THERE = 3;  // 已完成
+    const ORDER_SYS_TYPE_FOUR = 4;  // 已预约
 
 
 
@@ -22,10 +23,11 @@ class Order extends Common
      * 信息提示
      */
     const   INS_MSG_ARRAY = [
-        self::ORDER_SYS_TYPE_ZERO     => "删除",
+        self::ORDER_SYS_TYPE_ZERO     => "已取消",
         self::ORDER_SYS_TYPE_ONE      => "待付款",
         self::ORDER_SYS_TYPE_TWO      => "已入住",
         self::ORDER_SYS_TYPE_THERE    => "已完成",
+        self::ORDER_SYS_TYPE_FOUR     => "已预约",
     ];
     /**
      * 格式化时间
@@ -38,12 +40,26 @@ class Order extends Common
     }
 
     /**
+     * 分页
+     * @param $query
      * @param $page
      * @param $pageSize
      * @return array
      */
-    public function getMsgPageList($page, $pageSize, $field = ['*'], $where = []): array
+    public function getMsgPageList($query, $page, $pageSize)
     {
-        return $this->paginate($pageSize, $field, $page, 'page', $where);
+        $perPage = $pageSize ?: $query->getPerPage();
+        $total   = $query->toBase()->getCountForPagination();
+        $results = $query->paginate($pageSize, ['*'], 'page', $page);
+
+        $pages = ceil($total / $perPage);
+
+        return [
+            'total'        => $total,
+            'current_page' => $page,
+            'page_size'    => $perPage,
+            'pages'        => $pages,
+            'data'         => $results
+        ];
     }
 }
