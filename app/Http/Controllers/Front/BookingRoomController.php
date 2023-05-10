@@ -56,8 +56,7 @@ class BookingRoomController extends BaseController
         return $this->error('error');
     }
 
-    /***
-     * showodc
+    /**
      * @catalog app端/订房
      * @title 获取单条订房信息
      * @description 获取单条订房信息
