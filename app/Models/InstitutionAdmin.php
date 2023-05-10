@@ -66,7 +66,7 @@ class InstitutionAdmin extends Model implements AuthenticatableContract, Authori
     /**
      * 获取当前管理信息
      */
-    public function getAdminInfo(): ?AuthenticatableContract
+    public static function getAdminInfo(): ?AuthenticatableContract
     {
         return \Illuminate\Support\Facades\Auth::guard('admin')->user();
     }
