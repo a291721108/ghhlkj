@@ -3,6 +3,7 @@
 namespace App\Service\Front;
 
 use App\Models\Booking;
+use App\Models\BookingRoom;
 use App\Models\Institution;
 use App\Models\InstitutionHomeType;
 use App\Models\Order;
@@ -94,5 +95,6 @@ class BookingService
         ];
 
     }
+
 }
 

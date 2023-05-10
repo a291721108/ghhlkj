@@ -164,6 +164,9 @@ $router->group([
     // 获取单条预约信息
     $router->get('/getBookOneMsg', 'Front\BookingController@getBookOneMsg');
 
+    // 订房
+    $router->post('/reservationInformation', 'Front\BookingController@reservationInformation');
+
     // 获取订单详情
     $router->post('/userReservationRecord', 'Front\OrderController@userReservationRecord');
 

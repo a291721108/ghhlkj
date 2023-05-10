@@ -11,7 +11,7 @@ class BookingController extends BaseController
 {
 
     /**
-     * @catalog app端/订单
+     * @catalog app端/预约
      * @title 预约信息
      * @description 预约信息
      * @method post
@@ -54,7 +54,7 @@ class BookingController extends BaseController
     }
 
     /**
-     * @catalog app端/订单
+     * @catalog app端/预约
      * @title 预约列表
      * @description 预约列表
      * @method get
@@ -94,7 +94,7 @@ class BookingController extends BaseController
     }
 
     /**
-     * @catalog app端/订单
+     * @catalog app端/预约
      * @title 获取单条预约信息
      * @description 获取单条预约信息
      * @method post
@@ -135,4 +135,5 @@ class BookingController extends BaseController
 
         return $this->error('error');
     }
+
 }
