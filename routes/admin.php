@@ -27,6 +27,7 @@ $router->group([
 
     $router->post('/recognizeBusinessLicense', 'Common\LicenseController@recognizeBusinessLicense');
 
+    $router->post('/create', 'Common\LicenseController@create');
 
 });
 
@@ -46,5 +47,10 @@ $router->group([
 
     // 修改密码
     $router->post('/changePassword', 'Admin\AdminController@changePassword');
+
+
+
+    // 预约审核
+    $router->post('/subscribeCheck', 'Admin\OrderNotificationController@subscribeCheck');
 
 });

@@ -41,7 +41,7 @@ return [
         ],
         'admin' => [
             'driver'    => 'jwt',
-            'provider'  => 'CompanyAdmin'
+            'provider'  => 'InstitutionAdmin'
         ]
     ],
 
@@ -68,9 +68,9 @@ return [
             'driver' => 'eloquent',
             'model'  => \App\Models\User::class,
         ],
-        'CompanyAdmin' => [
+        'InstitutionAdmin' => [
             'driver' => 'eloquent',
-            'model'  => \App\Models\CompanyAdmin::class,
+            'model'  => \App\Models\InstitutionAdmin::class,
         ],
     ],
 
