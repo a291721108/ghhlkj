@@ -19,6 +19,9 @@ class Kernel extends ConsoleKernel
 
         // 意见反馈
         \App\Console\Commands\IdeaInform::class,
+
+        // 订单已完成状态修改
+        \App\Console\Commands\OrderComSta::class,
     ];
 
     /**
@@ -29,10 +32,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // 消息服务通知 每分钟监测一次
+        // 修改项目状态 每分钟监测一次
         $schedule->command('bookingExpired:ok')->everyMinute();
 
-        // 消息服务通知 每分钟监测一次
+        // 意见反馈通知 每分钟监测一次
         $schedule->command('ideaInform:ok')->everyMinute();
+
+        // 订单已完成状态修改 每分钟监测一次
+        $schedule->command('OrderComSta:ok')->everyMinute();
     }
 }
