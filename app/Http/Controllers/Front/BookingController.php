@@ -62,19 +62,20 @@ class BookingController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @return {"meta":{"status":200,"msg":"成功"},"data":[{"user_id":1,"user_name":"admin","institution_id":"太原市小店区第1机构","home_type_id":"单人房","check_in_date":"2023-04-12","contacts":"周一飞","contact_way":"17821211068","remark":"朝阳","status":"成功","created_at":"2023-04-13 10:04:40"},{"user_id":1,"user_name":"admin","institution_id":"太原市小店区第1机构","home_type_id":"双人房","check_in_date":"2023-04-12","contacts":"周一飞","contact_way":"17821211068","remark":"","status":"成功","created_at":"2023-04-13 10:04:40"}]}
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[{"id":1,"userId":1,"orderName":"周一飞","orderPhone":"17821211068","orderIDcard":"142322199806221012","institutionId":"太原市小店区第1机构","typeId":[{"id":1,"home_type":"单人房","home_price":"1500.00","home_detail":"精装单人套间，1室1厅1厨1卫1阳台，中式现代风格、环保装潢、安静明亮、智能门禁、智能家电、高档红木家具、星级酒店配套标准、","home_img":"https:\/\/picsum.photos\/seed\/picsum\/200\/300"}],"arrireDate":"","orderState":"订房","roomId":"GH20230509091300119","remark":"今天我不去看房子","created_at":"2023-05-10 09:02:00"}]}
      *
      * @return_param code int 状态吗(200:请求成功,404:请求失败)
      * @return_param msg string 返回信息
-     * @return_param user_id int 用户id
-     * @return_param user_name string 用户名称
-     * @return_param institution_id string 机构名称
-     * @return_param home_type_id stirng 房间类型
-     * @return_param check_in_date time 看房日期
-     * @return_param contacts string 联系人
-     * @return_param contact_way int 联系方式
+     * @return_param id int id
+     * @return_param userId int 用户id
+     * @return_param institutionId string 机构名称
+     * @return_param typeId [] 房间类型
+     * @return_param arrireDate time 看房日期
+     * @return_param orderName string 联系人
+     * @return_param orderPhone int 联系方式
      * @return_param remark string 备注
-     * @return_param status int 状态（1成功，2取消，3已过期，-1删除）
+     * @return_param roomId string 订单编号
+     * @return_param orderState int 状态（ 1预约看房  2预约成功 0取消）
      * @return_param created_at time 创建时间
      *
      * @remark
@@ -97,13 +98,13 @@ class BookingController extends BaseController
      * @title 获取单条预约信息
      * @description 获取单条预约信息
      * @method post
-     * @url 47.92.82.25/api/userReservationRecord
+     * @url 47.92.82.25/api/getBookOneMsg
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @param booking_id 必选 int 预约信息id
+     * @param bookingId 必选 int 预约信息id
      *
-     * @return {"meta":{"status":200,"msg":"成功"},"data":{"id":1,"user_id":"admin","institution_id":"太原市小店区第1机构","home_type_id":"单人房","check_in_date":"2023-04-12 11:24:40","contacts":"周一飞","contact_way":"17821211068","remark":"朝阳","status":"成功","created_at":"2023-04-12 11:24:40"}}
+     * @return {"meta":{"status":200,"msg":"成功"},"data":{"id":1,"orderName":"周一飞","orderIDcard":"142322199806221012","orderPhone":"17821211068","institution_name":"太原市小店区第1机构","typeId":[{"id":1,"home_type":"单人房","home_price":"1500.00","home_detail":"精装单人套间，1室1厅1厨1卫1阳台，中式现代风格、环保装潢、安静明亮、智能门禁、智能家电、高档红木家具、星级酒店配套标准、","home_img":"https:\/\/picsum.photos\/seed\/picsum\/200\/300"}],"arrireDate":"","remark":"今天我不去看房子","roomId":"GH20230509091300119","orderState":"订房","created_at":"2023-05-09 09:14:07"}}
      *
      * @return_param code int 状态吗(200:请求成功,404:请求失败)
      * @return_param msg string 返回信息
@@ -120,13 +121,13 @@ class BookingController extends BaseController
      * @remark
      * @number 1
      */
-    public function userReservationRecord(Request $request)
+    public function getBookOneMsg(Request $request)
     {
         $this->validate($request, [
-            'booking_id'    => 'required|numeric',
+            'bookingId'    => 'required|numeric',
         ]);
 
-        $data = BookingService::userReservationRecord($request);
+        $data = BookingService::getBookOneMsg($request);
 
         if ($data) {
             return $this->success('success',200,$data);

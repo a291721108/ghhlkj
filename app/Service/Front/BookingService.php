@@ -71,24 +71,25 @@ class BookingService
     /**
      * 预约订单
      */
-    public static function userReservationRecord($request)
+    public static function getBookOneMsg($request)
     {
         $userInfo = User::getUserInfo();
-        $bookingId = $request->booking_id;
+        $bookingId = $request->bookingId;
 
-        $bookingMsg = Order::where('id',$bookingId)->first();
+        $bookingMsg = Booking::where('id',$bookingId)->first();
 
         // 返回用户信息
         return [
             "id"                    => $bookingMsg->id,
-            'user_name'             => $userInfo->name,
-            'institution_name'      => Institution::getInstitutionId($bookingMsg->institution_id),
-            'home_type_name'        => InstitutionHomeType::getInstitutionIdByName($bookingMsg->home_type_id),
-            'check_in_date'         => hourMinuteSecond($bookingMsg->check_in_date),
-            'contacts'              => $bookingMsg->contacts,
-            'contact_way'           => $bookingMsg->contact_way,
+            'orderName'             => UserExt::getMsgByUserName($userInfo->id),
+            'orderIDcard'           => UserExt::getMsgByUserCard($userInfo->id),
+            'orderPhone'            => $bookingMsg->orderPhone,
+            'institution_name'      => Institution::getInstitutionId($bookingMsg->institutionId),
+            'typeId'                => InstitutionHomeType::getInstitutionIdByName($bookingMsg->typeId),
+            'arrireDate'            => hourMinuteSecond($bookingMsg->arrireDate),
             'remark'                => $bookingMsg->remark,
-            'status'                => Booking::INS_MSG_ARRAY[$bookingMsg->status],
+            'roomId'                => $bookingMsg->roomId,
+            'orderState'            => Booking::INS_MSG_ARRAY[$bookingMsg->orderState],
             'created_at'            => hourMinuteSecond(strtotime($bookingMsg->created_at)),
         ];
 

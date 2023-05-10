@@ -14,8 +14,8 @@ class Booking extends Common
     public $timestamps = true;
 
     const BOOKING_SYS_TYPE_ZERO = 0;  // 取消
-    const BOOKING_SYS_TYPE_ONE = 1;  // 默认
-    const BOOKING_SYS_TYPE_TWO = 2;  // 成功
+    const BOOKING_SYS_TYPE_ONE = 1;  // 预约看房
+    const BOOKING_SYS_TYPE_TWO = 2;  // 预约成功
     /**
      * 信息提示
      */
