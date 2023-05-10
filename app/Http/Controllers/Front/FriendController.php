@@ -71,6 +71,10 @@ class FriendController extends BaseController
             'dxcode'            => 'required|numeric',
         ]);
 
+        if (!validateIdCard($request->friend_card)){
+            return $this->error('card_format_wrong');
+        }
+
         $data = FriendService::relativeStatusAdd($request);
 
         if ($data == 'success') {
