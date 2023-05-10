@@ -45,20 +45,22 @@ class BookingService
         $userInfo = User::getUserInfo();
         $userId = $userInfo->id;
 
-        $query    = Booking::where('status', '>', Booking::BOOKING_SYS_TYPE_FOUR)->where('user_id',$userId)->get()->toArray();
+        $query    = Booking::where('userId',$userId)->get()->toArray();
 
         foreach ($query as $k => $v) {
             // 处理回参
             $data[$k] = [
-                'user_id'           => $userInfo->id,
-                'user_name'         => $userInfo->name,
-                'institution_id'    => Institution::getInstitutionId($v['institution_id']),
-                'home_type_id'      => InstitutionHomeType::getInstitutionIdByName($v['home_type_id']),
-                'check_in_date'     => ytdTampTime($v['check_in_date']),
-                'contacts'          => $v['contacts'],
-                'contact_way'       => $v['contact_way'],
-                'remark'            => $v['remark'] ?? '',
-                'status'            => Booking::INS_MSG_ARRAY[$v['status']],
+                'id'                => $v['id'],
+                'userId'           => $userInfo->id,
+                'orderName'         => $userInfo->name,
+                'orderPhone'        => $v['orderPhone'],
+                'orderIDcard'       => $v['orderIDcard'],
+                'institutionId'     => Institution::getInstitutionId($v['institutionId']),
+                'typeId'            => InstitutionHomeType::getInstitutionIdByName($v['typeId']),
+                'arrireDate'        => ytdTampTime($v['arrireDate']),
+                'orderState'        => Booking::INS_MSG_ARRAY[$v['orderState']],
+                'roomId'            => $v['roomId'],
+                'remark'            => $v['remark'],
                 'created_at'        => hourMinuteSecond(time())
             ];
         }
