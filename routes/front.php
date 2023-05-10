@@ -156,7 +156,7 @@ $router->group([
     $router->post('/homeTypeList', 'Front\HomeTypeController@homeTypeList');
 
     // 机构预约
-//    $router->post('/agencyAppointment', 'Front\BookingController@agencyAppointment');
+    $router->post('/agencyAppointment', 'Front\BookingController@agencyAppointment');
 
     // 预约列表
     $router->get('/reservationList', 'Front\BookingController@reservationList');

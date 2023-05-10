@@ -4,11 +4,10 @@ namespace App\Service\Front;
 
 use App\Models\Booking;
 use App\Models\Institution;
-use App\Models\InstitutionHome;
-use App\Models\InstitutionHomeFacilities;
 use App\Models\InstitutionHomeType;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\UserExt;
 use App\Service\Common\FunService;
 
 class BookingService
@@ -21,15 +20,17 @@ class BookingService
         $userInfo = User::getUserInfo();
 
         $data = [
-            'user_id'           => $userInfo->id,
-            'institution_id'    => $request->institution_id,
-            'home_type_id'      => $request->home_type_id,
-            'check_in_date'     => strtotime($request->check_in_date),
-            'contacts'          => $request->contacts,
-            'contact_way'       => $request->contact_way,
-            'remark'            => $request->remark,
-            'status'            => Booking::BOOKING_SYS_TYPE_ZERO,
-            'created_at'        => time()
+            'userId'         => $userInfo->id,
+            'orderName'      => UserExt::getMsgByUserName($userInfo->id),
+            'orderPhone'     => $request->orderPhone,
+            'orderIDcard'    => UserExt::getMsgByUserCard($userInfo->id),
+            'institutionId'  => $request->institutionId,
+            'typeId'         => $request->typeId,
+            'arrireDate'     => strtotime($request->arrireDate),
+            'orderState'     => Booking::BOOKING_SYS_TYPE_ONE,
+            'roomId'         => FunService::orderNumber(),
+            'remark'         => $request->remark,
+            'created_at'     => time()
         ];
 
         return Booking::insert($data);

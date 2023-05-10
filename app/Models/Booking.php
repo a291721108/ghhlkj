@@ -8,25 +8,21 @@ use Illuminate\Http\Request;
 class Booking extends Common
 {
 
-    protected $table = 'gh_bookings';
+    protected $table = 'gh_hotelbook_orderinfo';
 
 
     public $timestamps = true;
 
-    const BOOKING_SYS_TYPE_ZERO = 0;  // 成功
-    const BOOKING_SYS_TYPE_ONE = 1;  // 成功
-    const BOOKING_SYS_TYPE_TWO = 2;  // 取消
-    const BOOKING_SYS_TYPE_THERE = 3;  // 已过期
-    const BOOKING_SYS_TYPE_FOUR = -1;  // 删除
-
+    const BOOKING_SYS_TYPE_ZERO = 0;  // 取消
+    const BOOKING_SYS_TYPE_ONE = 1;  // 默认
+    const BOOKING_SYS_TYPE_TWO = 2;  // 成功
     /**
      * 信息提示
      */
     const   INS_MSG_ARRAY = [
-        self::BOOKING_SYS_TYPE_ONE      => "成功",
-        self::BOOKING_SYS_TYPE_TWO      => "取消",
-        self::BOOKING_SYS_TYPE_THERE    => "已过期",
-        self::BOOKING_SYS_TYPE_FOUR     => "删除",
+        self::BOOKING_SYS_TYPE_ZERO     => "取消",
+        self::BOOKING_SYS_TYPE_ONE      => "订房",
+        self::BOOKING_SYS_TYPE_TWO      => "成功",
     ];
 
     /**

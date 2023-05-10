@@ -42,4 +42,22 @@ class UserExt extends Model
         return self::where('user_id', $id)->select('id_name','id_type','id_number', 'status', 'result')->get()->toArray();
     }
 
+
+    /**
+     * 获取用户身份证
+     * @param $name
+     */
+    public static function getMsgByUserCard($id)
+    {
+        return self::where('user_id', $id)->value('id_number');
+    }
+
+    /**
+     * 获取用户名字
+     * @param $name
+     */
+    public static function getMsgByUserName($id)
+    {
+        return self::where('user_id', $id)->value('id_name');
+    }
 }
