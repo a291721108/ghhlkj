@@ -13,21 +13,24 @@ use AlibabaCloud\Client\AlibabaCloud;
 class OrderNotificationController extends BaseController
 {
 
-    /**
+    /***
+     * showdoc
      * @catalog 商家端/订单
      * @title 同意入住(无定金)
      * @description 同意入住(无定金)
      * @method post
      * @url 39.105.183.79/admin/noDepositAgreed
      *
-     * @return {"meta":{"status":200,"msg":"成功"},"data":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FkbWluXC9sb2dpbiIsImlhdCI6MTY0ODExMzM3NSwiZXhwIjoxNjQ4MTE2OTc1LCJuYmYiOjE2NDgxMTMzNzUsImp0aSI6IkR2dDVLNmtTdDZ5V0NhdDMiLCJzdWIiOjgsInBydiI6ImFjYmI0NTAwY2UzMTc3YjA5ZWZiMzNiMTFlMzIxY2NkMmIzM2M3YWMifQ.mzzLjIsgnOB1kLb1RhirL3hmKVI636BtmoGVrT-Uoes","admin_name":"张三","admin_phone":"17865992641","company_id":1,"created_at":1648113375}}
-     * *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param bookingId 必选 int 无押金预约id
+     * @param roomID 必选 int 房间号id
+     *
+     * @return {"meta":{"status":200,"msg":"预约成功"},"data":[]}
+     *
      * @return_param status int status(200请求成功,404失败)
      * @return_param msg string 信息提示
      * @return_param token string token
-     * @return_param admin_name string 姓名
-     * @return_param admin_phone string 手机号
-     * @return_param company_id string 公司ID
      *
      * @remark
      * @number 2
@@ -36,12 +39,52 @@ class OrderNotificationController extends BaseController
     {
         $this->validate($request, [
             'bookingId'      => 'required|numeric',
+            'roomID'        => 'required|numeric'
         ]);
 
-        $data = OrderNotificationService::subscribeCheck($request);
+        $data = OrderNotificationService::noDepositAgreed($request);
 
-        return $this->success($data);
+        if ($data){
+            return $this->success($data);
 
+        }
+        return 'error';
+    }
+
+    /**
+     * @catalog 商家端/订单
+     * @title 同意入住(已付定金)
+     * @description 同意入住(已付定金)
+     * @method post
+     * @url 39.105.183.79/admin/depositAgreed
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param bookingId 必选 int 无押金预约id
+     * @param roomID 必选 int 房间号id
+     *
+     * @return {"meta":{"status":200,"msg":"预约成功"},"data":[]}
+     *
+     * @return_param status int status(200请求成功,404失败)
+     * @return_param msg string 信息提示
+     * @return_param token string token
+     *
+     * @remark
+     * @number 2
+     */
+    public function depositAgreed(Request $request)
+    {
+        $this->validate($request, [
+            'bookingRoomId'      => 'required|numeric',
+        ]);
+
+        $data = OrderNotificationService::depositAgreed($request);
+
+        if ($data){
+            return $this->success($data);
+
+        }
+        return 'error';
     }
 
 }
