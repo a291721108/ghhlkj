@@ -40,7 +40,7 @@ class BookingRoomService
             'wait_pay'          => $data * $homeMoney->home_price - $request->payment,  //待支付金额
             'amount_paid'       => $request->payment,                            //定金500
             'status'            => Order::ORDER_SYS_TYPE_FOUR,                     //状态（ 1提交订单  2订房成功 0取消）
-            'roomNum'           => FunService::orderNumber(),                    //订单编号
+            'order_no'           => FunService::orderNumber(),                    //订单编号
             'order_remark'      => $request->remark,                             //备注
             'created_at'        => time()
         ];
