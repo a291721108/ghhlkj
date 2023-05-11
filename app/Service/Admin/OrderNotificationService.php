@@ -19,39 +19,39 @@ class OrderNotificationService
         $adminInfo = InstitutionAdmin::getAdminInfo();
         $bookingId = $request->bookingId;
 
-        $bookIngMsg = Booking::where('institutionId',$adminInfo->admin_institution_id)
-            ->where('orderState',Booking::BOOKING_SYS_TYPE_ONE)
+        $bookIngMsg = Order::where('institution_id',$adminInfo->admin_institution_id)
+            ->where('status',Order::ORDER_SYS_TYPE_FOUR)
             ->where('id',$bookingId)
             ->first();
 
-        $bookIngMsg->orderState = Booking::BOOKING_SYS_TYPE_TWO;
+        $bookIngMsg->orderState = Order::ORDER_SYS_TYPE_ONE;
         $bookIngMsg->updated_at = time();
 
         if ($bookIngMsg->save()){
 
             //  订单表创建预约数据
-            $bookOrder = [
-                'user_id'           => $bookIngMsg->userId,
-                'order_no'          => $bookIngMsg->roomId,
-                'institution_id'    => $bookIngMsg->institutionId,
-                'institution_type'  => $bookIngMsg->typeId,
-                'roomNum'           => $request->roomID,
-                'discount_coupon'   => '无',
-                'visitDate'         => $bookIngMsg->arrireDate,
-                'contacts'          => $bookIngMsg->orderName,
-                'contacts_card'     => $bookIngMsg->orderIDcard,
-                'order_phone'       => $bookIngMsg->orderPhone,
-                'order_remark'      => $bookIngMsg->remark,
-                'status'            => Order::ORDER_SYS_TYPE_ONE,
-                'created_at'        => time()
-            ];
+//            $bookOrder = [
+//                'user_id'           => $bookIngMsg->userId,
+//                'order_no'          => $bookIngMsg->roomId,
+//                'institution_id'    => $bookIngMsg->institutionId,
+//                'institution_type'  => $bookIngMsg->typeId,
+//                'roomNum'           => $request->roomID,
+//                'discount_coupon'   => '无',
+//                'visitDate'         => $bookIngMsg->arrireDate,
+//                'contacts'          => $bookIngMsg->orderName,
+//                'contacts_card'     => $bookIngMsg->orderIDcard,
+//                'order_phone'       => $bookIngMsg->orderPhone,
+//                'order_remark'      => $bookIngMsg->remark,
+//                'status'            => Order::ORDER_SYS_TYPE_ONE,
+//                'created_at'        => time()
+//            ];
 
-            if (Order::insert($bookOrder)){
+//            if (Order::insert($bookOrder)){
 
                 return "book_successfully";
-            }
+//            }
 
-            return 'error';
+//            return 'error';
         }
 
         return 'error';
