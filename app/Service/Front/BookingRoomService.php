@@ -5,6 +5,7 @@ namespace App\Service\Front;
 use App\Models\BookingRoom;
 use App\Models\Institution;
 use App\Models\InstitutionHomeType;
+use App\Models\Order;
 use App\Models\User;
 use App\Models\UserExt;
 use App\Service\Common\FunService;
@@ -21,18 +22,18 @@ class BookingRoomService
         // todo 待完善  定价支付  500
 
         $data = [
-            'userId'         => $userInfo->id,
-            'orderName'      => UserExt::getMsgByUserName($userInfo->id),
-            'orderPhone'     => $request->orderPhone,
-            'orderIDcard'    => UserExt::getMsgByUserCard($userInfo->id),
-            'institutionId'  => $request->institutionId,
-            'typeId'         => $request->typeId,
-            'startDate'      => strtotime($request->startDate),
-            'leaveDate'      => strtotime($request->leaveDate),
-            'payment'        => $request->payment,
-            'status'         => BookingRoom::ROOM_SYS_TYPE_ZERO,
-            'roomId'         => FunService::orderNumber(),
-            'remark'         => $request->remark,
+            'userId'         => $userInfo->id,                                //用户id
+            'orderName'      => UserExt::getMsgByUserName($userInfo->id),     //联系人
+            'orderPhone'     => $request->orderPhone,                         //联系方式
+            'orderIDcard'    => UserExt::getMsgByUserCard($userInfo->id),     //身份证
+            'institutionId'  => $request->institutionId,                      //机构id
+            'typeId'         => $request->typeId,                             //房型id
+            'startDate'      => strtotime($request->startDate),               //入住日期
+            'leaveDate'      => strtotime($request->leaveDate),               //结束日期
+            'payment'        => $request->payment,                            //定金500
+            'status'         => BookingRoom::ROOM_SYS_TYPE_ONE,               //状态（ 1提交订单  2订房成功 0取消）
+            'roomId'         => FunService::orderNumber(),                    //订单编号
+            'remark'         => $request->remark,                             //备注
             'created_at'     => time()
         ];
 
@@ -47,8 +48,12 @@ class BookingRoomService
         $userInfo = User::getUserInfo();
         $bookingId = $request->bookingRoomId;
 
-        $bookingRoomMsg = BookingRoom::where('id',$bookingId)->first();
+        $bookingRoomMsg = Order::where('id',$bookingId)->where('status',Order::ORDER_SYS_TYPE_FOUR)->first();
+dd($bookingRoomMsg);
 
+        if ($bookingRoomMsg->total_amount == '500'){
+
+        }
         // 返回用户信息
         return [
             "id"                => $bookingRoomMsg->id,
