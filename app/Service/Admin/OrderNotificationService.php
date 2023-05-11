@@ -42,7 +42,7 @@ class OrderNotificationService
                 'contacts_card'     => $bookIngMsg->orderIDcard,
                 'order_phone'       => $bookIngMsg->orderPhone,
                 'order_remark'      => $bookIngMsg->remark,
-                'status'            => Order::ORDER_SYS_TYPE_FOUR,
+                'status'            => Order::ORDER_SYS_TYPE_ONE,
                 'created_at'        => time()
             ];
 
@@ -90,7 +90,7 @@ class OrderNotificationService
                 'contacts_card'     => $bookIngRoomMsg->orderIDcard,
                 'order_phone'       => $bookIngRoomMsg->orderPhone,
                 'order_remark'      => $bookIngRoomMsg->remark,
-                'status'            => Order::ORDER_SYS_TYPE_FOUR,
+                'status'            => Order::ORDER_SYS_TYPE_ONE,
                 'created_at'        => time()
             ];
 
