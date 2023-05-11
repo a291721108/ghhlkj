@@ -38,14 +38,14 @@ class BookingRoomController extends BaseController
     public function reservationInformation(Request $request)
     {
 
-        $this->validate($request, [
-            'institutionId'     => 'required|numeric',
-            'typeId'            => 'required|numeric',
-            'startDate'         => 'required',
-            'leaveDate'         => 'required',
-            'payment'           => 'required',
-            'orderPhone'        => 'required|numeric',
-        ]);
+//        $this->validate($request, [
+//            'institutionId'     => 'required|numeric',
+//            'typeId'            => 'required|numeric',
+//            'startDate'         => 'required',
+//            'leaveDate'         => 'required',
+//            'payment'           => 'required',
+//            'orderPhone'        => 'required|numeric',
+//        ]);
 
         $data = BookingRoomService::reservationInformation($request);
 
