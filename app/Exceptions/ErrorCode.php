@@ -39,6 +39,8 @@ class ErrorCode
         'card_verification_failure' => "身份证校验失败",
         'successful_authentication' => "验证成功",
 
+        'book_successfully' => "预约成功",
+
 
         'code_send_success'         => "验证码发送成功",
         'code_expired'              => "验证码已过期",

@@ -5,28 +5,55 @@ namespace App\Service\Admin;
 use App\Models\Booking;
 use App\Models\Institution;
 use App\Models\InstitutionAdmin;
+use App\Models\Order;
 
 class OrderNotificationService
 {
 
     /**
-     * 同意预约
+     * 同意预约  (不交定金)
      */
     public static function subscribeCheck($request)
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
         $bookingId = $request->bookingId;
 
-        $institution = Booking::where('institutionId',$adminInfo->admin_institution_id)
+        $bookIngMsg = Booking::where('institutionId',$adminInfo->admin_institution_id)
             ->where('orderState',Booking::BOOKING_SYS_TYPE_ONE)
-            ->get()->toArray();
+            ->where('id',$bookingId)
+            ->first();
 
-        dd($institution);die();
+        $bookIngMsg->orderState = Booking::BOOKING_SYS_TYPE_TWO;
+        $bookIngMsg->updated_at = time();
 
-        $bookingMsg = Booking::where('id',$bookingId)->first();
+        if ($bookIngMsg->save()){
 
-        var_dump($adminInfo);die();
-        return "123";
+            //  订单表创建预约数据
+            $bookOrder = [
+                'user_id'           => $bookIngMsg->userId,
+                'order_no'          => $bookIngMsg->roomId,
+                'institution_id'    => $bookIngMsg->institutionId,
+                'institution_type'  => $bookIngMsg->typeId,
+                'roomNum'           => $request->roomID,
+                'discount_coupon'   => '无',
+                'visitDate'         => $bookIngMsg->arrireDate,
+                'contacts'          => $bookIngMsg->orderName,
+                'contacts_card'     => $bookIngMsg->orderIDcard,
+                'order_phone'       => $bookIngMsg->orderPhone,
+                'order_remark'      => $bookIngMsg->remark,
+                'status'            => Order::ORDER_SYS_TYPE_ONE,
+                'created_at'        => time()
+            ];
+
+            if (Order::insert($bookOrder)){
+
+                return "book_successfully";
+            }
+
+            return 'error';
+        }
+
+        return 'error';
     }
 
 }

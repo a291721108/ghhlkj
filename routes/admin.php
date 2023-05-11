@@ -51,6 +51,6 @@ $router->group([
 
 
     // 预约审核
-    $router->post('/subscribeCheck', 'Admin\OrderNotificationController@subscribeCheck');
+    $router->post('/noDepositAgreed', 'Admin\OrderNotificationController@noDepositAgreed');
 
 });
