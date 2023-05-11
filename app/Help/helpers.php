@@ -435,4 +435,18 @@ if (!function_exists('getCheckCode')) {
     }
 }
 
+/**
+ * 时间月份差
+ */
 
+if (!function_exists('getMonthDiff')) {
+    function getMonthDiff($timestamp1,$timestamp2)
+    {
+        $date1 = new \DateTime($timestamp1);
+        $date2 = new \DateTime($timestamp2);
+        $interval = $date1->diff($date2);
+        $total_months = ($interval->y * 12) + $interval->m;
+//        $monthDiff = $interval->format('%m');
+        return $total_months;
+    }
+}

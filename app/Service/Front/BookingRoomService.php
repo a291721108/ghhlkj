@@ -19,6 +19,12 @@ class BookingRoomService
     {
         $userInfo = User::getUserInfo();
 
+        $homeMoney = InstitutionHomeType::where('id',$request->typeId)->first();
+
+        //计算相差月数
+        $data = getMonthDiff($request->startDate,$request->leaveDate);
+
+
         // todo 待完善  定价支付  500
 
         $data = [
@@ -30,6 +36,8 @@ class BookingRoomService
             'typeId'         => $request->typeId,                             //房型id
             'startDate'      => strtotime($request->startDate),               //入住日期
             'leaveDate'      => strtotime($request->leaveDate),               //结束日期
+            'total_amount'   => $data * $homeMoney->home_price,               //订单总金额
+            'wait_pay'       => $data * $homeMoney->home_price - $request->payment,  //待支付金额
             'payment'        => $request->payment,                            //定金500
             'status'         => Order::ORDER_SYS_TYPE_FOUR,                     //状态（ 1提交订单  2订房成功 0取消）
             'roomId'         => FunService::orderNumber(),                    //订单编号
