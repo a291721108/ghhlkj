@@ -23,7 +23,7 @@ class OrderComSta extends Command
 
         foreach ($order as $v) {
 
-            if (time() > strtotime(date('Y-m-d H:i:s', $v->end_date)) || $v->refundNot == 0) {
+            if (time() > strtotime(date('Y-m-d H:i:s', $v->end_date)) && $v->refundNot != 0) {
                 $orderArr[] = $v->id;
             }
         }
