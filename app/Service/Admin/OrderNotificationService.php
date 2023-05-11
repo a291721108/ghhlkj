@@ -81,7 +81,7 @@ class OrderNotificationService
                 'order_no'          => $bookIngRoomMsg->roomId,
                 'institution_id'    => $bookIngRoomMsg->institutionId,
                 'institution_type'  => $bookIngRoomMsg->typeId,
-                'roomNum'           => '102',//$request->roomID
+                'roomNum'           => $request->roomID,
                 'discount_coupon'   => '无',
                 'start_date'        => $bookIngRoomMsg->startDate,
                 'end_date'          => $bookIngRoomMsg->leaveDate,

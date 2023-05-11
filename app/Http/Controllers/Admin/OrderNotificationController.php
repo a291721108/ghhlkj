@@ -51,7 +51,8 @@ class OrderNotificationController extends BaseController
         return 'error';
     }
 
-    /**
+    /***
+     * showdoc
      * @catalog 商家端/订单
      * @title 同意入住(已付定金)
      * @description 同意入住(已付定金)
@@ -60,7 +61,7 @@ class OrderNotificationController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @param bookingId 必选 int 无押金预约id
+     * @param bookingRoomId 必选 int 无押金预约id
      * @param roomID 必选 int 房间号id
      *
      * @return {"meta":{"status":200,"msg":"预约成功"},"data":[]}
@@ -75,7 +76,8 @@ class OrderNotificationController extends BaseController
     public function depositAgreed(Request $request)
     {
         $this->validate($request, [
-            'bookingRoomId'      => 'required|numeric',
+            'bookingRoomId'     => 'required|numeric',
+            'roomID'            => 'required|numeric',
         ]);
 
         $data = OrderNotificationService::depositAgreed($request);
