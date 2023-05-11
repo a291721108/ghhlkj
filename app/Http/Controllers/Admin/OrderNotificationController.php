@@ -52,10 +52,10 @@ class OrderNotificationController extends BaseController
 
     /**
      * @catalog 商家端/订单
-     * @title 同意入住(已付定金)
-     * @description 同意入住(已付定金)
+     * @title 同意续费
+     * @description 同意续费
      * @method post
-     * @url 39.105.183.79/admin/depositAgreed
+     * @url 39.105.183.79/admin/agreeRenew
      *
      * @header api_token 必选 string api_token放到authorization中
      *
@@ -71,14 +71,14 @@ class OrderNotificationController extends BaseController
      * @remark
      * @number 2
      */
-    public function depositAgreed(Request $request)
+    public function agreeRenew(Request $request)
     {
         $this->validate($request, [
             'bookingRoomId'     => 'required|numeric',
             'roomID'            => 'required|numeric',
         ]);
 
-        $data = OrderNotificationService::depositAgreed($request);
+        $data = OrderNotificationService::agreeRenew($request);
 
         if ($data){
             return $this->success($data);

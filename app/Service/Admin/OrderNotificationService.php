@@ -37,7 +37,7 @@ class OrderNotificationService
     }
 
     /**
-     * 同意预约  (交定金)
+     * 同意续费
      */
     public static function depositAgreed($request)
     {

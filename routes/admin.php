@@ -50,10 +50,10 @@ $router->group([
 
 
 
-    // 预约审核(无押金)
+    // 预约审核
     $router->post('/noDepositAgreed', 'Admin\OrderNotificationController@noDepositAgreed');
 
-    // 预约审核(已付押金)
-    $router->post('/depositAgreed', 'Admin\OrderNotificationController@depositAgreed');
+    // 同意续费
+    $router->post('/agreeRenew', 'Admin\OrderNotificationController@agreeRenew');
 
 });
