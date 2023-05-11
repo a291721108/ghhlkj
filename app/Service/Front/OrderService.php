@@ -100,6 +100,8 @@ class OrderService
                 'id'                 => $v['id'],
                 'institution_id'     => Institution::getInstitutionId($v['institution_id']),
                 'institution_type'   => InstitutionHomeType::getInstitutionIdByName($v['institution_type']),
+                'total_amount'       => $v['total_amount'],
+                'amount_paid'        => $v['amount_paid'],
                 'contacts'           => $v['contacts'],
                 'visitDate'          => formattingTime($v['visitDate']),
                 'search_time'     => [
