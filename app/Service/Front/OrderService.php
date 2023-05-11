@@ -137,6 +137,7 @@ class OrderService
             'institution_id'        => Institution::getInstitutionName($orderMsg->institution_id),
             'institution_type'      => InstitutionHomeType::getInstitutionIdByName($orderMsg->institution_type),
             'discount_coupon'       => $orderMsg->discount_coupon,
+            'visitDate'             => ytdTampTime($orderMsg->visitDate),
             'start_date'            => ytdTampTime($orderMsg->start_date),
             'end_date'              => ytdTampTime($orderMsg->end_date),
             'order_phone'           => $orderMsg->order_phone,
