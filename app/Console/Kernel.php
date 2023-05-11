@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // 修改项目状态 每分钟监测一次
-        $schedule->command('bookingExpired:ok')->everyMinute();
+//        $schedule->command('bookingExpired:ok')->everyMinute();
 
         // 意见反馈通知 每分钟监测一次
         $schedule->command('ideaInform:ok')->everyMinute();
