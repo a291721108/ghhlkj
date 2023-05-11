@@ -21,16 +21,16 @@ class BookingService
         $userInfo = User::getUserInfo();
 
         $data = [
-            'userId'            => $userInfo->id,                               //用户id
+            'user_id'           => $userInfo->id,                               //用户id
             'contacts'          => UserExt::getMsgByUserName($userInfo->id),    //联系人
-            'order_phone'       => $request->orderPhone,                        //联系方式
+            'order_phone'       => $request->order_phone,                        //联系方式
             'contacts_card'     => UserExt::getMsgByUserCard($userInfo->id),    //身份证
-            'institution_id'    => $request->institutionId,                     //机构id
-            'institution_type'  => $request->typeId,                            //房型id
-            'visitDate'         => strtotime($request->arrireDate),             //看房时间
+            'institution_id'    => $request->institution_id,                     //机构id
+            'institution_type'  => $request->institution_type,                            //房型id
+            'visitDate'         => strtotime($request->visitDate),             //看房时间
             'status'            => Order::ORDER_SYS_TYPE_FOUR,               //状态
             'order_no'          => FunService::orderNumber(),                   //订单编号
-            'remark'            => $request->remark,                            //备注
+            'order_remark'      => $request->order_remark,                            //备注
             'created_at'        => time()
         ];
 
