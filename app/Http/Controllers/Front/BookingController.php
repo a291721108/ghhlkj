@@ -19,10 +19,10 @@ class BookingController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @param institutionId 必选 int 机构id
-     * @param typeId 必选 int 房间类型id
-     * @param arrireDate 必选 string 看房日期
-     * @param orderPhone 必选 int 联系方式
+     * @param institution_id 必选 int 机构id
+     * @param institution_type 必选 int 房间类型id
+     * @param visitDate 必选 string 看房日期
+     * @param order_phone 必选 int 联系方式
      * @param remark 非必选 string 备注
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
@@ -37,10 +37,10 @@ class BookingController extends BaseController
     {
 
         $this->validate($request, [
-            'institutionId'    => 'required|numeric',
-            'typeId'           => 'required|numeric',
-            'arrireDate'       => 'required',
-            'orderPhone'        => 'required|numeric',
+            'institution_id'        => 'required|numeric',
+            'institution_type'      => 'required|numeric',
+            'visitDate'             => 'required',
+            'order_phone'           => 'required|numeric',
         ]);
 
         $data = BookingService::agencyAppointment($request);

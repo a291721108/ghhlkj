@@ -31,13 +31,13 @@ class BookingRoomService
             'startDate'      => strtotime($request->startDate),               //入住日期
             'leaveDate'      => strtotime($request->leaveDate),               //结束日期
             'payment'        => $request->payment,                            //定金500
-            'status'         => BookingRoom::ROOM_SYS_TYPE_ONE,               //状态（ 1提交订单  2订房成功 0取消）
+            'status'         => Order::ORDER_SYS_TYPE_FOUR,                     //状态（ 1提交订单  2订房成功 0取消）
             'roomId'         => FunService::orderNumber(),                    //订单编号
             'remark'         => $request->remark,                             //备注
             'created_at'     => time()
         ];
 
-        return BookingRoom::insert($data);
+        return Order::insert($data);
     }
 
     /**

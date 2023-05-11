@@ -35,7 +35,7 @@ class OrderService
             'order_remark'      => $request->order_remark,
             'contacts'          => $request->contacts,
             'contacts_card'     => $request->contacts_card,
-            'status'            => $request->status,
+            'status'            => Order::ORDER_SYS_TYPE_FOUR,
             'created_at'        => time(),
         ];
 

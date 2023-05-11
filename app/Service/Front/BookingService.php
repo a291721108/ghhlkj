@@ -22,19 +22,19 @@ class BookingService
 
         $data = [
             'userId'            => $userInfo->id,                               //用户id
-            'orderName'         => UserExt::getMsgByUserName($userInfo->id),    //联系人
-            'orderPhone'        => $request->orderPhone,                        //联系方式
-            'orderIDcard'       => UserExt::getMsgByUserCard($userInfo->id),    //身份证
-            'institutionId'     => $request->institutionId,                     //机构id
-            'typeId'            => $request->typeId,                            //房型id
-            'arrireDate'        => strtotime($request->arrireDate),             //看房时间
-            'orderState'        => Booking::BOOKING_SYS_TYPE_ONE,               //状态
-            'roomId'            => FunService::orderNumber(),                   //订单编号
+            'contacts'          => UserExt::getMsgByUserName($userInfo->id),    //联系人
+            'order_phone'       => $request->orderPhone,                        //联系方式
+            'contacts_card'     => UserExt::getMsgByUserCard($userInfo->id),    //身份证
+            'institution_id'    => $request->institutionId,                     //机构id
+            'institution_type'  => $request->typeId,                            //房型id
+            'visitDate'         => strtotime($request->arrireDate),             //看房时间
+            'status'            => Order::ORDER_SYS_TYPE_FOUR,               //状态
+            'order_no'          => FunService::orderNumber(),                   //订单编号
             'remark'            => $request->remark,                            //备注
             'created_at'        => time()
         ];
 
-        return Booking::insert($data);
+        return Order::insert($data);
     }
 
     /**
