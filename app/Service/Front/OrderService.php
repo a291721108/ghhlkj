@@ -77,7 +77,7 @@ class OrderService
         $query = Order::where('user_id', $userId);
 
         // 状态查询
-        if ($request->status) {
+        if (isset($request->status)) {
             $query->where('status', $request->status);
         }
 
