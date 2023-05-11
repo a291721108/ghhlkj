@@ -28,7 +28,7 @@ class BookingRoomService
         // todo 待完善  定价支付  500
 
         $data = [
-            'userId'         => $userInfo->id,                                //用户id
+            'user_id'         => $userInfo->id,                                //用户id
             'orderName'      => UserExt::getMsgByUserName($userInfo->id),     //联系人
             'orderPhone'     => $request->orderPhone,                         //联系方式
             'orderIDcard'    => UserExt::getMsgByUserCard($userInfo->id),     //身份证
