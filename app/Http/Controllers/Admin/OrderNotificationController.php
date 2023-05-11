@@ -13,11 +13,10 @@ use AlibabaCloud\Client\AlibabaCloud;
 class OrderNotificationController extends BaseController
 {
 
-    /***
-     * showdoc
+    /**
      * @catalog 商家端/订单
-     * @title 同意入住(无定金)
-     * @description 同意入住(无定金)
+     * @title 同意入住
+     * @description 同意入住
      * @method post
      * @url 39.105.183.79/admin/noDepositAgreed
      *
