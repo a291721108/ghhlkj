@@ -51,8 +51,7 @@ class OrderNotificationController extends BaseController
         return 'error';
     }
 
-    /***
-     * showdoc
+    /**
      * @catalog 商家端/订单
      * @title 同意入住(已付定金)
      * @description 同意入住(已付定金)
