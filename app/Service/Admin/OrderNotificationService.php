@@ -25,7 +25,7 @@ class OrderNotificationService
             ->first();
 
         $bookIngMsg->status  = Order::ORDER_SYS_TYPE_ONE;
-        $bookIngMsg->roomNum = $request->roomNum;
+        $bookIngMsg->roomNum = $request->roomID;
         $bookIngMsg->updated_at = time();
 
         if ($bookIngMsg->save()){
