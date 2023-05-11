@@ -17,23 +17,53 @@ class OrderComSta extends Command
     public function handle()
     {
 
-        // 预约状态修改
-        $order = Order::select()->get();
-
         // 判断预约超期状态
-        $orderArr = [];
-        foreach ($order as $v) {
+        $orderBooking = Order::where('status',Order::ORDER_SYS_TYPE_ONE)->select()->get();
 
-            if (time() > strtotime(date('Y-m-d H:i:s', $v->end_date)) || $v->refundNot == 0) {
-                $orderArr[] = $v->id;
+        dd($orderBooking);
+
+        $orderBookingArr = [];
+        $orderBookingRoomArr = [];
+
+        foreach ($orderBooking as $v) {
+            // 无押金预约
+            if (time() > strtotime(date('Y-m-d H:i:s', $v->visitDate + 24 * 3600)) && $v->status == Order::ORDER_SYS_TYPE_FOUR) {
+                $orderBookingArr[] = $v->id;
+            }
+
+            // 有押金预约
+            if (time() > strtotime(date('Y-m-d H:i:s', $v->end_date)) && $v->status == Order::ORDER_SYS_TYPE_FOUR) {
+                $orderBookingRoomArr[] = $v->id;
             }
         }
 
-        if (!empty($orderArr)) {
-            Order::whereIn('id', $orderArr)->update([
-                'status' => Order::ORDER_SYS_TYPE_THERE
+        if (!empty($orderBookingArr)) {
+            Order::whereIn('id', $orderBookingArr)->update([
+                'status' => Order::ORDER_SYS_TYPE_ZERO
             ]);
         }
+        if (!empty($orderBookingRoomArr)) {
+            Order::whereIn('id', $orderBookingRoomArr)->update([
+                'status' => Order::ORDER_SYS_TYPE_ZERO
+            ]);
+        }
+
+        // 预约状态修改
+//        $order = Order::select()->get();
+//        $orderArr = [];
+
+//        foreach ($order as $v) {
+//
+//            if (time() > strtotime(date('Y-m-d H:i:s', $v->end_date)) || $v->refundNot == 0) {
+//                $orderArr[] = $v->id;
+//            }
+//        }
+//
+//        if (!empty($orderArr)) {
+//            Order::whereIn('id', $orderArr)->update([
+//                'status' => Order::ORDER_SYS_TYPE_THERE
+//            ]);
+//        }
 
     }
 
