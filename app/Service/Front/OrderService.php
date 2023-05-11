@@ -101,8 +101,12 @@ class OrderService
                 'institution_id'     => Institution::getInstitutionId($v['institution_id']),
                 'institution_type'   => InstitutionHomeType::getInstitutionIdByName($v['institution_type']),
                 'contacts'           => $v['contacts'],
-                'start_date'         => $v['start_date'],
-                'status'            => $v['status'],
+                'visitDate'          => formattingTime($v['visitDate']),
+                'search_time'     => [
+                    ytdTampTime($v['start_date']),
+                    ytdTampTime($v['end_date'])
+                ],
+                'status'             => Order::INS_MSG_ARRAY[$v['status']],
 
             ];
         }
