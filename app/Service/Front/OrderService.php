@@ -103,7 +103,7 @@ class OrderService
                 'total_amount'       => $v['total_amount'],
                 'amount_paid'        => $v['amount_paid'],
                 'contacts'           => $v['contacts'],
-                'visitDate'          => formattingTime($v['visitDate']),
+                'visitDate'          => ytdTampTime($v['visitDate']),
                 'search_time'     => [
                     ytdTampTime($v['start_date']),
                     ytdTampTime($v['end_date'])
