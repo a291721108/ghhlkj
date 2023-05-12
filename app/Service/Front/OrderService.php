@@ -153,13 +153,13 @@ class OrderService
     /**
      * 订单删除
      */
-    public static function orderDel($request)
+    public static function cancelReservation($request)
     {
         $useInfo = User::getUserInfo();
         $orderId = $request->orderId;
 
         $orderMsg = Order::where('user_id',$useInfo->id)->where('id',$orderId)->first();
-        $orderMsg->status = Order::ORDER_SYS_TYPE_FOUR;
+        $orderMsg->status = Order::ORDER_SYS_TYPE_ZERO;
 
         if ($orderMsg->save()){
             return 'success';

@@ -170,10 +170,10 @@ class OrderController extends BaseController
 
     /**
      * @catalog app端/订单
-     * @title 订单删除
-     * @description 订单删除
+     * @title 取消预约
+     * @description 取消预约
      * @method post
-     * @url 47.92.82.25/api/orderDel
+     * @url 47.92.82.25/api/cancelReservation
      *
      * @header api_token 必选 string api_token放到authorization中
      *
@@ -187,14 +187,14 @@ class OrderController extends BaseController
      * @remark
      * @number 1
      */
-    public function orderDel(Request $request)
+    public function cancelReservation(Request $request)
     {
 
         $this->validate($request, [
             'orderId'      => 'required|numeric',
         ]);
 
-        $data = OrderService::orderDel($request);
+        $data = OrderService::cancelReservation($request);
 
         if ($data == 'success') {
             return $this->success('success');
