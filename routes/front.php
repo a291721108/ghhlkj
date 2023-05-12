@@ -179,8 +179,11 @@ $router->group([
     // 订单列表
     $router->post('/orderList', 'Front\OrderController@orderList');
 
-    // 订单列表
-    $router->post('/orderDel', 'Front\OrderController@orderDel');
+    // 取消预约
+    $router->post('/cancelReservation', 'Front\OrderController@cancelReservation');
+
+    // 订单支付
+    $router->post('/paymentOrder', 'Front\OrderController@paymentOrder');
 
     // 亲友状态获取
     $router->get('/getRelativeStatus', 'Front\FriendController@getRelativeStatus');
@@ -226,5 +229,6 @@ $router->group([
 
     // 修改支付密码
     $router->post('/validateCard', 'Front\AuthController@validateCard');
+
 });
 

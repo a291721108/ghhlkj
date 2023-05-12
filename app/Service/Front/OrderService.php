@@ -140,6 +140,7 @@ class OrderService
             'visitDate'             => ytdTampTime($orderMsg->visitDate),
             'start_date'            => ytdTampTime($orderMsg->start_date),
             'end_date'              => ytdTampTime($orderMsg->end_date),
+            'roomNum'               => $orderMsg->roomNum,
             'order_phone'           => $orderMsg->order_phone,
             'order_remark'          => $orderMsg->order_remark,
             'contacts'              => $orderMsg->contacts,
@@ -161,6 +162,33 @@ class OrderService
         $orderMsg = Order::where('user_id',$useInfo->id)->where('id',$orderId)->first();
         $orderMsg->status = Order::ORDER_SYS_TYPE_ZERO;
 
+        if ($orderMsg->save()){
+            return 'success';
+        }
+
+        return 'error';
+    }
+
+    /**
+     * 订单支付
+     */
+    public static function paymentOrder($request)
+    {
+
+        $useInfo = User::getUserInfo();
+        $orderId = $request->orderId;
+
+        $orderMsg = Order::where('user_id',$useInfo->id)->where('id',$orderId)->where('status',Order::ORDER_SYS_TYPE_ONE)->first();
+        $orderMsg->total_amount = $request->total_amount;
+        $orderMsg->amount_paid  = $request->amount_paid;
+        $orderMsg->wait_pay     = $request->wait_pay;
+        $orderMsg->payment_method = $request->payment_method ? '支付宝':'微信';
+        $orderMsg->start_date   = $request->start_date;
+        $orderMsg->end_date     = $request->end_date;
+        $orderMsg->order_remark = $request->order_remark;
+        $orderMsg->status       = Order::ORDER_SYS_TYPE_TWO;
+
+        // todo 支付全部金额成功  否则失败   存入数据库
         if ($orderMsg->save()){
             return 'success';
         }

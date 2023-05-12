@@ -202,4 +202,45 @@ class OrderController extends BaseController
 
         return $this->error('error');
     }
+
+    /**
+     * @catalog app端/订单
+     * @title 订单支付
+     * @description 订单支付
+     * @method post
+     * @url 47.92.82.25/api/paymentOrder
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param orderId 必选 int 订单id
+     * @param total_amount 必选 int 订单总金额
+     * @param amount_paid 必选 int 已支付金额
+     * @param wait_pay 必选 int 待支付金额
+     * @param start_date 必选 int 开始日期
+     * @param end_date 必选 int 结束日期
+     * @param order_remark 非必选 string 备注
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function paymentOrder(Request $request)
+    {
+
+        $this->validate($request, [
+            'orderId'      => 'required|numeric',
+        ]);
+
+        $data = OrderService::paymentOrder($request);
+
+        if ($data == 'success') {
+            return $this->success('success');
+        }
+
+        return $this->error('error');
+    }
 }
