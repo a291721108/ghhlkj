@@ -182,7 +182,7 @@ class OrderService
         $orderMsg->total_amount = $request->total_amount;
         $orderMsg->amount_paid  = $request->amount_paid;
         $orderMsg->wait_pay     = $request->wait_pay;
-        $orderMsg->payment_method = $request->payment_method ? '支付宝':'微信';
+        $orderMsg->payment_method = '1';
         $orderMsg->start_date   = $request->start_date;
         $orderMsg->end_date     = $request->end_date;
         $orderMsg->order_remark = $request->order_remark;

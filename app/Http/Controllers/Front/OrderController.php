@@ -233,6 +233,11 @@ class OrderController extends BaseController
 
         $this->validate($request, [
             'orderId'      => 'required|numeric',
+            'total_amount'  => 'required|numeric',
+            'amount_paid'  => 'required|numeric',
+            'wait_pay'  => 'required|numeric',
+            'start_date'  => 'required|numeric',
+            'end_date'  => 'required|numeric',
         ]);
 
         $data = OrderService::paymentOrder($request);
