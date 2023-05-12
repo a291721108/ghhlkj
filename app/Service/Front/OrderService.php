@@ -179,16 +179,25 @@ class OrderService
         $orderId = $request->orderId;
 
         $orderMsg = Order::where('user_id',$useInfo->id)->where('id',$orderId)->where('status',Order::ORDER_SYS_TYPE_ONE)->first();
+
+        // todo 支付全部金额成功  否则失败   存入数据库
+
+
+        if ($orderMsg->wait_pay == 0 && $orderMsg->total_amount == $orderMsg->amount_paid){
+            $orderMsg->status       = Order::ORDER_SYS_TYPE_TWO;
+            return $orderMsg->save();
+        }
+
         $orderMsg->total_amount = $request->total_amount;
         $orderMsg->amount_paid  = $request->amount_paid;
         $orderMsg->wait_pay     = $request->wait_pay;
         $orderMsg->payment_method = '1';
-        $orderMsg->start_date   = $request->start_date;
-        $orderMsg->end_date     = $request->end_date;
+        $orderMsg->start_date   = strtotime($request->start_date);
+        $orderMsg->end_date     = strtotime($request->end_date);
         $orderMsg->order_remark = $request->order_remark;
         $orderMsg->status       = Order::ORDER_SYS_TYPE_TWO;
+        $orderMsg->created_at   = time();
 
-        // todo 支付全部金额成功  否则失败   存入数据库
         if ($orderMsg->save()){
             return 'success';
         }
