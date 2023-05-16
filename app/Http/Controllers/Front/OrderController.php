@@ -253,13 +253,8 @@ class OrderController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @param orderId 必选 int 订单id
-     * @param total_amount 必选 int 订单总金额
-     * @param amount_paid 必选 int 已支付金额
-     * @param wait_pay 必选 int 待支付金额
-     * @param start_date 必选 int 开始日期
-     * @param end_date 必选 int 结束日期
-     * @param order_remark 非必选 string 备注
+     * @param order_id 必选 int 订单id
+     * @param reason 必选 string 备注
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *
@@ -273,7 +268,8 @@ class OrderController extends BaseController
     {
 
         $this->validate($request, [
-            'orderId'      => 'required|numeric',
+            'order_id'      => 'required|numeric',
+            'reason'        => 'required',
         ]);
 
         $data = OrderService::checkOutApply($request);

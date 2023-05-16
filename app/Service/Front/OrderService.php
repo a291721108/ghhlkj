@@ -217,8 +217,6 @@ class OrderService
         $orderCheckArr = [
             'order_id'          => $request->orderId,
             'guest_name'        => $useInfo->id,
-            'amount'            => $request->amount,
-            'refund_date'       => $request->refund_date,
             'reason'            => $request->reason,
             'created_at'        => time(),
 
