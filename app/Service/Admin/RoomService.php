@@ -18,7 +18,9 @@ class RoomService
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
 
-        $homeList = InstitutionHome::where('institution_id',$adminInfo->admin_institution_id)->where('type',$request->typeId)->get();
+        $homeList = InstitutionHome::where('institution_id',$adminInfo->admin_institution_id)
+            ->where('type',$request->typeId)
+            ->where('instutution_status','>',InstitutionHome::Home_SYS_STATUS_THERE)->get();
 
         $data = [];
 
@@ -65,6 +67,23 @@ class RoomService
         }
 
         return 'success';
+    }
+
+    /**
+     * 删除房间号
+     */
+    public static function delInstitutionHome($request)
+    {
+
+        $homeMsg = InstitutionHome::where('id',$request->homeId)->first();
+
+        $homeMsg->instutution_status = InstitutionHome::Home_SYS_STATUS_THERE;
+        $homeMsg->updated_at = time();
+
+        if ($homeMsg->save()){
+            return 'success';
+        }
+        return 'error';
     }
 }
 

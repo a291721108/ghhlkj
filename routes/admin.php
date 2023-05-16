@@ -54,6 +54,9 @@ $router->group([
     // 添加机构房间
     $router->post('/addInstitutionHome', 'Admin\RoomController@addInstitutionHome');
 
+    // 禁用房间号
+    $router->post('/delInstitutionHome', 'Admin\RoomController@delInstitutionHome');
+
     // 预约审核
     $router->post('/noDepositAgreed', 'Admin\OrderNotificationController@noDepositAgreed');
 

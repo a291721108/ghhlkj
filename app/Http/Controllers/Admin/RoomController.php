@@ -83,4 +83,41 @@ class RoomController extends BaseController
         return $this->error($userInfo);
     }
 
+    /**
+     * @catalog 商家端/房间管理
+     * @title 禁用房间
+     * @description 禁用房间
+     * @method post
+     * @url 39.105.183.79/admin/delInstitutionHome
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param homeId 必选 int 房间号id
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param status int status(200请求成功,404失败)
+     * @return_param msg string 信息提示
+     * @return_param token string token
+     * @return_param admin_name string 姓名
+     * @return_param admin_phone string 手机号
+     * @return_param company_id string 公司ID
+     *
+     * @remark
+     * @number 2
+     */
+    public function delInstitutionHome(Request $request)
+    {
+        $this->validate($request, [
+            'homeId'    => 'required|numeric',
+        ]);
+
+        $userInfo = RoomService::delInstitutionHome($request);
+
+        if ($userInfo == 'success'){
+            return $this->success($userInfo);
+        }
+        return $this->error($userInfo);
+    }
+
 }
