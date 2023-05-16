@@ -48,6 +48,8 @@ $router->group([
     // 修改密码
     $router->post('/changePassword', 'Admin\AdminController@changePassword');
 
+    // 同意续费
+    $router->post('/getInstitutionHomeList', 'Admin\RoomController@getInstitutionHomeList');
 
 
     // 预约审核
