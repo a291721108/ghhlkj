@@ -7,6 +7,8 @@ use App\Models\BookingRoom;
 use App\Models\Institution;
 use App\Models\InstitutionAdmin;
 use App\Models\Order;
+use App\Models\OrderRefunds;
+use Illuminate\Support\Facades\DB;
 
 class OrderNotificationService
 {
@@ -34,6 +36,50 @@ class OrderNotificationService
         }
 
         return 'error';
+    }
+
+    /**
+     * 同意退款
+     */
+    public static function agreeRefund($request)
+    {
+
+        $refundId = $request->refundId;
+
+        $refundMsg = OrderRefunds::where('id',$refundId)
+            ->where('status',OrderRefunds::ORDER_CHECK_OUT_ZERO)
+            ->first();
+
+        try {
+            // todo 退款流程    退款成功之后保存入库 （待完善）
+
+            // 开启事务
+            DB::beginTransaction();
+
+            // 执行一些数据库操作
+            OrderRefunds::where('id', $refundId)->update([
+                'amount'        => $request->amount,
+                'refund_date'   => time(),
+                'status'        => OrderRefunds::ORDER_CHECK_OUT_ONE,
+                'updated_at'    => time(),
+            ]);
+
+            Order::where('id',$refundMsg->order_id)->update([
+                'refundNot'     => Order::ORDER_CHECK_OUT_ONE,
+                'updated_at'    => time(),
+            ]);
+            // 提交事务
+            DB::commit();
+
+            return "successful_refund";
+        } catch (\Exception $e) {
+            // 发生异常时回滚事务
+            DB::rollBack();
+
+            // 处理异常，例如记录日志或返回错误信息
+            return 'error';
+//            return response()->json(['error' => '数据库操作失败'], 500);
+        }
     }
 
     /**
