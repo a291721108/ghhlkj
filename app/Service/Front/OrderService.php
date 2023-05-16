@@ -239,6 +239,8 @@ class OrderService
 
         $orderRenewalArr = [
             'guest_id'          => $useInfo->id,
+            'institution_id'    => $request->institution_id,
+            'institution_type'  => $request->institution_type,
             'room_number'       => $request->room_number,
             'start_date'        => strtotime($request->start_date),
             'end_date'          => strtotime($request->end_date),

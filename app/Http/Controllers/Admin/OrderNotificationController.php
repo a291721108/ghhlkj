@@ -110,8 +110,7 @@ class OrderNotificationController extends BaseController
     public function agreeRenew(Request $request)
     {
         $this->validate($request, [
-            'bookingRoomId'     => 'required|numeric',
-            'roomID'            => 'required|numeric',
+            'renewalId'     => 'required|numeric',
         ]);
 
         $data = OrderNotificationService::agreeRenew($request);

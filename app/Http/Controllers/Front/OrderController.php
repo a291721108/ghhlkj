@@ -288,7 +288,9 @@ class OrderController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @param room_number 必选 int 房间号
+     * @param institution_id 必选 int 机构id
+     * @param institution_type 必选 int 房间类型id
+     * @param room_number 必选 int 房间号id
      * @param start_date 必选 int 开始时间
      * @param end_date 必选 int 结束时间
      *
@@ -304,9 +306,11 @@ class OrderController extends BaseController
     {
 
         $this->validate($request, [
-            'room_number'      => 'required|numeric',
-            'start_date'       => 'required',
-            'end_date'         => 'required',
+            'institution_id'      => 'required|numeric',
+            'institution_type'    => 'required|numeric',
+            'room_number'         => 'required|numeric',
+            'start_date'          => 'required',
+            'end_date'            => 'required',
         ]);
 
         $data = OrderService::applyRenewal($request);

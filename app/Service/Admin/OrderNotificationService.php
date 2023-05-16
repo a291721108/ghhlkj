@@ -6,8 +6,13 @@ use App\Models\Booking;
 use App\Models\BookingRoom;
 use App\Models\Institution;
 use App\Models\InstitutionAdmin;
+use App\Models\InstitutionHomeType;
 use App\Models\Order;
 use App\Models\OrderRefunds;
+use App\Models\OrderRenewal;
+use App\Models\User;
+use App\Models\UserExt;
+use App\Service\Common\FunService;
 use Illuminate\Support\Facades\DB;
 
 class OrderNotificationService
@@ -93,33 +98,36 @@ class OrderNotificationService
     public static function agreeRenew($request)
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
-        $bookingRoomId = $request->bookingRoomId;
+        $renewalId = $request->renewalId;
 
-        $bookIngRoomMsg = BookingRoom::where('institutionId',$adminInfo->admin_institution_id)
-            ->where('status',BookingRoom::ROOM_SYS_TYPE_ONE)
-            ->where('id',$bookingRoomId)
-            ->first();
+        $homeMoney = InstitutionHomeType::where('id',$request->typeId)->first();
+        $renewalMsg = OrderRenewal::where('id',$renewalId)->first();
 
-        $bookIngRoomMsg->status         = BookingRoom::ROOM_SYS_TYPE_TWO;
-        $bookIngRoomMsg->updated_at     = time();
+        $renewalMsg->status        = OrderRenewal::ORDER_RENEWAL_ONE;
+        $renewalMsg->updated_at    = time();
 
-        if ($bookIngRoomMsg->save()){
+        if ($renewalMsg->save()){
+
+            //计算相差月数
+            $data = getMonthDiff($renewalMsg->start_date,$renewalMsg->end_date);
 
             //  订单表创建预约数据
             $bookOrder = [
-                'user_id'           => $bookIngRoomMsg->userId,
-                'order_no'          => $bookIngRoomMsg->roomId,
-                'institution_id'    => $bookIngRoomMsg->institutionId,
-                'institution_type'  => $bookIngRoomMsg->typeId,
-                'roomNum'           => $request->roomID,
+                'user_id'           => $renewalMsg->userId,
+                'order_no'          => FunService::orderNumber(),
+                'total_amount'      => $data * $homeMoney->home_price,
+                'amount_paid'       => 0,
+                'wait_pay'          => 0,
+                'payment_method'    => '支付宝',
+                'institution_id'    => $renewalMsg->institution_id,
+                'institution_type'  => $renewalMsg->institution_type,
+                'roomNum'           => $renewalMsg->room_number,
                 'discount_coupon'   => '无',
-                'start_date'        => $bookIngRoomMsg->startDate,
-                'end_date'          => $bookIngRoomMsg->leaveDate,
-                'amount_paid'       => $bookIngRoomMsg->payment,
-                'contacts'          => $bookIngRoomMsg->orderName,
-                'contacts_card'     => $bookIngRoomMsg->orderIDcard,
-                'order_phone'       => $bookIngRoomMsg->orderPhone,
-                'order_remark'      => $bookIngRoomMsg->remark,
+                'start_date'        => $renewalMsg->startDate,
+                'end_date'          => $renewalMsg->leaveDate,
+                'order_phone'       => User::getUserInfoById($renewalMsg->id)['phone'],
+                'contacts'          => User::getUserInfoById($renewalMsg->id)['name'],
+                'contacts_card'     => UserExt::getMsgByUserCard($renewalMsg->userId),
                 'status'            => Order::ORDER_SYS_TYPE_ONE,
                 'created_at'        => time()
             ];
