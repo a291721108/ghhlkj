@@ -51,23 +51,28 @@ class OrderNotificationService
             ->first();
 
         try {
-            // todo 退款流程    退款成功之后保存入库 （待完善）
-
             // 开启事务
             DB::beginTransaction();
 
-            // 执行一些数据库操作
-            OrderRefunds::where('id', $refundId)->update([
-                'amount'        => $request->amount,
-                'refund_date'   => time(),
-                'status'        => OrderRefunds::ORDER_CHECK_OUT_ONE,
-                'updated_at'    => time(),
-            ]);
+            // 查询退款信息  执行一些数据库操作
+            $refundMsg = OrderRefunds::where('id',$refundId)
+                ->where('status',OrderRefunds::ORDER_CHECK_OUT_ZERO)
+                ->first();
+            $refundMsg->amount      = $request->amount;
+            $refundMsg->refund_date = time();
+            $refundMsg->status      = OrderRefunds::ORDER_CHECK_OUT_ONE;
+            $refundMsg->updated_at  = time();
+            $refundMsg->save();
 
-            Order::where('id',$refundMsg->order_id)->update([
-                'refundNot'     => Order::ORDER_CHECK_OUT_ONE,
-                'updated_at'    => time(),
-            ]);
+
+            $orderMsg = Order::where('id',$refundMsg->order_id)->first();
+            $orderMsg->refundNot    = Order::ORDER_CHECK_OUT_ONE;
+            $orderMsg->updated_at   = time();
+            $orderMsg->save();
+
+
+            // todo 退款流程   执行退款操作（此处省略具体的退款逻辑）  （待完善）
+
             // 提交事务
             DB::commit();
 
