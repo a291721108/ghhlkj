@@ -217,7 +217,6 @@ class OrderService
         $orderCheckArr = [
             'order_id'          => $request->orderId,
             'guest_name'        => $useInfo->id,
-            'reason'            => $request->reason,
             'created_at'        => time(),
 
         ];

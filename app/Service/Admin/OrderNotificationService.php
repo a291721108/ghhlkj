@@ -90,7 +90,7 @@ class OrderNotificationService
     /**
      * 同意续费
      */
-    public static function depositAgreed($request)
+    public static function agreeRenew($request)
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
         $bookingRoomId = $request->bookingRoomId;
