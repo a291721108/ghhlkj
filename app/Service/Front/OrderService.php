@@ -8,6 +8,7 @@ use App\Models\InstitutionHome;
 use App\Models\InstitutionHomeFacilities;
 use App\Models\InstitutionHomeType;
 use App\Models\Order;
+use App\Models\OrderRefunds;
 use App\Models\User;
 use App\Service\Common\FunService;
 use Illuminate\Support\Facades\Auth;
@@ -199,6 +200,31 @@ class OrderService
         $orderMsg->created_at   = time();
 
         if ($orderMsg->save()){
+            return 'success';
+        }
+
+        return 'error';
+    }
+
+    /**
+     * 申请退房
+     */
+    public static function checkOutApply($request)
+    {
+
+        $useInfo = User::getUserInfo();
+
+        $orderCheckArr = [
+            'order_id'          => $request->orderId,
+            'guest_name'        => $useInfo->id,
+            'amount'            => $request->amount,
+            'refund_date'       => $request->refund_date,
+            'reason'            => $request->reason,
+            'created_at'        => time(),
+
+        ];
+
+        if (OrderRefunds::insert($orderCheckArr)){
             return 'success';
         }
 

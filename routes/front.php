@@ -185,6 +185,9 @@ $router->group([
     // 订单支付
     $router->post('/paymentOrder', 'Front\OrderController@paymentOrder');
 
+    // 申请退房
+    $router->post('/checkOutApply', 'Front\OrderController@checkOutApply');
+
     // 亲友状态获取
     $router->get('/getRelativeStatus', 'Front\FriendController@getRelativeStatus');
 

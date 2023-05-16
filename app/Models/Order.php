@@ -17,7 +17,9 @@ class Order extends Common
     const ORDER_SYS_TYPE_THERE = 3;  // 已完成
     const ORDER_SYS_TYPE_FOUR = 4;  // 已预约
 
-
+    //是否退款
+    const ORDER_CHECK_OUT_ZERO = 0;  // 默认
+    const ORDER_CHECK_OUT_ONE = 1;  // 已退款
 
     /**
      * 信息提示
@@ -29,6 +31,13 @@ class Order extends Common
         self::ORDER_SYS_TYPE_THERE    => "已完成",
         self::ORDER_SYS_TYPE_FOUR     => "已预约",
     ];
+
+    const   CHECK_OUT_MSG_ARRAY = [
+        self::ORDER_CHECK_OUT_ZERO     => "默认",
+        self::ORDER_CHECK_OUT_ONE      => "已退款",
+    ];
+
+
     /**
      * 格式化时间
      * @param $value
