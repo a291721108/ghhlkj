@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\BookingRoom;
 use App\Models\Institution;
 use App\Models\InstitutionAdmin;
+use App\Models\InstitutionHome;
 use App\Models\InstitutionHomeType;
 use App\Models\Order;
 use App\Models\OrderRefunds;
@@ -37,7 +38,12 @@ class OrderNotificationService
 
         if ($bookIngMsg->save()){
 
-                return "book_successfully";
+            $homeMsg = InstitutionHome::where('id',$request->homeId)->first();
+            $homeMsg->instutution_status = InstitutionHome::Home_SYS_STATUS_TWO;
+            $homeMsg->updated_at = time();
+            $homeMsg->save();
+
+            return "book_successfully";
         }
 
         return 'error';
