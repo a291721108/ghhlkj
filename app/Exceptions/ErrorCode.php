@@ -39,6 +39,7 @@ class ErrorCode
         'card_verification_failure' => "身份证校验失败",
         'successful_authentication' => "验证成功",
 
+        'add_repetition'            => "房间号重复添加，请检查",
         'book_successfully'         => "预约成功",
         'successful_refund'         => "退款成功",
 

@@ -48,9 +48,11 @@ $router->group([
     // 修改密码
     $router->post('/changePassword', 'Admin\AdminController@changePassword');
 
-    // 同意续费
+    // 获取机构房间列表
     $router->post('/getInstitutionHomeList', 'Admin\RoomController@getInstitutionHomeList');
 
+    // 添加机构房间
+    $router->post('/addInstitutionHome', 'Admin\RoomController@addInstitutionHome');
 
     // 预约审核
     $router->post('/noDepositAgreed', 'Admin\OrderNotificationController@noDepositAgreed');

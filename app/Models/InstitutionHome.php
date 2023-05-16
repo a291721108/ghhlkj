@@ -11,7 +11,7 @@ class InstitutionHome extends Common
     public $timestamps = true;
 
     const Home_SYS_STATUS_ONE = 1;  // 启用
-    const Home_SYS_STATUS_TWO = 2;  // 启用
+    const Home_SYS_STATUS_TWO = 2;  // 已售
     const Home_SYS_STATUS_THERE = -1;  // 禁用
 
 
