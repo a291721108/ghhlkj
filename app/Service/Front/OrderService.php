@@ -9,6 +9,7 @@ use App\Models\InstitutionHomeFacilities;
 use App\Models\InstitutionHomeType;
 use App\Models\Order;
 use App\Models\OrderRefunds;
+use App\Models\OrderRenewal;
 use App\Models\User;
 use App\Service\Common\FunService;
 use Illuminate\Support\Facades\Auth;
@@ -222,6 +223,29 @@ class OrderService
         ];
 
         if (OrderRefunds::insert($orderCheckArr)){
+            return 'success';
+        }
+
+        return 'error';
+    }
+
+    /**
+     * 申请续费
+     */
+    public static function applyRenewal($request)
+    {
+
+        $useInfo = User::getUserInfo();
+
+        $orderRenewalArr = [
+            'guest_id'          => $useInfo->id,
+            'room_number'       => $request->room_number,
+            'start_date'        => strtotime($request->start_date),
+            'end_date'          => strtotime($request->end_date),
+            'created_at'        => time(),
+        ];
+
+        if (OrderRenewal::insert($orderRenewalArr)){
             return 'success';
         }
 

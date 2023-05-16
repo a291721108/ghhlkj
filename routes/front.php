@@ -188,6 +188,9 @@ $router->group([
     // 申请退房
     $router->post('/checkOutApply', 'Front\OrderController@checkOutApply');
 
+    // 申请续费
+    $router->post('/applyRenewal', 'Front\OrderController@applyRenewal');
+
     // 亲友状态获取
     $router->get('/getRelativeStatus', 'Front\FriendController@getRelativeStatus');
 

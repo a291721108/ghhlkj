@@ -278,4 +278,43 @@ class OrderController extends BaseController
 
         return $this->error('error');
     }
+
+    /**
+     * @catalog app端/订单
+     * @title 申请续费
+     * @description 申请续费
+     * @method post
+     * @url 47.92.82.25/api/applyRenewal
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param room_number 必选 int 房间号
+     * @param start_date 必选 int 开始时间
+     * @param end_date 必选 int 结束时间
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function applyRenewal(Request $request)
+    {
+
+        $this->validate($request, [
+            'room_number'      => 'required|numeric',
+            'start_date'       => 'required',
+            'end_date'         => 'required',
+        ]);
+
+        $data = OrderService::applyRenewal($request);
+
+        if ($data == 'success') {
+            return $this->success('success');
+        }
+
+        return $this->error('error');
+    }
 }
