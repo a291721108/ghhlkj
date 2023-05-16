@@ -97,7 +97,6 @@ class OrderNotificationService
      */
     public static function agreeRenew($request)
     {
-        $adminInfo = InstitutionAdmin::getAdminInfo();
         $renewalId = $request->renewalId;
 
         $homeMoney = InstitutionHomeType::where('id',$request->typeId)->first();

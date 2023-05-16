@@ -95,8 +95,7 @@ class OrderNotificationController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @param bookingRoomId 必选 int 无押金预约id
-     * @param roomID 必选 int 房间号id
+     * @param renewalId 必选 int 续费申请id
      *
      * @return {"meta":{"status":200,"msg":"预约成功"},"data":[]}
      *
