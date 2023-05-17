@@ -109,15 +109,33 @@ class AdminController extends BaseController
         return $this->success('success', '200', $userInfo);
     }
 
-    //注册
-    public function register(Request $request)
+    /**
+     * @catalog 商家端/管理员相关
+     * @title 手机号验证码校验
+     * @description 手机号验证码校验
+     * @method post
+     * @url 39.105.183.79/admin/getAdminInfo
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FkbWluXC9sb2dpbiIsImlhdCI6MTY0ODExMzM3NSwiZXhwIjoxNjQ4MTE2OTc1LCJuYmYiOjE2NDgxMTMzNzUsImp0aSI6IkR2dDVLNmtTdDZ5V0NhdDMiLCJzdWIiOjgsInBydiI6ImFjYmI0NTAwY2UzMTc3YjA5ZWZiMzNiMTFlMzIxY2NkMmIzM2M3YWMifQ.mzzLjIsgnOB1kLb1RhirL3hmKVI636BtmoGVrT-Uoes","admin_name":"张三","admin_phone":"17865992641","company_id":1,"created_at":1648113375}}
+     * *
+     * @return_param status int status(200请求成功,404失败)
+     * @return_param msg string 信息提示
+     * @return_param token string token
+     * @return_param admin_name string 姓名
+     * @return_param admin_phone string 手机号
+     * @return_param company_id string 公司ID
+     *
+     * @remark
+     * @number 2
+     */
+    public function codeLogin(Request $request)
     {
         $this->validate($request, [
             'admin_phone' => 'required|numeric',
             'dxcodess'      => 'required|numeric',
         ]);
 
-        $userInfo = AdminService::register($request);
+        $userInfo = AdminService::codeLogin($request);
 
         if (is_array($userInfo)) {
             return $this->success('success', '200', $userInfo);
@@ -126,4 +144,52 @@ class AdminController extends BaseController
         return $this->error($userInfo);
     }
 
+    /**
+     * @catalog 商家端/管理员相关
+     * @title 营业执照识别
+     * @description 营业执照识别
+     * @method post
+     * @url 39.105.183.79/admin/addLicense
+     *
+     * @param Url 必选 string 营业执照图片路径
+     * @param admin_phone 必选 int 手机号
+     * @param legalPersonCard 必选 int 法人身份证
+     * @param legalPersonTel 必选 int 法人手机号
+     * @param proprietorName 必选 int 经营者姓名
+     * @param proprietorCard 必选 int 经营者身份证
+     * @param proprietorTel 必选 int 经营者手机号
+     *
+     * @return {"meta":{"status":404,"msg":"失败"},"data":[]}
+     *
+     * @return_param status int status(200请求成功,404失败)
+     * @return_param msg string 信息提示
+     * @return_param token string token
+     * @return_param admin_name string 姓名
+     * @return_param admin_phone string 手机号
+     * @return_param company_id string 公司ID
+     *
+     * @remark
+     * @number 2
+     */
+    // 营业执照识别
+    public function addLicense(Request $request)
+    {
+        $this->validate($request, [
+            'Url'           => 'required',
+            'admin_phone'   => 'required',
+            'legalPersonCard'   => 'required',
+            'legalPersonTel'   => 'required',
+            'proprietorName'   => 'required',
+            'proprietorCard'   => 'required',
+            'proprietorTel'   => 'required',
+        ]);
+
+        $userInfo = AdminService::addLicense($request);
+
+        if (is_array($userInfo)) {
+            return $this->success('success', '200', $userInfo);
+
+        }
+        return $this->error($userInfo);
+    }
 }

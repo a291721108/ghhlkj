@@ -51,7 +51,7 @@ class ErrorCode
         'code_has_time'             => "验证码任在有效期内，请稍后在试",
         'code_send_error'           => "验证码发送失败",
 
-
+        'sql_operation_failure'     => "数据库操作失败",
 
 
         'Unauthorized'              => "未授权",

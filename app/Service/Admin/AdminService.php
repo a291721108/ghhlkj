@@ -2,10 +2,13 @@
 
 namespace App\Service\Admin;
 
+use App\Http\Controllers\Common\LicenseController;
+use App\Models\BusinessLicense;
 use App\Models\InstitutionAdmin;
 use App\Models\UserSend;
 use App\Service\Common\RedisService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminService
 {
@@ -90,9 +93,9 @@ class AdminService
     }
 
     /**
-     * 商家端注册
+     * 手机号验证码校验
      */
-    public static function register($request)
+    public static function codeLogin($request)
     {
         $code = $request->dxcodess;
         $adminPhone = $request->admin_phone;
@@ -105,9 +108,9 @@ class AdminService
         }
 
         //  验证吗是否过期 有效期限五分钟
-//        if (time() >= ($sendInfo->send_time + 300)) {
-//            return 'code_expired';
-//        }
+        if (time() >= ($sendInfo->send_time + 300)) {
+            return 'code_expired';
+        }
 
         // 验证码错误
         if ($sendInfo->code !== intval($code)) {
@@ -144,7 +147,63 @@ class AdminService
 
     }
 
+    /**
+     * 营业执照识别
+     */
+    public static function addLicense($request)
+    {
+        // 判断用户是否存在
+        $useInfo = InstitutionAdmin::where('admin_phone', '=', $request->admin_phone)->where('status', '=', InstitutionAdmin::INSTITUTION_ADMIN_STATUS_ONE)->first();
+        if ($useInfo){
+            return 'error';
+        }
 
+        // 开启事务
+        DB::beginTransaction();
+        try {
+            // 执行一些数据库操作
+            $data = [
+                'admin_phone'   => $request->admin_phone,
+                'status'        => InstitutionAdmin::INSTITUTION_ADMIN_STATUS_ONE,
+                'created_at'    => time(),
+            ];
+            $admin = InstitutionAdmin::insertGetId($data);
+
+            $businessLicense = LicenseController::recognizeBusinessLicense($request->Url);
+            $licenseArr = [
+                'admin_id'          => $admin,
+                'creditCode'        => $businessLicense['creditCode'],
+                'companyName'       => $businessLicense['companyName'],
+                'companyType'       => $businessLicense['companyType'],
+                'businessAddress'   => $businessLicense['businessAddress'],
+                'legalPerson'       => $businessLicense['legalPerson'],
+                'legalPersonCard'      => $request->legalPersonCard,
+                'legalPersonTel'       => $request->legalPersonTel,
+                'proprietorName'       => $request->proprietorName,
+                'proprietorCard'       => $request->proprietorCard,
+                'proprietorTel'        => $request->proprietorTel,
+                'businessScope'     => $businessLicense['businessScope'],
+                'registeredCapital' => $businessLicense['registeredCapital'],
+                'RegistrationDate'  => $businessLicense['RegistrationDate'],
+                'validPeriod'       => $businessLicense['validPeriod'],
+                'validFromDate'     => $businessLicense['validFromDate'],
+                'validToDate'       => $businessLicense['validToDate'],
+                'companyForm'       => $businessLicense['companyForm'],
+                'created_at'        => time(),
+            ];
+
+            BusinessLicense::insert($licenseArr);
+            // 提交事务
+            DB::commit();
+
+            return "success";
+        } catch (\Exception $e) {
+            // 发生异常时回滚事务
+            DB::rollBack();
+            // 处理异常，例如记录日志或返回错误信息
+            return 'sql_operation_failure';
+        }
+    }
 }
 
 

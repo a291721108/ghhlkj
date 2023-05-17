@@ -22,8 +22,11 @@ $router->group([
     // 登录
     $router->post('/login', 'Admin\AdminController@login');
 
-    // 登录
-    $router->post('/register', 'Admin\AdminController@register');
+    // 验证码校验
+    $router->post('/codeLogin', 'Admin\AdminController@codeLogin');
+
+    // 营业执照识别
+    $router->post('/addLicense', 'Admin\AdminController@addLicense');
 
     $router->post('/recognizeBusinessLicense', 'Common\LicenseController@recognizeBusinessLicense');
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Common;
 
 use AlibabaCloud\Client\AlibabaCloud;
+use App\Models\InstitutionAdmin;
 use Illuminate\Http\Request;
 
 class LicenseController extends BaseController
@@ -25,11 +26,13 @@ class LicenseController extends BaseController
      * @remark
      * @number 3
      */
-    public function recognizeBusinessLicense(Request $request)
+    public static function recognizeBusinessLicense($Url)
     {
+
         AlibabaCloud::accessKeyClient(env('ALIYUN_SMS_AK'), env('ALIYUN_SMS_AS'))
             ->regionId('cn-hangzhou')
             ->asDefaultClient();
+
         try {
             $response = AlibabaCloud::rpc()
                 ->product('ocr-api')
@@ -39,7 +42,7 @@ class LicenseController extends BaseController
                 ->host('ocr-api.cn-hangzhou.aliyuncs.com')
                 ->options([
                     'query' => [
-                        'Url' => $request->url,
+                        'Url' => $Url,
                     ],
                 ])
                 ->request();
@@ -47,10 +50,57 @@ class LicenseController extends BaseController
             $query = $response->Data;
             $result = json_decode($query);
 
-            return $this->success('success', '200', (array)$result->data);
+            return (array)$result->data;
         } catch (\Exception $e) {
-            $this->error($e->getMessage());
-        }
 
+            return ['msg' => '识别失败：' . $e->getMessage()];
+        }
+    }
+
+    // todo  支付宝支付
+    public function create(Request $request)
+    {
+        // 创建新的订单，省略具体实现
+
+        // 推送通知到商家手机上
+
+        $appKey = config('services.mobilepush.app_key');
+        $appSecret = config('services.mobilepush.app_secret');
+
+        AlibabaCloud::accessKeyClient(env('ALIYUN_SMS_AK'), env('ALIYUN_SMS_AS'))
+            ->regionId('ghhlkj-order-list')
+            ->asDefaultClient();
+
+        try {
+            $response = AlibabaCloud::rpc()
+                ->product('Push')
+                ->version('2016-08-01')
+                ->action('PushNoticeToAndroid')
+                ->method('POST')
+                ->options([
+                    'query' => [
+                        'AppKey' => $appKey,
+                        'Target' => 'DEVICE',
+                        'TargetValue' => $request->device_id,
+                        'Title' => '您有新的订单',
+                        'Body' => '订单号：' . '123456',
+                    ],
+                ])
+                ->request();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Order created successfully.',
+            ]);
+        } catch (ClientException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        } catch (ServerException $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
