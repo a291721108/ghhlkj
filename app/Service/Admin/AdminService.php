@@ -58,7 +58,6 @@ class AdminService
         return [
             'token'                 => $token,
             'admin_phone'           => $adminInfo->admin_phone,
-            'admin_institution_id'  => $adminInfo->admin_institution_id,
             'created_at'            => time()
         ];
     }

@@ -86,8 +86,7 @@ class OrderNotificationController extends BaseController
         return 'error';
     }
 
-    /***
-     * showdoc
+    /**
      * @catalog 商家端/订单
      * @title 拒绝退款
      * @description 拒绝退款

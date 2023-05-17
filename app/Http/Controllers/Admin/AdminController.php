@@ -21,7 +21,7 @@ class AdminController extends BaseController
      * @param admin_phone 必选 string 账号
      * @param admin_password 必选 string 用户密码
      *
-     * @return {"meta":{"status":200,"msg":"成功"},"data":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9nanhueS5jb21cL2FkbWluXC9sb2dpbiIsImlhdCI6MTY4MzUwNjg0NSwiZXhwIjoxNjg0ODAyODQ1LCJuYmYiOjE2ODM1MDY4NDUsImp0aSI6Imsyc0EwZnFFWWg1TUJkMzciLCJzdWIiOjEsInBydiI6ImM3NWFmYzE4YjA3YTc2ODRkNDZkMDI3ODM3N2I1ZTMyMjA0NzZjY2QifQ.gKUUP-jVuGxCC-cgxlIiYebA9Aj8ayLUR4sX3OOZB6c","admin_name":"admin","admin_phone":"17821211068","admin_institution_id":1,"created_at":1683506845}}
+     * @return {"meta":{"status":200,"msg":"成功"},"data":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9nanhueS5jb21cL2FkbWluXC9sb2dpbiIsImlhdCI6MTY4NDMxNjQ1OCwiZXhwIjoxNjg1NjEyNDU4LCJuYmYiOjE2ODQzMTY0NTgsImp0aSI6Ik02N3ZpejdLdXptckxMM1MiLCJzdWIiOjEsInBydiI6ImM3NWFmYzE4YjA3YTc2ODRkNDZkMDI3ODM3N2I1ZTMyMjA0NzZjY2QifQ.ELjTvRI2PfJ2e1QY8v0eADJai9pD6YUqfAzwbMSfjdQ","admin_phone":"17821211068","created_at":1684316458}}
      *
      * @return_param status int status(200请求成功,404失败)
      * @return_param msg string 信息提示
