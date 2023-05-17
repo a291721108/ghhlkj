@@ -63,4 +63,11 @@ $router->group([
     // 同意续费
     $router->post('/agreeRenew', 'Admin\OrderNotificationController@agreeRenew');
 
+    // 同意退款
+    $router->post('/agreeRefund', 'Admin\OrderNotificationController@agreeRefund');
+
+    // 拒绝退款
+    $router->post('/refusalRefund', 'Admin\OrderNotificationController@refusalRefund');
+
+
 });

@@ -99,6 +99,24 @@ class OrderNotificationService
     }
 
     /**
+     * 拒绝退款
+     */
+    public static function refusalRefund($request)
+    {
+
+        $refundId = $request->refundId;
+
+        $refundMsg = OrderRefunds::where('id',$refundId)
+            ->where('status',OrderRefunds::ORDER_CHECK_OUT_ZERO)
+            ->first();
+
+        $refundMsg->status = OrderRefunds::ORDER_CHECK_OUT_TWO;
+        $refundMsg->updated_at = time();
+
+        return $refundMsg->save();
+    }
+
+    /**
      * 同意续费
      */
     public static function agreeRenew($request)
