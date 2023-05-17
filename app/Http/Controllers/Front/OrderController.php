@@ -267,7 +267,7 @@ class OrderController extends BaseController
     {
 
         $this->validate($request, [
-            'orderId'      => 'required|numeric',
+            'order_id'      => 'required|numeric',
         ]);
 
         $data = OrderService::checkOutApply($request);

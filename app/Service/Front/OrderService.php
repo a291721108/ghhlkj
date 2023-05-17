@@ -216,7 +216,7 @@ class OrderService
         $useInfo = User::getUserInfo();
 
         $orderCheckArr = [
-            'order_id'          => $request->orderId,
+            'order_id'          => $request->order_id,
             'guest_name'        => $useInfo->id,
             'created_at'        => time(),
 
