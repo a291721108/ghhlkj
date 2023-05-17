@@ -15,14 +15,16 @@ class OrderRefunds extends Common
     const ORDER_CHECK_OUT_ZERO = 0;  // 默认
     const ORDER_CHECK_OUT_ONE = 1;  // 已退款
     const ORDER_CHECK_OUT_TWO = 2;  // 拒绝
+    const ORDER_CHECK_OUT_THREE = 3;  // 取消
 
     /**
      * 信息提示
      */
     const   CHECK_OUT_MSG_ARRAY = [
-        self::ORDER_CHECK_OUT_ZERO     => "默认",
-        self::ORDER_CHECK_OUT_ONE      => "已退款",
-        self::ORDER_CHECK_OUT_TWO      => "拒绝",
+        self::ORDER_CHECK_OUT_ZERO      => "默认",
+        self::ORDER_CHECK_OUT_ONE       => "已退款",
+        self::ORDER_CHECK_OUT_TWO       => "拒绝",
+        self::ORDER_CHECK_OUT_THREE      => "取消",
     ];
 
     /**

@@ -230,6 +230,29 @@ class OrderService
     }
 
     /**
+     * 取消申请退房
+     */
+    public static function offCheckOutApply($request)
+    {
+
+        $useInfo = User::getUserInfo();
+
+        $refundsMsg = OrderRefunds::where('order_id',$request->id)
+            ->where('guest_name',$useInfo->id)
+            ->where('status',OrderRefunds::ORDER_CHECK_OUT_ZERO)
+            ->first();
+
+        $refundsMsg->status = OrderRefunds::ORDER_CHECK_OUT_THREE;
+        $refundsMsg->updated_at = time();
+
+        if ($refundsMsg->save()){
+            return 'success';
+        }
+
+        return 'error';
+    }
+
+    /**
      * 申请续费
      */
     public static function applyRenewal($request)

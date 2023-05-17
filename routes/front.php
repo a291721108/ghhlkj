@@ -188,6 +188,9 @@ $router->group([
     // 申请退房
     $router->post('/checkOutApply', 'Front\OrderController@checkOutApply');
 
+    // 取消申请退房
+    $router->post('/offCheckOutApply', 'Front\OrderController@offCheckOutApply');
+
     // 申请续费
     $router->post('/applyRenewal', 'Front\OrderController@applyRenewal');
 
