@@ -31,7 +31,7 @@ class AdminService
             return 'user_not_exists';
         }
 
-        // 判断用户秘密是正确
+        // 判断用户密码是否正确
         $adminPassword = md5($adminPassword . $adminInfo->salt);
 
         if ($adminPassword !== $adminInfo->admin_password) {
@@ -57,7 +57,6 @@ class AdminService
 
         return [
             'token'                 => $token,
-            'admin_name'            => $adminInfo->admin_name,
             'admin_phone'           => $adminInfo->admin_phone,
             'admin_institution_id'  => $adminInfo->admin_institution_id,
             'created_at'            => time()
@@ -73,11 +72,13 @@ class AdminService
         $adminPassword = $request->admin_password;
 
         $adminInfo     = InstitutionAdmin::getAdminInfo();
-        $adminPassword = md5($adminPassword . $adminInfo->salt);
+        $salt          = rand(1,100);
+        $adminPassword = md5($adminPassword . $salt);
 
         return InstitutionAdmin::where('id', $adminInfo->id)->update([
             'admin_phone'    => $adminPhone,
-            'admin_password' => $adminPassword
+            'admin_password' => $adminPassword,
+            'salt'           => $salt
         ]);
     }
 
