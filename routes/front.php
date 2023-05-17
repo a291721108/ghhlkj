@@ -92,6 +92,9 @@ $router->group([
     // 通过机构类型id获取机构类型详情
     $router->post('/organizationTypeDetails', 'Front\HomeTypeController@organizationTypeDetails');
 
+    // 获取机构电话
+    $router->get('/getInstitutionTel', 'Front\MerchantController@getInstitutionTel');
+
     // 微信授权
     $router->get('/auth', 'Common\WeChatController@auth');
 
