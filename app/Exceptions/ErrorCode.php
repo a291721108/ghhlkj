@@ -45,6 +45,7 @@ class ErrorCode
 
 
         'code_send_success'         => "验证码发送成功",
+        'code_check_success'        => "验证码校验成功",
         'code_expired'              => "验证码已过期",
         'code_error'                => "验证码输入错误",
         'code_has_time'             => "验证码任在有效期内，请稍后在试",

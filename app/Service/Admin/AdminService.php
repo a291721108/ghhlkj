@@ -118,12 +118,29 @@ class AdminService
         $useInfo = InstitutionAdmin::where('admin_phone', '=', $adminPhone)->where('status', '=', InstitutionAdmin::INSTITUTION_ADMIN_STATUS_ONE)->first();
 
         if ($useInfo){
-            return 'The user does not exist.';
+            //  登录成功 为用户颁发token
+            $token = Auth::guard('admin')->login($useInfo);
+
+            // 将token存在redis中 过期时间设置为1天
+            $key = "gh_user_admin_token_" . $useInfo->id;
+            RedisService::set($key, $token);
+
+            // redis存入异常抛错
+            if (!RedisService::get($key)) {
+                return 'redis_write_token_error';
+            }
+
+            return [
+                'token'         =>$token,
+                'id'            => $useInfo->id,
+                'admin_name'    => $useInfo->admin_name,
+                'admin_phone'   => $useInfo->admin_phone,
+                'status'        => $useInfo->status,
+                'created_at'    => hourMinuteSecond($useInfo->created_at),
+            ];
         }
 
-
-        dd($useInfo);
-        return "123";
+        return 'code_check_success';
 
     }
 

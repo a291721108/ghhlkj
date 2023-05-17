@@ -119,7 +119,11 @@ class AdminController extends BaseController
 
         $userInfo = AdminService::register($request);
 
-        return $this->success('success', '200', $userInfo);
+        if (is_array($userInfo)) {
+            return $this->success('success', '200', $userInfo);
+
+        }
+        return $this->error($userInfo);
     }
 
 }
