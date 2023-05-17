@@ -25,8 +25,7 @@ $router->group([
     // 验证码校验
     $router->post('/codeLogin', 'Admin\AdminController@codeLogin');
 
-    // 营业执照识别
-    $router->post('/addLicense', 'Admin\AdminController@addLicense');
+
 
     $router->post('/recognizeBusinessLicense', 'Common\LicenseController@recognizeBusinessLicense');
 
@@ -44,6 +43,8 @@ $router->group([
 //        'authData'
     ]
 ], function () use ($router) {
+    // 营业执照识别
+    $router->post('/addLicense', 'Admin\AdminController@addLicense');
 
     // 获取用户信息
     $router->get('/getAdminInfo', 'Admin\AdminController@getAdminInfo');
