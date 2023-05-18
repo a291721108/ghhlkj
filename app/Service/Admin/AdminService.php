@@ -4,6 +4,7 @@ namespace App\Service\Admin;
 
 use App\Http\Controllers\Common\LicenseController;
 use App\Models\BusinessLicense;
+use App\Models\Institution;
 use App\Models\InstitutionAdmin;
 use App\Models\UserSend;
 use App\Service\Common\RedisService;
@@ -43,6 +44,8 @@ class AdminService
             return 'account_disabled';
         }
 
+        $companyLicense = BusinessLicense::where('admin_id',$adminInfo->id)->first();
+
         //  登录成功 为管理员颁发token
         $token = Auth::guard('admin')->login($adminInfo);
 
@@ -56,9 +59,10 @@ class AdminService
         }
 
         return [
-            'token'                 => $token,
-            'admin_phone'           => $adminInfo->admin_phone,
-            'created_at'            => time()
+            'token'         => $token,
+            'admin_phone'   => $adminInfo->admin_phone,
+            'companyName'   => $companyLicense->companyName,
+            'created_at'    => hourMinuteSecond($adminInfo->created_at)
         ];
     }
 
@@ -121,6 +125,8 @@ class AdminService
         $useInfo = InstitutionAdmin::where('admin_phone', '=', $adminPhone)->where('status', '=', InstitutionAdmin::INSTITUTION_ADMIN_STATUS_ONE)->first();
 
         if ($useInfo){
+            $companyLicense = BusinessLicense::where('admin_id',$useInfo->id)->first();
+
             //  登录成功 为用户颁发token
             $token = Auth::guard('admin')->login($useInfo);
 
@@ -134,8 +140,9 @@ class AdminService
             }
 
             return [
-                'token'         =>$token,
+                'token'         => $token,
                 'id'            => $useInfo->id,
+                'companyName'   => $companyLicense->companyName,
                 'admin_name'    => $useInfo->admin_name,
                 'admin_phone'   => $useInfo->admin_phone,
                 'status'        => $useInfo->status,
@@ -162,12 +169,12 @@ class AdminService
         DB::beginTransaction();
         try {
             // 执行一些数据库操作
-            $data = [
+            $userData = [
                 'admin_phone'   => $request->admin_phone,
                 'status'        => InstitutionAdmin::INSTITUTION_ADMIN_STATUS_ONE,
                 'created_at'    => time(),
             ];
-            $admin = InstitutionAdmin::insertGetId($data);
+            $admin = InstitutionAdmin::insertGetId($userData);
 
             $businessLicense = LicenseController::recognizeBusinessLicense($request->Url);
             $licenseArr = [
@@ -192,7 +199,8 @@ class AdminService
                 'created_at'        => time(),
             ];
 
-            BusinessLicense::insert($licenseArr);
+            $license = BusinessLicense::insert($licenseArr);
+
             // 提交事务
             DB::commit();
 
