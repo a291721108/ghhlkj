@@ -176,26 +176,25 @@ class AdminService
             ];
             $admin = InstitutionAdmin::insertGetId($userData);
 
-            $businessLicense = LicenseController::recognizeBusinessLicense($request->Url);
             $licenseArr = [
                 'admin_id'          => $admin,
-                'creditCode'        => $businessLicense['creditCode'],
-                'companyName'       => $businessLicense['companyName'],
-                'companyType'       => $businessLicense['companyType'],
-                'businessAddress'   => $businessLicense['businessAddress'],
-                'legalPerson'       => $businessLicense['legalPerson'],
+                'creditCode'        => $request->creditCode,
+                'companyName'       => $request->companyName,
+                'companyType'       => $request->companyType,
+                'businessAddress'   => $request->businessAddress,
+                'legalPerson'       => $request->legalPerson,
                 'legalPersonCard'      => $request->legalPersonCard,
                 'legalPersonTel'       => $request->legalPersonTel,
                 'proprietorName'       => $request->proprietorName,
                 'proprietorCard'       => $request->proprietorCard,
                 'proprietorTel'        => $request->proprietorTel,
-                'businessScope'     => $businessLicense['businessScope'],
-                'registeredCapital' => $businessLicense['registeredCapital'],
-                'RegistrationDate'  => $businessLicense['RegistrationDate'],
-                'validPeriod'       => $businessLicense['validPeriod'],
-                'validFromDate'     => $businessLicense['validFromDate'],
-                'validToDate'       => $businessLicense['validToDate'],
-                'companyForm'       => $businessLicense['companyForm'],
+                'businessScope'     => $request->businessScope,
+                'registeredCapital' => $request->registeredCapital,
+                'RegistrationDate'  => $request->RegistrationDate,
+                'validPeriod'       => $request->validPeriod,
+                'validFromDate'     => $request->validFromDate,
+                'validToDate'       => $request->validToDate,
+                'companyForm'       => $request->companyForm,
                 'created_at'        => time(),
             ];
 

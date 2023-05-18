@@ -178,7 +178,7 @@ class AdminController extends BaseController
     public function addLicense(Request $request)
     {
         $this->validate($request, [
-            'Url'           => 'required',
+//            'Url'           => 'required',
             'admin_phone'   => 'required',
             'legalPersonCard'   => 'required',
             'legalPersonTel'   => 'required',

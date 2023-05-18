@@ -26,8 +26,11 @@ class LicenseController extends BaseController
      * @remark
      * @number 3
      */
-    public static function recognizeBusinessLicense($Url)
+    public function recognizeBusinessLicense(Request $request)
     {
+        $this->validate($request, [
+            'Url'           => 'required',
+        ]);
 
         AlibabaCloud::accessKeyClient(env('ALIYUN_SMS_AK'), env('ALIYUN_SMS_AS'))
             ->regionId('cn-hangzhou')
@@ -42,7 +45,7 @@ class LicenseController extends BaseController
                 ->host('ocr-api.cn-hangzhou.aliyuncs.com')
                 ->options([
                     'query' => [
-                        'Url' => $Url,
+                        'Url' => $request->Url,
                     ],
                 ])
                 ->request();
@@ -50,10 +53,10 @@ class LicenseController extends BaseController
             $query = $response->Data;
             $result = json_decode($query);
 
-            return (array)$result->data;
+            return $this->success('success', '200', (array)$result->data);
         } catch (\Exception $e) {
 
-            return ['msg' => '识别失败：' . $e->getMessage()];
+            return $this->error('error','404',['data' => $e->getMessage()]);
         }
     }
 
