@@ -26,7 +26,7 @@ $router->group([
     $router->post('/codeLogin', 'Admin\AdminController@codeLogin');
 
 
-
+    // 营业执照识别
     $router->post('/recognizeBusinessLicense', 'Common\LicenseController@recognizeBusinessLicense');
 
     $router->post('/create', 'Common\LicenseController@create');
@@ -60,6 +60,9 @@ $router->group([
 
     // 机构查看
     $router->post('/getInstitution', 'Admin\InstitutionController@getInstitution');
+
+    // 添加房间类型
+    $router->post('/addHomeType', 'Admin\RoomTypeController@addHomeType');
 
     // 获取机构房间列表
     $router->post('/getInstitutionHomeList', 'Admin\RoomController@getInstitutionHomeList');
