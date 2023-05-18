@@ -114,7 +114,10 @@ class AdminController extends BaseController
      * @title 手机号验证码校验
      * @description 手机号验证码校验
      * @method post
-     * @url 39.105.183.79/admin/getAdminInfo
+     * @url 39.105.183.79/admin/codeLogin
+     *
+     * @param admin_phone 必选 int 手机号
+     * @param dxcodess 必选 int 验证码
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":{"token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FkbWluXC9sb2dpbiIsImlhdCI6MTY0ODExMzM3NSwiZXhwIjoxNjQ4MTE2OTc1LCJuYmYiOjE2NDgxMTMzNzUsImp0aSI6IkR2dDVLNmtTdDZ5V0NhdDMiLCJzdWIiOjgsInBydiI6ImFjYmI0NTAwY2UzMTc3YjA5ZWZiMzNiMTFlMzIxY2NkMmIzM2M3YWMifQ.mzzLjIsgnOB1kLb1RhirL3hmKVI636BtmoGVrT-Uoes","admin_name":"张三","admin_phone":"17865992641","company_id":1,"created_at":1648113375}}
      * *
