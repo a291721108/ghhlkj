@@ -150,7 +150,7 @@ class AdminService
             ];
         }
 
-        return 'code_check_success';
+        return 'success';
 
     }
 
