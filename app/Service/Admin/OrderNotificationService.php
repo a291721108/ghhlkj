@@ -2,6 +2,7 @@
 
 namespace App\Service\Admin;
 
+use App\Models\Institution;
 use App\Models\InstitutionAdmin;
 use App\Models\InstitutionHome;
 use App\Models\InstitutionHomeType;
@@ -11,11 +12,84 @@ use App\Models\OrderRenewal;
 use App\Models\User;
 use App\Models\UserExt;
 use App\Service\Common\FunService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class OrderNotificationService
 {
 
+    /**
+     * 订单列表
+     */
+    public static function getOrderList($request): array
+    {
+        $adminInfo = InstitutionAdmin::getAdminInfo();
+
+        $page     = $request->page ?? 1;
+        $pageSize = $request->page_size ?? 20;
+
+        $institutionId = Institution::where('admin_id',$adminInfo->id)->first();
+        $orderInstitution = $institutionId->id;
+
+        $query    = self::makeSearchWhere($request,$orderInstitution);
+
+        // 获取分页数据
+        $result = (new Order())->getMsgPageList($query, $page, $pageSize);
+
+        // 处理特殊字段
+        $result['data'] = self::dealReturnData($result['data']);
+
+        return $result;
+    }
+
+    /**
+     * @param $request
+     * @return mixed
+     */
+    protected static function makeSearchWhere($request,$orderInstitution)
+    {
+        $query = Order::where('institution_id', $orderInstitution);
+
+        // 状态查询
+        if (isset($request->status)) {
+            $query->where('status', $request->status);
+        }
+
+        return $query;
+    }
+
+    /**
+     * 处理数组
+     * @param $query
+     * @param array $data
+     * @return array
+     */
+    public static function dealReturnData($query, array $data = [])
+    {
+
+        foreach ($query as $k => $v) {
+
+            // 处理回参
+            $data[$k] = [
+                'id'                 => $v['id'],
+                'institution_id'     => Institution::getInstitutionId($v['institution_id']),
+                'institution_type'   => InstitutionHomeType::getInstitutionIdByName($v['institution_type']),
+                'total_amount'       => $v['total_amount'],
+                'amount_paid'        => $v['amount_paid'],
+                'contacts'           => $v['contacts'],
+                'visitDate'          => ytdTampTime($v['visitDate']),
+                'search_time'     => [
+                    ytdTampTime($v['start_date']),
+                    ytdTampTime($v['end_date'])
+                ],
+                'status'             => Order::INS_MSG_ARRAY[$v['status']],
+
+            ];
+        }
+
+        return $data;
+    }
+//-----------------------------------------------------------------------------------------------------
     /**
      * 同意预约  (不交定金)
      */

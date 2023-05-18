@@ -12,6 +12,43 @@ use AlibabaCloud\Client\AlibabaCloud;
 
 class OrderNotificationController extends BaseController
 {
+    /**
+     * @catalog 商家端/订单
+     * @title 订单列表
+     * @description 订单列表
+     * @method post
+     * @url 39.105.183.79/admin/getOrderList
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param page 必选 int 页
+     * @param page_size 必选 int 数据
+     * @param status 非必选 int 状态
+     *
+     * @return {"meta":{"status":200,"msg":"预约成功"},"data":[]}
+     *
+     * @return_param status int status(200请求成功,404失败)
+     * @return_param msg string 信息提示
+     * @return_param token string token
+     *
+     * @remark
+     * @number 2
+     */
+    public function getOrderList(Request $request)
+    {
+        $this->validate($request, [
+            'page'      => 'required|numeric',
+            'page_size' => 'required|numeric',
+        ]);
+
+        $data = OrderNotificationService::getOrderList($request);
+
+        if ($data){
+            return $this->success('success',200,$data);
+
+        }
+        return 'error';
+    }
 
     /**
      * @catalog 商家端/订单

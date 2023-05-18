@@ -70,6 +70,9 @@ $router->group([
     // 禁用房间号
     $router->post('/delInstitutionHome', 'Admin\RoomController@delInstitutionHome');
 
+    // 订单列表
+    $router->post('/getOrderList', 'Admin\OrderNotificationController@getOrderList');
+
     // 预约审核
     $router->post('/noDepositAgreed', 'Admin\OrderNotificationController@noDepositAgreed');
 
