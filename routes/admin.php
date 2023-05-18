@@ -52,6 +52,15 @@ $router->group([
     // 修改密码
     $router->post('/changePassword', 'Admin\AdminController@changePassword');
 
+    // 机构添加
+    $router->post('/addInstitution', 'Admin\InstitutionController@addInstitution');
+
+    // 机构编辑
+    $router->post('/upInstitution', 'Admin\InstitutionController@upInstitution');
+
+    // 机构查看
+    $router->post('/getInstitution', 'Admin\InstitutionController@getInstitution');
+
     // 获取机构房间列表
     $router->post('/getInstitutionHomeList', 'Admin\RoomController@getInstitutionHomeList');
 
