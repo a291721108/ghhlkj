@@ -38,10 +38,12 @@ class InstitutionService
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
 
+        $imgArr = implode(",", $request->institution_img);
+
         $institutionMsg = Institution::where('admin_id',$adminInfo->id)->first();
         $institutionMsg->institution_name       = $request->institution_name;
         $institutionMsg->institution_address    = $request->institution_address;
-        $institutionMsg->institution_img        = $request->institution_img;
+        $institutionMsg->institution_img        = $imgArr;
         $institutionMsg->institution_detail     = $request->institution_detail;
         $institutionMsg->institution_tel        = $request->institution_tel;
         $institutionMsg->institution_type       = $request->institution_type;
