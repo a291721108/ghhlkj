@@ -105,7 +105,7 @@ class AdminController extends BaseController
     {
         $userInfo = AdminService::getAdminInfo();
 
-        return $this->success('success', '200', $userInfo);
+        return $this->success('success', '200', (array)$userInfo);
     }
 
     /**
