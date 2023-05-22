@@ -97,11 +97,9 @@ class InstitutionController extends BaseController
      * @title 机构查看
      * @description 机构查看
      * @method post
-     * @url 39.105.183.79/admin/upInstitution
+     * @url 39.105.183.79/admin/getInstitution
      *
      * @header api_token 必选 string api_token放到authorization中
-     *
-     * @param institutionId 必选 string 机构id
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *
@@ -113,15 +111,10 @@ class InstitutionController extends BaseController
      */
     public function getInstitution(Request $request)
     {
-        $this->validate($request, [
-            'institutionId'      => 'required',
-        ]);
 
         $userInfo = InstitutionService::getInstitution($request);
 
-        if (is_array($userInfo)) {
-            return $this->success('success', '200', $userInfo);
-        }
-        return $this->error('error');
+        return $this->success('success', '200', $userInfo);
+
     }
 }

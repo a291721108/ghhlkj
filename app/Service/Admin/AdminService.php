@@ -109,6 +109,7 @@ class AdminService
             $companyName = $companyName->institution_name;
         }
         return [
+            'id'            => $adminInfo->id,
             'img'           => $adminInfo->img,
             'companyName'   => $companyName
         ];

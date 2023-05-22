@@ -60,11 +60,14 @@ class InstitutionService
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
 
-        $institutionMsg = Institution::where('id', $request->institutionId)
+        $institutionMsg = Institution::where('admin_id', $adminInfo->id)
             ->where('admin_id', $adminInfo->id)
             ->where('status', '>', Institution::INSTITUTION_SYS_STATUS_TWO)
             ->first();
 
+        if (empty($institutionMsg)){
+            return [];
+        }
         $imgArr = explode(",", $institutionMsg->institution_img);
 
         return [
@@ -76,7 +79,7 @@ class InstitutionService
             'institution_type'      => Institution::INS_TYPE_ARRAY[$institutionMsg->institution_type],
             'page_view'             => $institutionMsg->page_view,
             'status'                => Institution::INS_MSG_ARRAY[$institutionMsg->status],
-            'created_at'            => hourMinuteSecond($institutionMsg->created_at),
+            'created_at'            => $institutionMsg->created_at,
         ];
     }
 }
