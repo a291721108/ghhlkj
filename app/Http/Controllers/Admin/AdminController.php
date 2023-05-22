@@ -143,7 +143,7 @@ class AdminController extends BaseController
             return $this->success('code_check_success');
 
         }
-        return $this->error($userInfo);
+        return $this->error('error');
     }
 
     /**
