@@ -28,6 +28,9 @@ $router->group([
     // 营业执照识别
     $router->post('/addLicense', 'Admin\AdminController@addLicense');
 
+    // 修改密码
+    $router->post('/changePassword', 'Admin\AdminController@changePassword');
+
     // 营业执照识别
     $router->post('/recognizeBusinessLicense', 'Common\LicenseController@recognizeBusinessLicense');
 
@@ -50,8 +53,6 @@ $router->group([
     // 获取用户信息
     $router->get('/getAdminInfo', 'Admin\AdminController@getAdminInfo');
 
-    // 修改密码
-    $router->post('/changePassword', 'Admin\AdminController@changePassword');
 
     // 机构添加
     $router->post('/addInstitution', 'Admin\InstitutionController@addInstitution');
