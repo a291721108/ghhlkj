@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Libraries\AliyunOcr;
 use App\Service\Admin\AdminService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Common\BaseController;
