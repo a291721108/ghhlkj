@@ -139,7 +139,10 @@ class AdminController extends BaseController
 
         $userInfo = AdminService::codeLogin($request);
 
-        if ($userInfo == 'success') {
+        if (is_array($userInfo)) {
+            return $this->success('success',200,$userInfo);
+        }
+        if ($userInfo == 'success'){
             return $this->success('code_check_success');
 
         }
