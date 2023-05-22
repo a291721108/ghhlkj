@@ -53,6 +53,14 @@ class AdminService
         $key = "oa_user_admin_token_" . $adminInfo->id;
         RedisService::set($key, $token);
 
+        $companyName = Institution::where('admin_id',$companyLicense->id)->first();
+
+        if (empty($companyName->institution_name)){
+            $companyName = $companyLicense->companyName;
+        }else{
+            $companyName = $companyName->institution_name;
+        }
+
         // redis存入异常抛错
         if (!RedisService::get($key)) {
             return 'redis_write_token_error';
@@ -61,7 +69,8 @@ class AdminService
         return [
             'token'         => $token,
             'admin_phone'   => $adminInfo->admin_phone,
-            'companyName'   => $companyLicense->companyName,
+            'img'           => $adminInfo->admin_id,
+            'companyName'   => $companyName,
             'created_at'    => hourMinuteSecond($adminInfo->created_at)
         ];
     }
@@ -91,6 +100,7 @@ class AdminService
     public static function getAdminInfo()
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
+
 
         return $adminInfo;
     }
@@ -138,10 +148,19 @@ class AdminService
                 return 'redis_write_token_error';
             }
 
+            $companyName = Institution::where('admin_id',$companyLicense->id)->first();
+
+            if (empty($companyName->institution_name)){
+                $companyName = $companyLicense->companyName;
+            }else{
+                $companyName = $companyName->institution_name;
+            }
+
             return [
                 'token'         => $token,
                 'id'            => $useInfo->id,
-                'companyName'   => $companyLicense->companyName,
+                'img'           => $useInfo->admin_id,
+                'companyName'   => $companyName,
                 'admin_name'    => $useInfo->admin_name,
                 'admin_phone'   => $useInfo->admin_phone,
                 'status'        => $useInfo->status,
@@ -170,6 +189,7 @@ class AdminService
             // 执行一些数据库操作
             $userData = [
                 'admin_phone'   => $request->admin_phone,
+                'admin_img'     => env('APP_URL') . env('QRCODE_DIR') . '/my_img_default.png',
                 'status'        => InstitutionAdmin::INSTITUTION_ADMIN_STATUS_ONE,
                 'created_at'    => time(),
             ];
