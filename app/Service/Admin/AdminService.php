@@ -74,11 +74,10 @@ class AdminService
         $adminPhone    = $request->admin_phone;
         $adminPassword = $request->admin_password;
 
-        $adminInfo     = InstitutionAdmin::getAdminInfo();
         $salt          = rand(1,100);
         $adminPassword = md5($adminPassword . $salt);
 
-        return InstitutionAdmin::where('id', $adminInfo->id)->update([
+        return InstitutionAdmin::where('admin_phone', $adminPhone)->update([
             'admin_phone'    => $adminPhone,
             'admin_password' => $adminPassword,
             'salt'           => $salt
