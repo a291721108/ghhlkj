@@ -38,7 +38,7 @@ class InstitutionService
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
 
-        $institutionMsg = Institution::where('id',$request->institutionId)->where('admin_id',$adminInfo->id)->first();
+        $institutionMsg = Institution::where('admin_id',$adminInfo->id)->first();
         $institutionMsg->institution_name       = $request->institution_name;
         $institutionMsg->institution_address    = $request->institution_address;
         $institutionMsg->institution_img        = $request->institution_img;

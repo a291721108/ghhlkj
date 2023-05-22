@@ -80,9 +80,6 @@ class InstitutionController extends BaseController
      */
     public function upInstitution(Request $request)
     {
-        $this->validate($request, [
-            'institutionId'      => 'required',
-        ]);
 
         $userInfo = InstitutionService::upInstitution($request);
 
