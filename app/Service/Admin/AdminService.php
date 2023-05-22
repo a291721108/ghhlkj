@@ -101,8 +101,17 @@ class AdminService
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
 
-
-        return $adminInfo;
+        $companyName = Institution::where('admin_id',$adminInfo->id)->first();
+        $companyLicense = BusinessLicense::where('admin_id',$adminInfo->id)->first();
+        if (empty($companyName->institution_name)){
+            $companyName = $companyLicense->companyName;
+        }else{
+            $companyName = $companyName->institution_name;
+        }
+        return [
+            'img'           => $adminInfo->img,
+            'companyName'   => $companyName
+        ];
     }
 
     /**
