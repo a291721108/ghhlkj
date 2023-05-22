@@ -62,7 +62,6 @@ class InstitutionController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @param institutionId 必选 string 机构id
      * @param institution_name 必选 string 机构名称
      * @param institution_address 必选 string 机构地址
      * @param institution_img 必选 [] 机构图片
