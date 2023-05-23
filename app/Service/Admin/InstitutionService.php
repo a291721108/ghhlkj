@@ -15,11 +15,13 @@ class InstitutionService
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
 
+        $imgArr = implode(",", $request->institution_img);
+
         $institutionArr = [
             'admin_id'              => $adminInfo->id,
             'institution_name'      => $request->institution_name,
             'institution_address'   => $request->institution_address,
-            'institution_img'       => $request->institution_img,
+            'institution_img'       => $imgArr,
             'institution_detail'    => $request->institution_detail,
             'institution_tel'       => $request->institution_tel,
             'institution_type'      => $request->institution_type,
