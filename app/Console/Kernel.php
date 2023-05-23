@@ -22,6 +22,9 @@ class Kernel extends ConsoleKernel
 
         // 订单已完成状态修改
         \App\Console\Commands\OrderComSta::class,
+
+        // 将浏览量存入缓存
+        \App\Console\Commands\PageView::class,
     ];
 
     /**
@@ -40,5 +43,8 @@ class Kernel extends ConsoleKernel
 
         // 订单已完成状态修改 每分钟监测一次
         $schedule->command('OrderComSta:ok')->everyMinute();
+
+        // 将浏览量存入缓存 每天0点跟新
+        $schedule->command('PageView:ok')->dailyAt('00:00');//->dailyAt('00:00');
     }
 }
