@@ -73,10 +73,75 @@ class RoomTypeService
     public static function homeTypeInfo($request)
     {
 
-        $homeType = InstitutionHomeType::where('id',$request->homeTypeId)->get()->toArray();
-        return $homeType;
+        $homeType = InstitutionHomeType::where('id',$request->homeTypeId)->first();
+
+        $homeNum = InstitutionHome::where('type',$homeType->id)->get()->toArray();
+
+        $home = [];
+        foreach ($homeNum as $k => $v){
+            $home[] = [
+                'id'   => $v['id'],
+                'institution_num'   => $v['institution_num'],
+                'instutution_status'   => $v['instutution_status'],
+            ];
+        }
+
+        return [
+            'id'                => $homeType->id,
+            'institution_id'    => $homeType->institution_id,
+            'home_type'         => $homeType->home_type,
+            'home_img'          => $homeType->home_img,
+            'home_price'        => $homeType->home_price,
+            'home_size'         => $homeType->home_size,
+            'home_facility'     => $homeType->home_facility,
+            'home_detail'       => $homeType->home_detail,
+            'status'            => $homeType->status,
+            'home_num'          => $home,
+        ];
     }
 
+    /**
+     * 修改房间类型
+     */
+    public static function upHomeType($request)
+    {
+
+        $homeType = InstitutionHomeType::where('id',$request->homeTypeId)->first();
+
+dd($homeType);
+        $homeTypeImg = $request->homeTypeImg;
+        $img = implode(",",$homeTypeImg);
+
+        $homeNum = $request->homeNum;
+
+        $homeTypeArr = [
+            'institution_id'    => $institutionId,
+            'home_type'         => $request->home_type,
+            'home_price'        => $request->home_price,
+            'home_size'         => $request->home_size,
+            'home_facility'     => $request->home_facility,
+            'home_detail'       => $request->home_detail,
+            'home_img'          => $img,
+            'status'            => InstitutionHomeType::Home_TYPE_SYS_STATUS_ONE,
+            'created_at'        => time()
+        ];
+
+        $homeTypeId = InstitutionHomeType::insertGetId($homeTypeArr);
+
+        foreach ($homeNum as &$v){
+            $data = [
+                'institution_id'        => $institutionId,
+                'type'                  => $homeTypeId,
+                'institution_num'       => $v,
+                'instutution_status'    => InstitutionHome::Home_SYS_STATUS_ONE,
+                'created_at'            => time(),
+            ];
+
+            InstitutionHome::save($data);
+        }
+
+        return "success";
+    }
 }
 
 

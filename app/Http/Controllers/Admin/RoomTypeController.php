@@ -99,6 +99,8 @@ class RoomTypeController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
+     * @param homeTypeId 必选 string 类型名称
+     *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[{"id":1,"institution_id":1,"home_type":"单人房","home_img":"https:\/\/picsum.photos\/seed\/picsum\/200\/300","home_price":"1500.00","home_size":40,"home_facility":"通风良好，空调，无障碍卫生间，无障碍地面，安坐扶靠","home_detail":"精装单人套间，1室1厅1厨1卫1阳台，中式现代风格、环保装潢、安静明亮、智能门禁、智能家电、高档红木家具、星级酒店配套标准、","status":1,"created_at":"","updated_at":""}]}
      *
      * @return_param status int status(200请求成功,404失败)
@@ -118,6 +120,42 @@ class RoomTypeController extends BaseController
         ]);
 
         $userInfo = RoomTypeService::homeTypeInfo($request);
+
+        if (is_array($userInfo)){
+            return $this->success('success',200,$userInfo);
+        }
+        return $this->error('error');
+    }
+
+    /***
+     * showdoc
+     * @catalog 商家端/房间类型管理
+     * @title 编辑房间类型
+     * @description 编辑获取房间类型
+     * @method post
+     * @url 39.105.183.79/admin/upHomeType
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[{"id":1,"institution_id":1,"home_type":"单人房","home_img":"https:\/\/picsum.photos\/seed\/picsum\/200\/300","home_price":"1500.00","home_size":40,"home_facility":"通风良好，空调，无障碍卫生间，无障碍地面，安坐扶靠","home_detail":"精装单人套间，1室1厅1厨1卫1阳台，中式现代风格、环保装潢、安静明亮、智能门禁、智能家电、高档红木家具、星级酒店配套标准、","status":1,"created_at":"","updated_at":""}]}
+     *
+     * @return_param status int status(200请求成功,404失败)
+     * @return_param msg string 信息提示
+     * @return_param token string token
+     * @return_param admin_name string 姓名
+     * @return_param admin_phone string 手机号
+     * @return_param company_id string 公司ID
+     *
+     * @remark
+     * @number 2
+     */
+    public function upHomeType(Request $request)
+    {
+        $this->validate($request, [
+            'homeTypeId'     => 'required',
+        ]);
+
+        $userInfo = RoomTypeService::upHomeType($request);
 
         if (is_array($userInfo)){
             return $this->success('success',200,$userInfo);

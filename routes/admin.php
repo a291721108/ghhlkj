@@ -69,6 +69,9 @@ $router->group([
     // 根据id获取房间类型
     $router->post('/homeTypeInfo', 'Admin\RoomTypeController@homeTypeInfo');
 
+    // 修改房间类型
+    $router->post('/upHomeType', 'Admin\RoomTypeController@upHomeType');
+
     // 获取房间类型列表
     $router->post('/getHomeType', 'Admin\RoomTypeController@getHomeType');
 
