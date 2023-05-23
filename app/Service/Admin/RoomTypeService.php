@@ -66,6 +66,17 @@ class RoomTypeService
 
         return $homeType;
     }
+
+    /**
+     * 根据id获取房间类型
+     */
+    public static function homeTypeInfo($request)
+    {
+
+        $homeType = InstitutionHomeType::where('id',$request->homeTypeId)->get()->toArray();
+        return $homeType;
+    }
+
 }
 
 
