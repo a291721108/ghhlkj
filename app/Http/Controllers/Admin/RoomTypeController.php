@@ -41,13 +41,13 @@ class RoomTypeController extends BaseController
     public function addHomeType(Request $request)
     {
         $this->validate($request, [
-            'home_type'     => 'required|numeric',
-            'home_price'    => 'required|numeric',
-            'home_size'     => 'required|numeric',
-            'home_facility' => 'required|numeric',
-            'home_detail'   => 'required|numeric',
-            'homeTypeImg'   => 'required|numeric',
-            'homeNum'       => 'required|numeric',
+            'home_type'     => 'required',
+            'home_price'    => 'required',
+            'home_size'     => 'required',
+            'home_facility' => 'required',
+            'home_detail'   => 'required',
+            'homeTypeImg'   => 'required',
+            'homeNum'       => 'required',
 
         ]);
 
