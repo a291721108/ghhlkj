@@ -136,7 +136,7 @@ class OrganizationService
             'id'                        => $query->id,
             'institution_name'          => $query->institution_name,
             'institution_address'       => $query->institution_address,
-            'institution_img'           => $query->institution_img,
+            'institution_img'           => explode(",", $query->institution_img),
             'institution_detail'        => $query->institution_detail,
             'institution_tel'           => $query->institution_tel,
             'institution_type'          => $query->institution_type,
