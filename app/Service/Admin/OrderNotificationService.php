@@ -274,7 +274,7 @@ class OrderNotificationService
             'order_remark'      => $orderData->order_remark,
             'refundNot'         => $orderData->refundNot,
             'amount'            => $amount,
-            'refund_date'       => ytdTampTime($refund_date),
+            'refund_date'       => timestampTime($refund_date),
             'renewalNot'        => $orderData->renewalNot,
             'contacts'          => $orderData->contacts,
             'contacts_card'     => $orderData->contacts_card,
