@@ -215,6 +215,26 @@ class OrderNotificationController extends BaseController
      * @return_param status int status(200请求成功,404失败)
      * @return_param msg string 信息提示
      * @return_param token string token
+     * @return_param id int id
+     * @return_param user_id string 用户id
+     * @return_param order_no string 订单编号
+     * @return_param total_amount float 订单总金额
+     * @return_param amount_paid float 已支付金额
+     * @return_param wait_pay float 待支付金额
+     * @return_param institution_id int 机构id
+     * @return_param institution_type 【】 房间类型
+     * @return_param roomNum int 房间号
+     * @return_param visitDate string 看房日期
+     * @return_param start_date string 开始日期
+     * @return_param end_date string 结束日期
+     * @return_param order_phone string 手机号
+     * @return_param order_remark string 备注
+     * @return_param refundNot string 是否退款（1是   0否）
+     * @return_param renewalNot string 是否续费（1是   0否）
+     * @return_param contacts string 联系人
+     * @return_param contacts_card string 联系人身份证
+     * @return_param status string 订单状态（1待付款  2已入住  3已完成 4已预约 0取消）
+     *
      *
      * @remark
      * @number 2
