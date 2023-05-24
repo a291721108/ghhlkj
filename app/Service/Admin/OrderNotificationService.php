@@ -280,6 +280,8 @@ class OrderNotificationService
             'contacts_card'     => $orderData->contacts_card,
             'status'            => $orderData->status,
             'created_at'        => hourMinuteSecond(strtotime($orderData->created_at)),
+            'updated_at'        => hourMinuteSecond(strtotime($orderData->updated_at)),
+
         ];
     }
 

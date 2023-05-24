@@ -30,7 +30,8 @@ class OrderComSta extends Command
 
         if (!empty($orderArr)) {
             Order::whereIn('id', $orderArr)->update([
-                'status' => Order::ORDER_SYS_TYPE_THERE
+                'status' => Order::ORDER_SYS_TYPE_THERE,
+                'updated_at'    => time()
             ]);
         }
 
