@@ -106,9 +106,16 @@ class RoomTypeController extends BaseController
      * @return_param status int status(200请求成功,404失败)
      * @return_param msg string 信息提示
      * @return_param token string token
-     * @return_param admin_name string 姓名
-     * @return_param admin_phone string 手机号
-     * @return_param company_id string 公司ID
+     * @return_param id string 姓名
+     * @return_param institution_id int 关联机构id
+     * @return_param home_type string 类型名称
+     * @return_param home_img 【】 图片
+     * @return_param home_price string 价格
+     * @return_param home_size string 面积
+     * @return_param home_facility string 房间设施
+     * @return_param home_detail string 户型介绍
+     * @return_param status string 1正常-1禁用
+     * @return_param home_num [] 房间号
      *
      * @remark
      * @number 2

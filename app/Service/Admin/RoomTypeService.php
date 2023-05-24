@@ -74,7 +74,6 @@ class RoomTypeService
     {
 
         $homeType = InstitutionHomeType::where('id',$request->homeTypeId)->first();
-
         $homeNum = InstitutionHome::where('type',$homeType->id)->get()->toArray();
 
         $home = [];
@@ -90,7 +89,7 @@ class RoomTypeService
             'id'                => $homeType->id,
             'institution_id'    => $homeType->institution_id,
             'home_type'         => $homeType->home_type,
-            'home_img'          => $homeType->home_img,
+            'home_img'          => explode(",",$homeType->home_img),
             'home_price'        => $homeType->home_price,
             'home_size'         => $homeType->home_size,
             'home_facility'     => $homeType->home_facility,
