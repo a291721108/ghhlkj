@@ -68,7 +68,10 @@ class OrderNotificationService
     {
 
         foreach ($query as $k => $v) {
-
+            if ($v['refundNot'] == 1){
+                $refunds = OrderRefunds::where('order_id',$v['id'])->first();
+                $v['amount'] = $refunds->amount;
+            }
             // 处理回参
             $data[$k] = [
                 'id'                 => $v['id'],
@@ -78,6 +81,7 @@ class OrderNotificationService
                 'amount_paid'        => $v['amount_paid'],
                 'roomNum'            => $v['roomNum'],
                 'contacts'           => $v['contacts'],
+                'amount'             => $v['amount'],
                 'refundNot'          => $v['refundNot'],
                 'renewalNot'         => $v['renewalNot'],
                 'visitDate'          => ytdTampTime($v['visitDate']),
