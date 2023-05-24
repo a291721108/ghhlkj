@@ -76,6 +76,7 @@ class OrderNotificationService
                 'institution_type'   => InstitutionHomeType::getInstitutionTypeId($v['institution_type']),
                 'total_amount'       => $v['total_amount'],
                 'amount_paid'        => $v['amount_paid'],
+                'roomNum'            => $v['roomNum'],
                 'contacts'           => $v['contacts'],
                 'visitDate'          => ytdTampTime($v['visitDate']),
                 'search_time'     => [
