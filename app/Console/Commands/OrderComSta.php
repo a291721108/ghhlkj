@@ -18,7 +18,7 @@ class OrderComSta extends Command
     {
 
         // 预约状态修改
-        $order = Order::select()->get();
+        $order = Order::where('status',Order::ORDER_SYS_TYPE_FOUR)->select()->get();
         $orderArr = [];
 
         foreach ($order as $v) {
