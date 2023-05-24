@@ -78,6 +78,8 @@ class OrderNotificationService
                 'amount_paid'        => $v['amount_paid'],
                 'roomNum'            => $v['roomNum'],
                 'contacts'           => $v['contacts'],
+                'refundNot'          => $v['refundNot'],
+                'renewalNot'         => $v['renewalNot'],
                 'visitDate'          => ytdTampTime($v['visitDate']),
                 'search_time'     => [
                     ytdTampTime($v['start_date']),
