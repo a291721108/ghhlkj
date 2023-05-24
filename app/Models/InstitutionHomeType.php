@@ -71,7 +71,7 @@ class InstitutionHomeType extends Common
             'home_type'     => $data['home_type'],
             'home_price'    => $data['home_price'],
             'home_detail'   => $data['home_detail'],
-            'home_img'      => explode(",",$data['home_img'])[0],
+            'home_img'      => explode(",",$data['home_img'])[0] ?? '',
 
         ];
     }
