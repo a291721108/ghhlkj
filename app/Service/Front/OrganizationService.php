@@ -78,7 +78,7 @@ class OrganizationService
                 'id'                        => $v['id'],
                 'institution_name'          => $v['institution_name'],
                 'institution_address'       => $v['institution_address'],
-                'institution_img'           => explode(",", $v['institution_img']),
+                'institution_img'           => explode(",", $v['institution_img'])[0],
                 'price'                     => InstitutionHomeType::getInstitutionIdByPrice($v['id']),
                 'status'                    => Institution::INS_MSG_ARRAY[$v['status']]??"",
                 'page_view'                 => $v['page_view'],
