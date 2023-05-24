@@ -60,4 +60,19 @@ class InstitutionHomeType extends Common
         return self::where('id', $id)->select('id','home_type','home_price','home_detail','home_img')->get()->toArray();
     }
 
+    /**
+     * 通过机构id获取该机构下的类型
+     */
+    public static function getInstitutionTypeId($id)
+    {
+        $data = self::where('id', $id)->select('id','home_type','home_price','home_detail','home_img')->first();
+        return [
+            'id'            => $data['id'],
+            'home_type'     => $data['home_type'],
+            'home_price'    => $data['home_price'],
+            'home_detail'   => $data['home_detail'],
+            'home_img'      => explode(",",$data['home_img'])[0],
+
+        ];
+    }
 }
