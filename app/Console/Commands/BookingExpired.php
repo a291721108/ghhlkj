@@ -29,7 +29,9 @@ class BookingExpired extends Command
 
         if (!empty($orderBookingArr)) {
             Order::whereIn('id', $orderBookingArr)->update([
-                'status' => Order::ORDER_SYS_TYPE_ZERO
+                'status' => Order::ORDER_SYS_TYPE_ZERO,
+                'updated_at'    => time()
+
             ]);
         }
 
