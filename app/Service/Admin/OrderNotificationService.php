@@ -237,5 +237,37 @@ class OrderNotificationService
         return 'error';
     }
 
+    /**
+     * 同意续费
+     */
+    public static function getOrderDetail($request)
+    {
+        $orderId = $request->orderId;
+
+        $orderData = Order::where('id',$orderId)->first();
+
+        return [
+            'id'                => $orderData->id,
+            'user_id'           => $orderData->user_id,
+            'order_no'          => $orderData->order_no,
+            'total_amount'      => $orderData->total_amount,
+            'amount_paid'       => $orderData->amount_paid,
+            'wait_pay'          => $orderData->wait_pay,
+            'institution_id'    => $orderData->institution_id,
+            'institution_type'  => $orderData->institution_type,
+            'roomNum'           => $orderData->roomNum,
+            'visitDate'         => ytdTampTime($orderData->visitDate),
+            'start_date'        => $orderData->start_date,
+            'end_date'          => $orderData->end_date,
+            'order_phone'       => $orderData->order_phone,
+            'order_remark'      => $orderData->order_remark,
+            'refundNot'         => $orderData->refundNot,
+            'renewalNot'        => $orderData->renewalNot,
+            'contacts'          => $orderData->contacts,
+            'contacts_card'     => $orderData->contacts_card,
+            'status'            => $orderData->status,
+            'created_at'        => hourMinuteSecond(strtotime($orderData->created_at)),
+        ];
+    }
 
 }

@@ -87,6 +87,9 @@ $router->group([
     // 订单列表
     $router->post('/getOrderList', 'Admin\OrderNotificationController@getOrderList');
 
+    // 订单详情
+    $router->post('/getOrderDetail', 'Admin\OrderNotificationController@getOrderDetail');
+
     // 预约审核
     $router->post('/noDepositAgreed', 'Admin\OrderNotificationController@noDepositAgreed');
 
