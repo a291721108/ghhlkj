@@ -252,7 +252,10 @@ class OrderNotificationService
         $orderId = $request->orderId;
 
         $orderData = Order::where('id',$orderId)->first();
-
+        if ($orderData->refundNot == 1){
+            $refunds = OrderRefunds::where('order_id',$orderData->id)->first();
+            $amount = $refunds->amount;
+        }
         return [
             'id'                => $orderData->id,
             'user_id'           => $orderData->user_id,
@@ -269,6 +272,7 @@ class OrderNotificationService
             'order_phone'       => $orderData->order_phone,
             'order_remark'      => $orderData->order_remark,
             'refundNot'         => $orderData->refundNot,
+            'amount'            => $amount,
             'renewalNot'        => $orderData->renewalNot,
             'contacts'          => $orderData->contacts,
             'contacts_card'     => $orderData->contacts_card,
