@@ -255,6 +255,7 @@ class OrderNotificationService
         if ($orderData->refundNot == 1){
             $refunds = OrderRefunds::where('order_id',$orderData->id)->first();
             $amount = $refunds->amount;
+            $refund_date = $refunds->refund_date;
         }
         return [
             'id'                => $orderData->id,
@@ -273,6 +274,7 @@ class OrderNotificationService
             'order_remark'      => $orderData->order_remark,
             'refundNot'         => $orderData->refundNot,
             'amount'            => $amount,
+            'refund_date'       => ytdTampTime($refund_date),
             'renewalNot'        => $orderData->renewalNot,
             'contacts'          => $orderData->contacts,
             'contacts_card'     => $orderData->contacts_card,
