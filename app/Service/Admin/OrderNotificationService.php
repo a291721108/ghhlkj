@@ -245,7 +245,7 @@ class OrderNotificationService
     }
 
     /**
-     * 同意续费
+     * 订单详情
      */
     public static function getOrderDetail($request)
     {
@@ -261,7 +261,7 @@ class OrderNotificationService
             'amount_paid'       => $orderData->amount_paid,
             'wait_pay'          => $orderData->wait_pay,
             'institution_id'    => $orderData->institution_id,
-            'institution_type'  => $orderData->institution_type,
+            'institution_type'  => InstitutionHomeType::getInstitutionTypeId($orderData->institution_type),
             'roomNum'           => $orderData->roomNum,
             'visitDate'         => ytdTampTime($orderData->visitDate),
             'start_date'        => $orderData->start_date,
