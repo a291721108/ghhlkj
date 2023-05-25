@@ -168,6 +168,13 @@ class RoomTypeController extends BaseController
     {
         $this->validate($request, [
             'homeTypeId'     => 'required',
+            'home_type'     => 'required',
+            'home_price'     => 'required',
+            'home_size'     => 'required',
+            'home_facility'     => 'required',
+            'home_detail'     => 'required',
+            'homeTypeImg'     => 'required',
+            'homeNum'     => 'required',
         ]);
 
         $userInfo = RoomTypeService::upHomeType($request);
