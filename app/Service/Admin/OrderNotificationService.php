@@ -105,7 +105,9 @@ class OrderNotificationService
         $adminInfo = InstitutionAdmin::getAdminInfo();
         $bookingId = $request->bookingId;
 
-        $bookIngMsg = Order::where('institution_id',$adminInfo->admin_institution_id)
+        $instututionId = Institution::where('admin_id',$adminInfo->id)->first();
+
+        $bookIngMsg = Order::where('institution_id',$instututionId->id)
             ->where('status',Order::ORDER_SYS_TYPE_FOUR)
             ->where('id',$bookingId)
             ->first();
@@ -116,9 +118,9 @@ class OrderNotificationService
 
         if ($bookIngMsg->save()){
 
-            $homeMsg = InstitutionHome::where('id',$request->homeId)->first();
-            $homeMsg->instutution_status = InstitutionHome::Home_SYS_STATUS_TWO;
-            $homeMsg->updated_at = time();
+            $homeMsg = InstitutionHome::where('id',$request->roomID)->first();
+            $homeMsg->instutution_status    = InstitutionHome::Home_SYS_STATUS_TWO;
+            $homeMsg->updated_at            = time();
             $homeMsg->save();
 
             return "book_successfully";
