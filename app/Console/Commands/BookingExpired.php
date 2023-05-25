@@ -21,12 +21,11 @@ class BookingExpired extends Command
         $orderBookingArr = [];
 
         foreach ($orderBooking as $v) {
-
-            // 无押金预约
-            if (time() > strtotime(date('Y-m-d H:i:s', $v->visitDate + 24 * 3600)) && $v->status == Order::ORDER_SYS_TYPE_FOUR) {
+            if (empty($v->visitDate) && time() > strtotime(date('Y-m-d H:i:s', $v->end_date) && $v->status == Order::ORDER_SYS_TYPE_FOUR)){
                 $orderBookingArr[] = $v->id;
             }
-            if (time() > strtotime(date('Y-m-d H:i:s', $v->end_date) && $v->status == Order::ORDER_SYS_TYPE_FOUR)){
+
+            if (empty($v->end_date) && time() > strtotime(date('Y-m-d H:i:s', $v->visitDate + 24 * 3600)) && $v->status == Order::ORDER_SYS_TYPE_FOUR){
                 $orderBookingArr[] = $v->id;
             }
         }
