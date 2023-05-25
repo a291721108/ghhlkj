@@ -148,7 +148,7 @@ class RoomTypeService
                 'created_at'            => time(),
             ];
 
-            InstitutionHome::save($data);
+            InstitutionHome->save($data);
         }
 
         return "success";
