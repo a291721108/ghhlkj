@@ -63,8 +63,22 @@ class RoomTypeService
         $institutionId = Institution::where('admin_id',$adminInfo->id)->value('id');
         $homeType = InstitutionHomeType::where('institution_id',$institutionId)->get()->toArray();
 
-
-        return $homeType;
+        $data = [];
+        foreach ($homeType as $k => $v){
+            $data[] = [
+                'id'                => $v['id'],
+                'institution_id'    => $v['institution_id'],
+                'home_type'         => $v['home_type'],
+                'home_img'          => explode(",",$v['home_img'])[0] ?? '',
+                'home_price'        => $v['home_price'],
+                'home_size'         => $v['home_size'],
+                'home_facility'     => $v['home_facility'],
+                'home_detail'       => $v['home_detail'],
+                'status'            => $v['status'],
+                'created_at'        => $v['created_at'],
+            ];
+        }
+        return $data;
     }
 
     /**
