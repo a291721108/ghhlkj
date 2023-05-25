@@ -121,14 +121,12 @@ class RoomTypeService
 
         $homeType = InstitutionHomeType::where('id',$request->homeTypeId)->first();
 
-dd($homeType);
         $homeTypeImg = $request->homeTypeImg;
         $img = implode(",",$homeTypeImg);
-
         $homeNum = $request->homeNum;
 
         $homeTypeArr = [
-            'institution_id'    => $institutionId,
+            'institution_id'    => $homeType->institution_id,
             'home_type'         => $request->home_type,
             'home_price'        => $request->home_price,
             'home_size'         => $request->home_size,
@@ -143,7 +141,7 @@ dd($homeType);
 
         foreach ($homeNum as &$v){
             $data = [
-                'institution_id'        => $institutionId,
+                'institution_id'        => $homeType->institution_id,
                 'type'                  => $homeTypeId,
                 'institution_num'       => $v,
                 'instutution_status'    => InstitutionHome::Home_SYS_STATUS_ONE,
