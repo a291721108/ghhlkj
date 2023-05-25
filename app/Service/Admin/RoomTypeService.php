@@ -123,7 +123,6 @@ class RoomTypeService
 
         $homeTypeImg = $request->homeTypeImg;
         $img = implode(",",$homeTypeImg);
-        $homeNum = $request->homeNum;
 
         $homeTypeArr = [
             'institution_id'    => $homeType->institution_id,
@@ -137,21 +136,11 @@ class RoomTypeService
             'created_at'        => time()
         ];
 
-        $homeTypeId = InstitutionHomeType::insertGetId($homeTypeArr);
+        if (InstitutionHomeType::save($homeTypeArr)){
+            return "success";
 
-        foreach ($homeNum as &$v){
-            $data = [
-                'institution_id'        => $homeType->institution_id,
-                'type'                  => $homeTypeId,
-                'institution_num'       => $v,
-                'instutution_status'    => InstitutionHome::Home_SYS_STATUS_ONE,
-                'created_at'            => time(),
-            ];
-
-            InstitutionHome->save($data);
         }
-
-        return "success";
+        return "error";
     }
 }
 
