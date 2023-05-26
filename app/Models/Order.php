@@ -21,6 +21,10 @@ class Order extends Common
     const ORDER_CHECK_OUT_ZERO = 0;  // 默认
     const ORDER_CHECK_OUT_ONE = 1;  // 已退款
 
+    //是否续费
+    const ORDER_RENEW_ZERO = 0;  // 默认
+    const ORDER_RENEW_ONE = 1;  // 续费
+
     /**
      * 信息提示
      */

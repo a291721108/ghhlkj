@@ -203,13 +203,14 @@ class OrderNotificationService
     {
         $renewalId = $request->renewalId;
 
-        $homeMoney = InstitutionHomeType::where('id',$request->typeId)->first();
         $renewalMsg = OrderRenewal::where('id',$renewalId)->first();
+
 
         $renewalMsg->status        = OrderRenewal::ORDER_RENEWAL_ONE;
         $renewalMsg->updated_at    = time();
 
         if ($renewalMsg->save()){
+            $homeMoney = InstitutionHomeType::where('id',$renewalMsg->institution_type)->first();
 
             //计算相差月数
             $data = getMonthDiff($renewalMsg->start_date,$renewalMsg->end_date);
