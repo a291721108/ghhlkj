@@ -330,6 +330,7 @@ class OrderController extends BaseController
      * @param end_date 必选 int 结束时间
      * @param orderId 必选 int 订单id
      * @param phone 必选 int 手机号
+     * @param remark 非必选 string 备注
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *

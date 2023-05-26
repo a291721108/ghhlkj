@@ -274,6 +274,7 @@ class OrderNotificationService
             'contacts'          => $orderData->contacts,
             'contacts_card'     => $orderData->contacts_card,
             'phone'             => $renewData->phone,
+            'remark'            => $renewData->remark,
             'status'            => $renewData->status,
             'created_at'        => hourMinuteSecond($renewData->created_at)
 

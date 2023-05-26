@@ -267,6 +267,7 @@ class OrderService
             'institution_type'  => $request->institution_type,
             'room_number'       => $request->room_number,
             'phone'             => $request->phone,
+            'remark'            => $request->remark,
             'start_date'        => strtotime($request->start_date),
             'end_date'          => strtotime($request->end_date),
             'created_at'        => time(),
