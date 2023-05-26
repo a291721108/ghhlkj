@@ -329,6 +329,7 @@ class OrderController extends BaseController
      * @param start_date 必选 int 开始时间
      * @param end_date 必选 int 结束时间
      * @param orderId 必选 int 订单id
+     * @param phone 必选 int 手机号
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *
@@ -347,6 +348,7 @@ class OrderController extends BaseController
             'room_number'         => 'required|numeric',
             'start_date'          => 'required',
             'end_date'            => 'required',
+            'phone'               => 'required',
         ]);
 
         $data = OrderService::applyRenewal($request);
