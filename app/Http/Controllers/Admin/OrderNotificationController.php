@@ -231,7 +231,7 @@ class OrderNotificationController extends BaseController
             return $this->success('success',200,$data);
 
         }
-        return $this->error('error');
+        return $this->error($data);
 
     }
 
