@@ -120,8 +120,8 @@ class OrderNotificationController extends BaseController
 
         $data = OrderNotificationService::agreeRefund($request);
 
-        if ($data){
-            return $this->success($data);
+        if ($data == 'successful_refund'){
+            return $this->success('successful_refund');
         }
         return $this->error('error');
 
