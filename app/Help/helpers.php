@@ -442,11 +442,11 @@ if (!function_exists('getCheckCode')) {
 if (!function_exists('getMonthDiff')) {
     function getMonthDiff($timestamp1,$timestamp2)
     {
-        $date1 = new \DateTime($timestamp1);
-        $date2 = new \DateTime($timestamp2);
+        $date1 = new \DateTime(date("Y-m-d H:i:s",$timestamp1));
+        $date2 = new \DateTime(date("Y-m-d H:i:s",$timestamp2));
+
         $interval = $date1->diff($date2);
-        $total_months = ($interval->y * 12) + $interval->m;
-//        $monthDiff = $interval->format('%m');
-        return $total_months;
+        $months = $interval->m;
+        return $months;
     }
 }
