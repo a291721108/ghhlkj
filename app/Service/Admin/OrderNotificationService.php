@@ -222,7 +222,7 @@ class OrderNotificationService
 
             //  订单表创建预约数据
             $bookOrder = [
-                'user_id'           => $renewalMsg->userId,
+                'user_id'           => $renewalMsg->guest_id,
                 'order_no'          => FunService::orderNumber(),
                 'total_amount'      => $data * $homeMoney->home_price,
                 'amount_paid'       => 0,
