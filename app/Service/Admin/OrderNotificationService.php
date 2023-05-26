@@ -209,7 +209,7 @@ class OrderNotificationService
         $renewalId = $request->renewalId;
 
         $renewalMsg = OrderRenewal::where('id',$renewalId)->first();
-        if ($renewalMsg->status == 1){
+        if (isset($renewalMsg->status)){
             return 'processed';
         }
 
