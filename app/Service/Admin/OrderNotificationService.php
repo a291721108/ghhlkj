@@ -236,7 +236,7 @@ class OrderNotificationService
                 'end_date'          => $renewalMsg->leaveDate,
                 'order_phone'       => User::getUserInfoById($renewalMsg->id)['phone'],
                 'contacts'          => User::getUserInfoById($renewalMsg->id)['name'],
-                'contacts_card'     => UserExt::getMsgByUserCard($renewalMsg->userId),
+                'contacts_card'     => UserExt::getMsgByUserCard($renewalMsg->guest_id),
                 'order_remark'      => $renewalMsg->remark,
                 'status'            => Order::ORDER_SYS_TYPE_ONE,
                 'created_at'        => time()
