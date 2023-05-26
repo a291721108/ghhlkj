@@ -191,11 +191,11 @@ class OrderNotificationController extends BaseController
 
         $data = OrderNotificationService::agreeRenew($request);
 
-        if ($data){
-            return $this->success($data);
+        if ($data == "book_successfully"){
+            return $this->success('book_successfully');
 
         }
-        return $this->error('error');
+        return $this->error($data);
 
     }
 

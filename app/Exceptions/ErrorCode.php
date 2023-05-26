@@ -42,7 +42,7 @@ class ErrorCode
         'add_repetition'            => "房间号重复添加，请检查",
         'book_successfully'         => "预约成功",
         'successful_refund'         => "退款成功",
-
+        'processed'                 => "已处理",
 
         'code_send_success'         => "验证码发送成功",
         'code_check_success'        => "验证码校验成功",
