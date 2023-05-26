@@ -261,6 +261,7 @@ class OrderService
         $useInfo = User::getUserInfo();
 
         $orderRenewalArr = [
+            'order_id'          => $request->orderId,
             'guest_id'          => $useInfo->id,
             'institution_id'    => $request->institution_id,
             'institution_type'  => $request->institution_type,

@@ -328,6 +328,7 @@ class OrderController extends BaseController
      * @param room_number 必选 int 房间号id
      * @param start_date 必选 int 开始时间
      * @param end_date 必选 int 结束时间
+     * @param orderId 必选 int 订单id
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *
