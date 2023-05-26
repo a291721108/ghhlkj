@@ -52,6 +52,11 @@ class OrderNotificationService
 
         // 状态查询
         if (isset($request->status)) {
+            if ($request->status == 1) {
+
+                $query->where('status', $request->status)->where('refundNot', '1')->orWhere('renewalNot', '1');
+            }
+
             $query->where('status', $request->status);
         }
 
