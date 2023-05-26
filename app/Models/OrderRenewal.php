@@ -9,7 +9,7 @@ class OrderRenewal extends Common
 {
 
     protected $table = 'gh_order_renewal';
-    public $timestamps = true;
+    public $timestamps = false;
 
     //是否退款
     const ORDER_RENEWAL_ZERO = 0;  // 默认
