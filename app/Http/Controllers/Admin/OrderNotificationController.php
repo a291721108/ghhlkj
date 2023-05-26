@@ -201,6 +201,42 @@ class OrderNotificationController extends BaseController
 
     /**
      * @catalog 商家端/订单
+     * @title 续费详情
+     * @description 续费详情
+     * @method post
+     * @url 39.105.183.79/admin/agreeRenewDetail
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param orderId 必选 int 订单id
+     *
+     * @return {"meta":{"status":200,"msg":"预约成功"},"data":[]}
+     *
+     * @return_param status int status(200请求成功,404失败)
+     * @return_param msg string 信息提示
+     * @return_param token string token
+     *
+     * @remark
+     * @number 2
+     */
+    public function agreeRenewDetail(Request $request)
+    {
+        $this->validate($request, [
+            'orderId'     => 'required|numeric',
+        ]);
+
+        $data = OrderNotificationService::agreeRenewDetail($request);
+
+        if (is_array($data)){
+            return $this->success('success',200,$data);
+
+        }
+        return $this->error('error');
+
+    }
+
+    /**
+     * @catalog 商家端/订单
      * @title 订单详情
      * @description 订单详情
      * @method post

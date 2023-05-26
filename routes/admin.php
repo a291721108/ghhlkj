@@ -96,6 +96,9 @@ $router->group([
     // 同意续费
     $router->post('/agreeRenew', 'Admin\OrderNotificationController@agreeRenew');
 
+    // 续费详情
+    $router->post('/agreeRenewDetail', 'Admin\OrderNotificationController@agreeRenewDetail');
+
     // 同意退款
     $router->post('/agreeRefund', 'Admin\OrderNotificationController@agreeRefund');
 

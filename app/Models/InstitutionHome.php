@@ -70,5 +70,11 @@ class InstitutionHome extends Common
 //        return $this->hasMany($class, 'institution_id', 'id');
     }
 
-
+    /**
+     * 通过房间id获取房间号
+     */
+    public static function getHomeIdByName($id)
+    {
+        return self::where('id', $id)->select('id','institution_num')->get()->toArray();
+    }
 }

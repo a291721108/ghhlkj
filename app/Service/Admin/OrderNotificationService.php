@@ -248,6 +248,31 @@ class OrderNotificationService
     }
 
     /**
+     * 续费详情
+     */
+    public static function agreeRenewDetail($request)
+    {
+        $orderId = $request->orderId;
+
+        $renewData = OrderRenewal::where('order_id',$orderId)->where('status',OrderRenewal::ORDER_RENEWAL_ZERO)->first();
+
+        return [
+            'id'                => $renewData->id,
+            'order_id'          => $renewData->order_id,
+            'guest_id'          => User::getIdByname($renewData->guest_id),
+            'institution_id'    => Institution::getInstitutionId($renewData->institution_id),
+            'institution_type'  => InstitutionHomeType::getInstitutionTypeId($renewData->institution_type),
+            'room_number'       => InstitutionHome::getHomeIdByName($renewData->room_number),
+            'start_date'        => ytdTampTime($renewData->start_date),
+            'end_date'          => ytdTampTime($renewData->end_date),
+            'status'            => $renewData->status,
+            'created_at'        => hourMinuteSecond($renewData->created_at)
+
+        ];
+
+    }
+
+    /**
      * 订单详情
      */
     public static function getOrderDetail($request)
