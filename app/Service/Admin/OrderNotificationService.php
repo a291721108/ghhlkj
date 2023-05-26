@@ -263,7 +263,7 @@ class OrderNotificationService
         $orderId = $request->orderId;
 
         $renewData = OrderRenewal::where('order_id',$orderId)->where('status',OrderRenewal::ORDER_RENEWAL_ZERO)->first();
-        if (isset($renewData->status)){
+        if (!isset($renewData->status)){
             return 'processed';
         }
         $orderData = Order::where('id',$renewData->order_id)->first();
