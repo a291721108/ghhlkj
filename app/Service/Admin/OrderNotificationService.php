@@ -261,6 +261,7 @@ class OrderNotificationService
 
         $renewData = OrderRenewal::where('order_id',$orderId)->where('status',OrderRenewal::ORDER_RENEWAL_ZERO)->first();
 
+        $orderData = Order::where('id',$renewData->order_id)->first();
         return [
             'id'                => $renewData->id,
             'order_id'          => $renewData->order_id,
@@ -270,6 +271,9 @@ class OrderNotificationService
             'room_number'       => InstitutionHome::getHomeIdByName($renewData->room_number),
             'start_date'        => ytdTampTime($renewData->start_date),
             'end_date'          => ytdTampTime($renewData->end_date),
+            'contacts'          => $orderData->contacts,
+            'contacts_card'     => $orderData->contacts_card,
+            'phone'             => $renewData->phone,
             'status'            => $renewData->status,
             'created_at'        => hourMinuteSecond($renewData->created_at)
 
