@@ -227,7 +227,7 @@ class OrderNotificationService
                 'total_amount'      => $data * $homeMoney->home_price,
                 'amount_paid'       => 0,
                 'wait_pay'          => 0,
-                'payment_method'    => '支付宝',
+                'payment_method'    => 1,
                 'institution_id'    => $renewalMsg->institution_id,
                 'institution_type'  => $renewalMsg->institution_type,
                 'roomNum'           => $renewalMsg->room_number,
