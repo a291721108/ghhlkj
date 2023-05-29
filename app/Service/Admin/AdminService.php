@@ -93,6 +93,18 @@ class AdminService
         ]);
     }
 
+    /**
+     * 修改手机号
+     */
+    public static function changeTel($request)
+    {
+        $adminInfo = InstitutionAdmin::getAdminInfo();
+        $adminPhone    = $request->admin_phone;
+
+        return InstitutionAdmin::where('id', 1)->update([
+            'admin_phone'    => $adminPhone,
+        ]);
+    }
 
     /**
      * 获取用户信息

@@ -84,6 +84,39 @@ class AdminController extends BaseController
 
     /**
      * @catalog 商家端/管理员相关
+     * @title 修改手机号
+     * @description 修改手机号
+     * @method post
+     * @url 39.105.183.79/admin/changeTel
+     *
+     * @param admin_phone 必选 int 手机号
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param status int 状态码
+     * @return_param msg string 消息
+     * @return_param data [] 数组
+     *
+     *
+     * @remark
+     * @number 4
+     */
+    public function changeTel(Request $request)
+    {
+        $this->validate($request, [
+            'admin_phone'    => 'required',
+        ]);
+
+        $res = AdminService::changeTel($request);
+
+        if ($res) {
+            return $this->success('success', '200', []);
+        }
+        return $this->error('error');
+    }
+
+    /**
+     * @catalog 商家端/管理员相关
      * @title 获取用户信息
      * @description 获取用户信息
      * @method post

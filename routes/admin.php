@@ -49,10 +49,11 @@ $router->group([
     ]
 ], function () use ($router) {
 
-
     // 获取用户信息
     $router->get('/getAdminInfo', 'Admin\AdminController@getAdminInfo');
 
+    // 修改手机号
+    $router->post('/changeTel', 'Admin\AdminController@changeTel');
 
     // 机构添加
     $router->post('/addInstitution', 'Admin\InstitutionController@addInstitution');
