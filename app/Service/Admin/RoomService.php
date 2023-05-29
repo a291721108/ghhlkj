@@ -85,6 +85,23 @@ class RoomService
         }
         return 'error';
     }
+
+    /**
+     * 编辑房间号
+     */
+    public static function upInstitutionHome($request)
+    {
+
+        $homeMsg = InstitutionHome::where('id',$request->homeId)->first();
+
+        $homeMsg->institution_num = $request->institution_num;
+        $homeMsg->updated_at = time();
+
+        if ($homeMsg->save()){
+            return 'success';
+        }
+        return 'error';
+    }
 }
 
 

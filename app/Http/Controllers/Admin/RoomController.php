@@ -120,4 +120,40 @@ class RoomController extends BaseController
         return $this->error($userInfo);
     }
 
+    /**
+     * @catalog 商家端/房间管理
+     * @title 编辑房间
+     * @description 编辑房间
+     * @method post
+     * @url 39.105.183.79/admin/upInstitutionHome
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param homeId 必选 int 房间号id
+     * @param institution_num 必选 房间号
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param status int status(200请求成功,404失败)
+     * @return_param msg string 信息提示
+     * @return_param token string token
+     *
+     * @remark
+     * @number 2
+     */
+    public function upInstitutionHome(Request $request)
+    {
+        $this->validate($request, [
+            'homeId'    => 'required|numeric',
+            'institution_num'   => 'required|numeric',
+        ]);
+
+        $userInfo = RoomService::upInstitutionHome($request);
+
+        if ($userInfo == 'success'){
+            return $this->success($userInfo);
+        }
+        return $this->error($userInfo);
+    }
+
 }

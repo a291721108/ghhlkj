@@ -85,6 +85,9 @@ $router->group([
     // 禁用房间号
     $router->post('/delInstitutionHome', 'Admin\RoomController@delInstitutionHome');
 
+    // 编辑房间号
+    $router->post('/upInstitutionHome', 'Admin\RoomController@upInstitutionHome');
+
     // 订单列表
     $router->post('/getOrderList', 'Admin\OrderNotificationController@getOrderList');
 
