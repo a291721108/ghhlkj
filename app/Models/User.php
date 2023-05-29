@@ -126,10 +126,18 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         }
 
         if (is_array($userId)) {
-            return self::whereIn('id', $userId)->select('id', 'name', 'img', 'phone')->get()->toArray();
+            return self::whereIn('id', $userId)->select('id', 'name', 'img', 'phone', 'gender')->get()->toArray();
         }
 
-        return self::where('id', $userId)->select('id', 'name', 'img', 'phone')->first()->toArray();
+        return self::where('id', $userId)->select('id', 'name', 'img', 'phone', 'gender')->first()->toArray();
+    }
+
+    /**
+     * get user gender by id
+     */
+    public static function getUserGenderById($userId)
+    {
+        return self::where('id',$userId)->select();
     }
 }
 

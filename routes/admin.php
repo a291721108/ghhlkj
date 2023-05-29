@@ -106,6 +106,9 @@ $router->group([
     // 拒绝退款
     $router->post('/refusalRefund', 'Admin\OrderNotificationController@refusalRefund');
 
+    // 获取顾客列表
+    $router->post('/getClientList', 'Admin\ClientController@getClientList');
+
     // 总览
     $router->post('/overview', 'Admin\AggregateController@overview');
 
