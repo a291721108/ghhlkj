@@ -18,7 +18,7 @@ class ClientController extends BaseController
      *
      * @header api_token 必选 string api_token放到authorization中
      *
-     * @return {"meta":{"status":200,"msg":"成功"},"data":[{"id":1,"institution_num":"101","instutution_status":"启用","created_at":"2023-04-10 16:51:49"},{"id":2,"institution_num":"102","instutution_status":"已售","created_at":"2023-04-10 19:53:29"}]}
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[{"user":"薛丁丁","info":{"id":2,"name":"xdd55","img":"https:\/\/www.ghhlkj.com\/.\/upload\/front\/20230428160403_4tCBg1aXPCIX95cc592da556a93ae88bf7b9722abcc1.png","phone":"15135345970","gender":"2"},"card":"142625199911044818","deal":"否"},{"user":"黄泽超","info":{"id":3,"name":"游客0003","img":"https:\/\/www.ghhlkj.com\/.\/upload\/qrcode\/my_img_default.png","phone":"13934120386","gender":"1"},"card":"140202199712142011","deal":"是"}]}
      *
      * @return_param status int status(200请求成功,404失败)
      * @return_param msg string 信息提示
