@@ -90,6 +90,7 @@ class AdminController extends BaseController
      * @url 39.105.183.79/admin/changeTel
      *
      * @param admin_phone 必选 int 手机号
+     * @param dxcodess 必选 int 验证码
      *
      * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
      *
