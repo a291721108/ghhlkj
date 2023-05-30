@@ -252,6 +252,22 @@ class AdminService
             return 'sql_operation_failure';
         }
     }
+
+    /**
+     * 注销账户
+     * @return string|bool
+     */
+    public static function clientCloseAnAccount()
+    {
+        $userInfo = InstitutionAdmin::getAdminInfo();
+        $userInfo->status = InstitutionAdmin::INSTITUTION_ADMIN_STATUS_TWO;
+        $userInfo->save();
+
+        if ($userInfo) {
+            return 'success';
+        }
+        return 'error';
+    }
 }
 
 

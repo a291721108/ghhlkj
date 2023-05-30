@@ -230,4 +230,33 @@ class AdminController extends BaseController
         }
         return $this->error('error');
     }
+
+    /**
+     * @catalog 商家端/管理员相关
+     * @title 注销账号
+     * @description 注销账号
+     * @method post
+     * @url 47.92.82.25/api/clientCloseAnAccount
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @return {"meta":{"status":200,"msg":"注销成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function clientCloseAnAccount(Request $request)
+    {
+
+        $res = AdminService::clientCloseAnAccount();
+
+        if ($res) {
+            return $this->success('close an account');
+        }
+
+        return $this->error($res);
+    }
 }

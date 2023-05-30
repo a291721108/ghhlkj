@@ -49,6 +49,9 @@ $router->group([
     ]
 ], function () use ($router) {
 
+    // 注销账号
+    $router->post('/clientCloseAnAccount', 'Admin\AdminController@clientCloseAnAccount');
+
     // 获取用户信息
     $router->get('/getAdminInfo', 'Admin\AdminController@getAdminInfo');
 
