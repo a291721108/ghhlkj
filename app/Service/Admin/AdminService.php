@@ -99,9 +99,27 @@ class AdminService
     public static function changeTel($request)
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
+        $code = $request->dxcodess;
         $adminPhone    = $request->admin_phone;
 
-        return InstitutionAdmin::where('id', 1)->update([
+        // 判断是否有验证吗
+        $sendInfo = UserSend::where('phone', '=', $adminPhone)->orderBy('id', 'desc')->first();
+
+        if (!$sendInfo) {
+            return 'phone_error';
+        }
+
+        //  验证吗是否过期 有效期限五分钟
+        if (time() >= ($sendInfo->send_time + 300)) {
+            return 'code_expired';
+        }
+
+        // 验证码错误
+        if ($sendInfo->code !== intval($code)) {
+            return 'code_error';
+        }
+
+        return InstitutionAdmin::where('id', $adminInfo->id)->update([
             'admin_phone'    => $adminPhone,
         ]);
     }
