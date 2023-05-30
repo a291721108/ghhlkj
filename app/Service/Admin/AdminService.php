@@ -286,6 +286,22 @@ class AdminService
         }
         return 'error';
     }
+
+    /**
+     * 安全退出
+     * @return string|bool
+     */
+    public static function safeWithdrawing()
+    {
+        $admin      = InstitutionAdmin::getAdminInfo();
+        $userInfo   = InstitutionAdmin::logout();
+        // 将token存在redis中 过期时间设置为1天
+        RedisService::del('gh_user_front_token_' . $admin->id);
+        if ($userInfo) {
+            return "safe withdrawing";
+        }
+        return "error";
+    }
 }
 
 

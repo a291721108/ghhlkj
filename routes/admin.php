@@ -52,6 +52,9 @@ $router->group([
     // 注销账号
     $router->post('/clientCloseAnAccount', 'Admin\AdminController@clientCloseAnAccount');
 
+    // 安全退出
+    $router->post('/safeWithdrawing', 'Admin\AdminController@safeWithdrawing');
+
     // 获取用户信息
     $router->get('/getAdminInfo', 'Admin\AdminController@getAdminInfo');
 

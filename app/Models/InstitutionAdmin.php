@@ -62,6 +62,13 @@ class InstitutionAdmin extends Model implements AuthenticatableContract, Authori
         return [];
     }
 
+    /**
+     * 退出登录
+     */
+    public static function logout()
+    {
+        return auth()->invalidate(true);
+    }
 
     /**
      * 获取当前管理信息
