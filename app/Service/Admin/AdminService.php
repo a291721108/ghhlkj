@@ -244,7 +244,7 @@ class AdminService
             // 提交事务
             DB::commit();
 
-            return "success";
+            return true;
         } catch (\Exception $e) {
             // 发生异常时回滚事务
             DB::rollBack();

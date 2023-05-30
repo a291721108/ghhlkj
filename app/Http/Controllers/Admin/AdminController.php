@@ -224,7 +224,7 @@ class AdminController extends BaseController
 
         $userInfo = AdminService::addLicense($request);
 
-        if ($userInfo == 'success') {
+        if ($userInfo) {
             return $this->success('success', '200', []);
 
         }
