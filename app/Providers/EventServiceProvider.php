@@ -21,5 +21,10 @@ class EventServiceProvider extends ServiceProvider
             // 处理用户登录后的业务逻辑
             \App\Listeners\FrontLoginListener::class,
         ],
+
+        // 监听消息推送
+        \App\Events\MsgPushEvent::class => [
+            \App\Listeners\MsgPushListener::class,
+        ],
     ];
 }

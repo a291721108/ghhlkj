@@ -2,14 +2,16 @@
 
 namespace App\Service\Front;
 
+use App\Events\MsgPushEvent;
+use App\Exceptions\MessageRemind;
 use App\Models\Booking;
-use App\Models\BookingRoom;
 use App\Models\Institution;
 use App\Models\InstitutionHomeType;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\UserExt;
 use App\Service\Common\FunService;
+use StdClass;
 
 class BookingService
 {
@@ -23,18 +25,40 @@ class BookingService
         $data = [
             'user_id'           => $userInfo->id,                               //用户id
             'contacts'          => UserExt::getMsgByUserName($userInfo->id),    //联系人
-            'order_phone'       => $request->order_phone,                        //联系方式
+            'order_phone'       => $request->order_phone,                       //联系方式
             'contacts_card'     => UserExt::getMsgByUserCard($userInfo->id),    //身份证
-            'institution_id'    => $request->institution_id,                     //机构id
-            'institution_type'  => $request->institution_type,                            //房型id
-            'visitDate'         => strtotime($request->visitDate),             //看房时间
-            'status'            => Order::ORDER_SYS_TYPE_FOUR,               //状态
+            'institution_id'    => $request->institution_id,                    //机构id
+            'institution_type'  => $request->institution_type,                  //房型id
+            'visitDate'         => strtotime($request->visitDate),              //看房时间
+            'status'            => Order::ORDER_SYS_TYPE_FOUR,                  //状态
             'order_no'          => FunService::orderNumber(),                   //订单编号
-            'order_remark'      => $request->order_remark,                            //备注
+            'order_remark'      => $request->order_remark,                      //备注
             'created_at'        => time()
         ];
+        $orderId = Order::insertGetId($data);
+        if ($orderId){
 
-        return Order::insert($data);
+            $list   = [
+                '{time}'
+            ];
+            $result = [
+                ytdTampTime(strtotime($request->visitDate))
+            ];
+
+            // 时间监听 处理登录完成之后的逻辑
+            $obj                    = new StdClass();
+            $obj->form              = $userInfo->id;                //发送人id
+            $obj->institution_id    = $request->institution_id;     //关联机构id
+            $obj->order_id          = $orderId;                     //关联订单id
+            $obj->name              = MessageRemind::ORDER_REMIND_ONE;
+            $obj->content           = str_replace($list, $result, MessageRemind::WX_REMIND_MSG[1]);
+            $obj->time              = time();
+            event(new MsgPushEvent($obj));
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
