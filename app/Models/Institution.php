@@ -109,4 +109,12 @@ class Institution extends Common
     {
         return $this->hasMany($class, 'institution_id', 'id');
     }
+
+    /**
+     * 通过机构id获取名字
+     */
+    public static function getClientAdminByName($id)
+    {
+        return self::where('admin_id', $id)->value('institution_name');
+    }
 }

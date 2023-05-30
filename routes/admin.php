@@ -112,6 +112,18 @@ $router->group([
     // 获取顾客列表
     $router->post('/getClientList', 'Admin\ClientController@getClientList');
 
+    // 意见反馈
+    $router->post('/clientFeedbackAdd', 'Admin\FeedbackController@clientFeedbackAdd');
+
+    // 意见反馈类型
+    $router->post('/feedbackType', 'Admin\FeedbackController@feedbackType');
+
+    // 获取用户意见反馈
+    $router->post('/getFeedbackList', 'Admin\FeedbackController@getFeedbackList');
+
+    // 反馈详情
+    $router->post('/clientFeedbackList', 'Admin\FeedbackController@clientFeedbackList');
+
     // 总览
     $router->post('/overview', 'Admin\AggregateController@overview');
 
