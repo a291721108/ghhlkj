@@ -105,6 +105,7 @@ class AdminController extends BaseController
     {
         $this->validate($request, [
             'admin_phone'    => 'required',
+            'dxcodess'      => 'required'
         ]);
 
         $res = AdminService::changeTel($request);
