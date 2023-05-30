@@ -29,8 +29,8 @@ class MsgPushListener
 
         $data = [
             'form'              => $event->form,
-            'institution_id'    => $event->form,
-            'order_id'          => $event->form,
+            'institution_id'    => $event->institution_id,
+            'order_id'          => $event->order_id,
             'name'              => MessageRemind::WX_REMIND_MSG_TITLE[$event->name],
             'content'           => $event->content,
             'time'              => $event->time ?? time(),
