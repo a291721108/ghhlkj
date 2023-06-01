@@ -115,16 +115,16 @@ class AggregateService
      */
     public static function total($generalIncome,$expendCount)
     {
-        $diff = $generalIncome["orderNum"] - $expendCount["incomeSum"];
+        $diff = $generalIncome["incomeSum"] - $expendCount["incomeSum"];
 
-        if ($generalIncome["orderNum"] == 0 && $expendCount["incomeSum"] == 0){
+        if ($generalIncome["incomeSum"] == 0 && $expendCount["incomeSum"] == 0){
             return [
                 'incomeSum'      => $diff,
                 'lastIncomeSum'  => 0
             ];
         }
 
-        $lastDiff = ($generalIncome["orderNum"] - $expendCount["incomeSum"]) / $expendCount["incomeSum"];
+        $lastDiff = ($generalIncome["incomeSum"] - $expendCount["incomeSum"]) / $expendCount["incomeSum"];
         return [
             'incomeSum'      => $diff,
             'lastIncomeSum'  => number_format($lastDiff, 2)
