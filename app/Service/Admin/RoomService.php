@@ -47,7 +47,7 @@ class RoomService
         $adminInfo = InstitutionAdmin::getAdminInfo();
 
         $institutionId = Institution::where('admin_id',$adminInfo->id)->first();
-        $homeList = InstitutionHome::where('institution_id',$institutionId->id)->select('institution_num')->get()->toarray();
+        $homeList = InstitutionHome::where('institution_id',$institutionId->id)->where('instutution_status','>',InstitutionHome::Home_SYS_STATUS_THERE)->select('institution_num')->get()->toarray();
 
         $homeArr = array_column($homeList,'institution_num',null);
         if (in_array($request->homeArr,$homeArr)) {
