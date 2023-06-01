@@ -309,7 +309,7 @@ class OrderNotificationService
             'wait_pay'          => $orderData->wait_pay,
             'institution_id'    => $orderData->institution_id,
             'institution_type'  => InstitutionHomeType::getInstitutionTypeId($orderData->institution_type),
-            'roomNum'           => $orderData->roomNum,
+            'roomNum'           => InstitutionHome::getHomeIdBy($orderData->roomNum),
             'visitDate'         => ytdTampTime($orderData->visitDate),
             'start_date'        => ytdTampTime($orderData->start_date),
             'end_date'          => ytdTampTime($orderData->end_date),
