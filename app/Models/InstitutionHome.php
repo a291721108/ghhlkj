@@ -77,4 +77,12 @@ class InstitutionHome extends Common
     {
         return self::where('id', $id)->select('id','institution_num')->get()->toArray();
     }
+
+    /**
+     * 通过房间id获取房间号
+     */
+    public static function getHomeIdBy($id)
+    {
+        return self::where('id', $id)->value('institution_num');
+    }
 }

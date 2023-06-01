@@ -84,7 +84,7 @@ class OrderNotificationService
                 'institution_type'   => InstitutionHomeType::getInstitutionTypeId($v['institution_type']),
                 'total_amount'       => $v['total_amount'],
                 'amount_paid'        => $v['amount_paid'],
-                'roomNum'            => $v['roomNum'],
+                'roomNum'            => InstitutionHome::getHomeIdBy($v['roomNum']),
                 'contacts'           => $v['contacts'],
                 'amount'             => $v['amount'],
                 'refundNot'          => $v['refundNot'],
