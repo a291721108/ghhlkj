@@ -122,6 +122,12 @@ class AggregateService
      */
     public static function total($generalIncome,$expendCount)
     {
+        if (isset($generalIncome["incomeSum"]) || isset($expendCount["incomeSum"])){
+            return [
+                'incomeSum'      => 0,
+                'lastIncomeSum'  => 0
+            ];
+        }
         $diff = $generalIncome["incomeSum"] - $expendCount["incomeSum"];
 
         if ($generalIncome["incomeSum"] == 0 && $expendCount["incomeSum"] == 0){
