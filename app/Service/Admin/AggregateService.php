@@ -81,6 +81,12 @@ class AggregateService
         //  顾客总数
         $peopleNum = self::peopleNum($ids,$lastMonthData,$thisData);
 
+        //总浏览量
+        $totalPageViews = [
+            'incomeSum' => '0',
+            'lastIncomeSum'=> '0'
+        ];
+
         //  总收入
         $generalIncome = self::generalIncome($ids,$lastMonthData,$thisData);
 
@@ -102,6 +108,7 @@ class AggregateService
             'pageView'      =>$pageView,
             'monthOrderNum' =>$monthOrderNum,
             'peopleNum'     =>$peopleNum,
+            'totalPageViews'=>$totalPageViews,
             'generalIncome' =>$generalIncome,
             'expendCount'   =>$expendCount,
             'totalRevenue'  =>$totalRevenue,
