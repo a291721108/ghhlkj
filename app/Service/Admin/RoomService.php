@@ -2,6 +2,7 @@
 
 namespace App\Service\Admin;
 
+use App\Models\Institution;
 use App\Models\InstitutionAdmin;
 use App\Models\InstitutionHome;
 use App\Models\UserSend;
@@ -45,7 +46,9 @@ class RoomService
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
 
-        $homeList = InstitutionHome::where('institution_id',$adminInfo->admin_institution_id)->select('institution_num')->get()->toarray();
+        $institutionId = Institution::where('admin_id',$adminInfo->id)->first();
+        $homeList = InstitutionHome::where('institution_id',$institutionId->id)->select('institution_num')->get()->toarray();
+
         $homeArr = array_column($homeList,'institution_num',null);
         if (in_array($request->homeArr,$homeArr)) {
 
@@ -53,7 +56,7 @@ class RoomService
         }
 
         $data = [
-            'institution_id'        => $adminInfo->admin_institution_id,
+            'institution_id'        => $institutionId->id,
             'type'                  => $request->typeId,
             'institution_num'       => $request->homeArr,
             'instutution_status'    => InstitutionHome::Home_SYS_STATUS_ONE,
