@@ -88,7 +88,7 @@ class RoomTypeService
     {
 
         $homeType = InstitutionHomeType::where('id',$request->homeTypeId)->first();
-        $homeNum = InstitutionHome::where('type',$homeType->id)->get()->toArray();
+        $homeNum = InstitutionHome::where('type',$homeType->id)->where('instutution_status','>',InstitutionHome::Home_SYS_STATUS_THERE)->get()->toArray();
 
         $home = [];
         foreach ($homeNum as $k => $v){
