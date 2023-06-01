@@ -34,8 +34,8 @@ class BookingRoomService
             'contacts_card'     => UserExt::getMsgByUserCard($userInfo->id),     //身份证
             'institution_id'    => $request->institutionId,                      //机构id
             'institution_type'  => $request->typeId,                             //房型id
-            'start_date'        => strtotime($request->startDate),               //入住日期
-            'end_date'          => strtotime($request->leaveDate),               //结束日期
+            'start_date'        => $request->startDate,               //入住日期
+            'end_date'          => $request->leaveDate,               //结束日期
             'total_amount'      => $data * $homeMoney->home_price,               //订单总金额
             'wait_pay'          => $data * $homeMoney->home_price - $request->payment,  //待支付金额
             'amount_paid'       => $request->payment,                            //定金500
