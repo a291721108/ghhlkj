@@ -142,7 +142,7 @@ class OrderService
             'visitDate'             => ytdTampTime($orderMsg->visitDate),
             'start_date'            => ytdTampTime($orderMsg->start_date),
             'end_date'              => ytdTampTime($orderMsg->end_date),
-            'roomNum'               => $orderMsg->roomNum,
+            'roomNum'               => InstitutionHome::getHomeIdBy($orderMsg->roomNum),
             'order_phone'           => $orderMsg->order_phone,
             'order_remark'          => $orderMsg->order_remark,
             'contacts'              => $orderMsg->contacts,
