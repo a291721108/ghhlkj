@@ -104,6 +104,7 @@ class OrderService
                 'institution_type'   => InstitutionHomeType::getInstitutionIdByName($v['institution_type']),
                 'total_amount'       => $v['total_amount'],
                 'amount_paid'        => $v['amount_paid'],
+                'roomNum'            => InstitutionHome::getHomeIdByName($v['roomNum']),
                 'contacts'           => $v['contacts'],
                 'visitDate'          => ytdTampTime($v['visitDate']),
                 'search_time'     => [
