@@ -322,7 +322,7 @@ class AggregateService
 
         return [
             'reserved'          =>$order,
-            'booked yesterday'  =>$yesOrder
+            'bookedYesterday'  =>$yesOrder
         ];
     }
 
