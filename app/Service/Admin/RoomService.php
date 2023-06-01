@@ -45,26 +45,23 @@ class RoomService
     {
         $adminInfo = InstitutionAdmin::getAdminInfo();
 
-        $homeList = InstitutionHome::where('institution_id',$adminInfo->admin_institution_id)->whereIn('institution_num', $request->homeArr)->pluck('institution_num')->toArray();
-        if (!empty($homeList)) {
+        $homeList = InstitutionHome::where('institution_id',$adminInfo->admin_institution_id)->select('institution_num')->get()->toarray();
+        $homeArr = array_column($homeList,'institution_num',null);
+        if (in_array($request->homeArr,$homeArr)) {
 
             return 'add_repetition';
         }
 
-        $uniqueData = array_diff($request->homeArr, $homeList);
+        $data = [
+            'institution_id'        => $adminInfo->admin_institution_id,
+            'type'                  => $request->typeId,
+            'institution_num'       => $request->homeArr,
+            'instutution_status'    => InstitutionHome::Home_SYS_STATUS_ONE,
+            'created_at'            => time(),
+        ];
 
-        foreach ($uniqueData as $v) {
+        InstitutionHome::insert($data);
 
-            $data = [
-                'institution_id'        => $adminInfo->admin_institution_id,
-                'type'                  => $request->typeId,
-                'institution_num'       => $v,
-                'instutution_status'    => InstitutionHome::Home_SYS_STATUS_ONE,
-                'created_at'            => time(),
-            ];
-
-            InstitutionHome::insert($data);
-        }
 
         return 'success';
     }
