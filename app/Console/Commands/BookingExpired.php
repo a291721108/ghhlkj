@@ -17,7 +17,7 @@ class BookingExpired extends Command
     {
         // 判断预约超期状态
         $orderBooking = Order::where('status',Order::ORDER_SYS_TYPE_FOUR)->select()->get();
-
+dd($orderBooking);
         $orderBookingArr = [];
 
         foreach ($orderBooking as $v) {
