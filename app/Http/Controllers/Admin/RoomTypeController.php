@@ -177,8 +177,8 @@ class RoomTypeController extends BaseController
 
         $userInfo = RoomTypeService::upHomeType($request);
 
-        if (is_array($userInfo)){
-            return $this->success('success',200,$userInfo);
+        if ($userInfo){
+            return $this->success('success');
         }
         return $this->error('error');
     }

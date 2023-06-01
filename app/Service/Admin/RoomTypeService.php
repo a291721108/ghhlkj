@@ -124,23 +124,20 @@ class RoomTypeService
         $homeTypeImg = $request->homeTypeImg;
         $img = implode(",",$homeTypeImg);
 
-        $homeTypeArr = [
-            'institution_id'    => $homeType->institution_id,
-            'home_type'         => $request->home_type,
-            'home_price'        => $request->home_price,
-            'home_size'         => $request->home_size,
-            'home_facility'     => $request->home_facility,
-            'home_detail'       => $request->home_detail,
-            'home_img'          => $img,
-            'status'            => InstitutionHomeType::Home_TYPE_SYS_STATUS_ONE,
-            'created_at'        => time()
-        ];
+        $homeType->home_type    = $request->home_type,
+        $homeType->home_img     = $request->home_img,
+        $homeType->home_price   = $request->home_price,
+        $homeType->home_size    = $request->home_size,
+        $homeType->home_facility = $request->home_facility,
+        $homeType->home_detail  = $request->home_detail,
+        $homeType->status       = $request->status,
+        $homeType->updated_at   = $request->updated_at,
 
-        if (InstitutionHomeType::save($homeTypeArr)){
-            return "success";
-
+        if ($homeType->save()){
+            return true;
         }
-        return "error";
+        return false;
+
     }
 }
 
