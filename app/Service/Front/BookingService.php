@@ -32,7 +32,7 @@ class BookingService
             'visitDate'         => strtotime($request->visitDate),              //看房时间
             'status'            => Order::ORDER_SYS_TYPE_FOUR,                  //状态
             'order_no'          => FunService::orderNumber(),                   //订单编号
-            'order_remark'      => $request->order_remark,                      //备注
+            'order_remark'      => $request->remark,                      //备注
             'created_at'        => time()
         ];
         $orderId = Order::insertGetId($data);
