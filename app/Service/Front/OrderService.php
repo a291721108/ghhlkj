@@ -130,7 +130,7 @@ class OrderService
         $orderId = $request->orderId;
 
         $orderMsg = Order::where('id',$orderId)->first();
-        $remark = OrderRenewal::where('order_id',$orderId)->first();
+//        $remark = OrderRenewal::where('order_id',$orderId)->first();
         // 返回用户信息
         return [
             "id"                    => $orderMsg->id,
@@ -148,7 +148,7 @@ class OrderService
             'roomNum'               => InstitutionHome::getHomeIdBy($orderMsg->roomNum),
             'order_phone'           => $orderMsg->order_phone,
             'order_remark'          => $orderMsg->order_remark,
-            'remark'                => $remark->remark,
+//            'remark'                => $remark->remark,
             'contacts'              => $orderMsg->contacts,
             'contacts_card'         => $orderMsg->contacts_card,
             'status'                => Order::INS_MSG_ARRAY[$orderMsg->status],
