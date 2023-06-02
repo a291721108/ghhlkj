@@ -96,7 +96,9 @@ class OrderService
     {
 
         foreach ($query as $k => $v) {
-
+            if ($v['status'] == Order::ORDER_SYS_TYPE_TWO && $v['refundNot'] == Order::ORDER_CHECK_OUT_ONE){
+                $v['refundNot'] = '待处理';
+            }
             // 处理回参
             $data[$k] = [
                 'id'                 => $v['id'],
@@ -217,6 +219,11 @@ class OrderService
     {
 
         $useInfo = User::getUserInfo();
+
+        $orderData = Order::where('id',$request->order_id)->first();
+        $orderData->refundNot   = Order::ORDER_CHECK_OUT_TWO;
+        $orderData->updated_at  = time();
+        $orderData->save();
 
         $orderCheckArr = [
             'order_id'          => $request->order_id,
