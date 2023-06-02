@@ -130,7 +130,7 @@ class OrganizationService
         $query->page_view = $query->page_view + 1;
         $query->save();
 
-        $institytionType = InstitutionHomeType::getHomeTypeName($request->id);
+        $institytionType = InstitutionHomeType::getHomeTypeInfo($request->id);
 
         return [
             'id'                        => $query->id,
@@ -142,7 +142,7 @@ class OrganizationService
             'institution_type'          => $query->institution_type,
             'page_view'                 => $query->page_view,
             'status'                    => $query->status,
-            'institytion_type'          => $institytionType,
+            'institytion_type_info'     => $institytionType,
             'created_at'                => date('Y-m-d H:i', strtotime($query->created_at))
         ];
     }

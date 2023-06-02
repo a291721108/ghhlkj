@@ -43,6 +43,27 @@ class InstitutionHomeType extends Common
         return self::where('institution_id', $homeTpyeId)->where('status', '>', self::Home_TYPE_SYS_STATUS_TWO)->select('id','home_type','home_price','home_detail')->get()->toArray();
     }
 
+    /**
+     * 根据id获取房间类型名称
+     * @param $homeTpyeId
+     */
+    public static function getHomeTypeInfo($homeTpyeId)
+    {
+        $query = self::where('institution_id', $homeTpyeId)->where('status', '>', self::Home_TYPE_SYS_STATUS_TWO)->select('id','home_type','home_img','home_price','home_detail')->get()->toArray();
+
+        $data = [];
+        foreach ($query as &$v){
+            $img = explode(',',$v['home_img']);
+            $data[] = [
+                "id" => $v['id'],
+                "home_type" => $v['home_type'],
+                "home_img"  => $img,
+                "home_price" => $v['home_price'],
+                "home_detail" => $v['home_detail'],
+            ];
+        }
+        return $data;
+    }
 
     /**
      * 通过机构id获取该机构下最便宜的房间
