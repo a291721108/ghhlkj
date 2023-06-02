@@ -281,7 +281,7 @@ class OrderService
             'room_number'       => $request->room_number,
             'phone'             => $request->phone,
             'remark'            => $request->remark,
-            'start_date'        => strtotime($request->start_date),
+            'start_date'        => strtotime($request->start_date)+24*3600,
             'end_date'          => strtotime($request->end_date),
             'created_at'        => time(),
         ];
