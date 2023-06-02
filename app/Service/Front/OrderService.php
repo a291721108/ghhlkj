@@ -130,10 +130,12 @@ class OrderService
         $orderId = $request->orderId;
 
         $orderMsg = Order::where('id',$orderId)->first();
-//        if ($orderMsg->status == 2){
-//            $remark = OrderRenewal::where('order_id',$orderId)->first();
-//            $orderMsg = $remark->remark;
-//        }
+        if ($orderMsg->status == 2 && $orderMsg->refundNot == 2){
+            $remark = OrderRenewal::where('order_id',$orderId)->first();
+            $remarkData = $remark->remark;
+        }else{
+            $remarkData = $orderMsg->order_remark;
+        }
         // 返回用户信息
         return [
             "id"                    => $orderMsg->id,
@@ -150,7 +152,7 @@ class OrderService
             'end_date'              => ytdTampTime($orderMsg->end_date),
             'roomNum'               => InstitutionHome::getHomeIdBy($orderMsg->roomNum),
             'order_phone'           => $orderMsg->order_phone,
-            'order_remark'          => $orderMsg->order_remark,
+            'order_remark'          => $remarkData,
 //            'remark'                => $remark->remark,
             'contacts'              => $orderMsg->contacts,
             'contacts_card'         => $orderMsg->contacts_card,
