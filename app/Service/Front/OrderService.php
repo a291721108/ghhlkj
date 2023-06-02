@@ -96,7 +96,7 @@ class OrderService
     {
 
         foreach ($query as $k => $v) {
-            if ($v['status'] == Order::ORDER_SYS_TYPE_TWO && $v['refundNot'] == Order::ORDER_CHECK_OUT_ONE){
+            if ($v['status'] == Order::ORDER_SYS_TYPE_TWO && $v['refundNot'] == Order::ORDER_CHECK_OUT_TWO){
                 $v['refundNot'] = '待处理';
             }
             // 处理回参
