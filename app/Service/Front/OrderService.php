@@ -130,7 +130,10 @@ class OrderService
         $orderId = $request->orderId;
 
         $orderMsg = Order::where('id',$orderId)->first();
-//        $remark = OrderRenewal::where('order_id',$orderId)->first();
+//        if ($orderMsg->status == 2){
+//            $remark = OrderRenewal::where('order_id',$orderId)->first();
+//            $orderMsg = $remark->remark;
+//        }
         // 返回用户信息
         return [
             "id"                    => $orderMsg->id,
@@ -200,7 +203,7 @@ class OrderService
         $orderMsg->payment_method = '1';
         $orderMsg->start_date   = strtotime($request->start_date);
         $orderMsg->end_date     = strtotime($request->end_date);
-        $orderMsg->order_remark = $request->order_remark;
+//        $orderMsg->order_remark = $request->order_remark;
         $orderMsg->status       = Order::ORDER_SYS_TYPE_TWO;
         $orderMsg->created_at   = time();
 
