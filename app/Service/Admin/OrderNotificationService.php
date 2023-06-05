@@ -56,7 +56,10 @@ class OrderNotificationService
 
                 $query->where('status', $request->status)->where('refundNot', '1')->orWhere('renewalNot', '1');
             }
+            if ($request->status == 2) {
 
+                $query->where('status', $request->status)->where('refundNot', '2')->orWhere('renewalNot', '2');
+            }
             $query->where('status', $request->status);
         }
 
@@ -73,9 +76,13 @@ class OrderNotificationService
     {
 
         foreach ($query as $k => $v) {
-            if ($v['refundNot'] == 1){
+            if ($v['refundNot'] == 2){
                 $refunds = OrderRefunds::where('order_id',$v['id'])->first();
                 $v['amount'] = $refunds->amount;
+                $v['refundNot'] = '待处理';
+            }
+            if ($v['renewalNot'] == 2){
+                $v['renewalNot'] = '待处理';
             }
             // 处理回参
             $data[$k] = [
