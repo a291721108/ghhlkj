@@ -309,41 +309,12 @@ class OrderService
                 OrderRenewal::insert($orderRenewalArr);
             });
 
-            return 'success';
+            return true;
         } catch (\Exception $e) {
             // 记录错误日志或其他处理逻辑
             Log::error($e->getMessage());
 
-            return 'error';
-        }
-        die();
-        $useInfo = User::getUserInfo();
-
-        try {
-            $orderId = $request->orderId;
-            $orderData = Order::where('id',$orderId)->first();
-            $orderData->renewalNot = Order::ORDER_RENEW_TWO;
-            $orderData->save();
-
-            $orderRenewalArr = [
-                'order_id'          => $orderId,
-                'guest_id'          => $useInfo->id,
-                'institution_id'    => $request->institution_id,
-                'institution_type'  => $request->institution_type,
-                'room_number'       => $request->room_number,
-                'phone'             => $request->phone,
-                'remark'            => $request->remark,
-                'start_date'        => strtotime($request->start_date),
-                'end_date'          => strtotime($request->end_date),
-                'created_at'        => time(),
-            ];
-            $data = OrderRenewal::insert($orderRenewalArr);
-
-            return 'success';
-
-        } catch (\Exception $e) {
-            return 'error';
-
+            return false;
         }
     }
 }

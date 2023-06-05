@@ -354,7 +354,7 @@ class OrderController extends BaseController
 
         $data = OrderService::applyRenewal($request);
 
-        if ($data == 'success') {
+        if ($data) {
             return $this->success('success');
         }
 
