@@ -76,10 +76,10 @@ class OrderNotificationService
             if ($v['refundNot'] == 2){
                 $refunds = OrderRefunds::where('order_id',$v['id'])->first();
                 $v['amount'] = $refunds->amount;
-                $v['refundNot'] = '待处理';
+                $v['status'] = '待处理';
             }
             if ($v['renewalNot'] == 2){
-                $v['renewalNot'] = '待处理';
+                $v['stauts'] = '待处理';
             }
             // 处理回参
             $data[$k] = [
@@ -98,7 +98,7 @@ class OrderNotificationService
                     ytdTampTime($v['start_date']),
                     ytdTampTime($v['end_date'])
                 ],
-                'status'             => Order::INS_MSG_ARRAY[$v['status']],
+                'status'             => Order::INS_MSG_ARRAY[$v['status']] ?? $v['status'],
 
             ];
         }
