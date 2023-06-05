@@ -13,6 +13,8 @@ use App\Models\OrderRenewal;
 use App\Models\User;
 use App\Service\Common\FunService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
@@ -277,26 +279,72 @@ class OrderService
     public static function applyRenewal($request)
     {
 
+        try {
+            $userInfo = User::getUserInfo();
+
+            $orderId = $request->orderId;
+            $orderData = Order::find($orderId);
+            if (!$orderData) {
+                return 'order_not_found';
+            }
+
+            // 使用数据库事务
+            DB::transaction(function () use ($orderData, $request, $userInfo) {
+                $orderData->renewalNot = Order::ORDER_RENEW_TWO;
+                $orderData->save();
+
+                $orderRenewalArr = [
+                    'order_id'          => $request->orderId,
+                    'guest_id'          => $userInfo->id,
+                    'institution_id'    => $request->institution_id,
+                    'institution_type'  => $request->institution_type,
+                    'room_number'       => $request->room_number,
+                    'phone'             => $request->phone,
+                    'remark'            => $request->remark,
+                    'start_date'        => strtotime($request->start_date),
+                    'end_date'          => strtotime($request->end_date),
+                    'created_at'        => time(),
+                ];
+
+                OrderRenewal::insert($orderRenewalArr);
+            });
+
+            return 'success';
+        } catch (\Exception $e) {
+            // 记录错误日志或其他处理逻辑
+            Log::error($e->getMessage());
+
+            return 'error';
+        }
+        die();
         $useInfo = User::getUserInfo();
 
-        $orderRenewalArr = [
-            'order_id'          => $request->orderId,
-            'guest_id'          => $useInfo->id,
-            'institution_id'    => $request->institution_id,
-            'institution_type'  => $request->institution_type,
-            'room_number'       => $request->room_number,
-            'phone'             => $request->phone,
-            'remark'            => $request->remark,
-            'start_date'        => strtotime($request->start_date),
-            'end_date'          => strtotime($request->end_date),
-            'created_at'        => time(),
-        ];
+        try {
+            $orderId = $request->orderId;
+            $orderData = Order::where('id',$orderId)->first();
+            $orderData->renewalNot = Order::ORDER_RENEW_TWO;
+            $orderData->save();
 
-        if (OrderRenewal::insert($orderRenewalArr)){
+            $orderRenewalArr = [
+                'order_id'          => $orderId,
+                'guest_id'          => $useInfo->id,
+                'institution_id'    => $request->institution_id,
+                'institution_type'  => $request->institution_type,
+                'room_number'       => $request->room_number,
+                'phone'             => $request->phone,
+                'remark'            => $request->remark,
+                'start_date'        => strtotime($request->start_date),
+                'end_date'          => strtotime($request->end_date),
+                'created_at'        => time(),
+            ];
+            $data = OrderRenewal::insert($orderRenewalArr);
+
             return 'success';
-        }
 
-        return 'error';
+        } catch (\Exception $e) {
+            return 'error';
+
+        }
     }
 }
 

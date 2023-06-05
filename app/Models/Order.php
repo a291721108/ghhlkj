@@ -25,6 +25,7 @@ class Order extends Common
     //是否续费
     const ORDER_RENEW_ZERO = 0;  // 默认
     const ORDER_RENEW_ONE = 1;  // 续费
+    const ORDER_RENEW_TWO = 2;  // 待处理
 
     /**
      * 信息提示
