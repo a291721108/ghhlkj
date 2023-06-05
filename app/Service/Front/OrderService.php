@@ -132,12 +132,13 @@ class OrderService
         $orderId = $request->orderId;
 
         $orderMsg = Order::where('id',$orderId)->first();
-        if ($orderMsg->status == 2 && $orderMsg->refundNot == 2){
+        if ($orderMsg->status == Order::ORDER_SYS_TYPE_TWO && $orderMsg->renewalNot == Order::ORDER_RENEW_TWO){
             $remark = OrderRenewal::where('order_id',$orderId)->first();
             $remarkData = $remark->remark;
         }else{
             $remarkData = $orderMsg->order_remark;
         }
+
         // 返回用户信息
         return [
             "id"                    => $orderMsg->id,
