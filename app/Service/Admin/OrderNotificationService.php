@@ -170,6 +170,7 @@ class OrderNotificationService
 
             $orderMsg = Order::where('id',$refundId)->first();
             $orderMsg->refundNot    = Order::ORDER_CHECK_OUT_ONE;
+            $orderMsg->status       = Order::ORDER_SYS_TYPE_THERE;
             $orderMsg->updated_at   = time();
             $orderMsg->save();
 
