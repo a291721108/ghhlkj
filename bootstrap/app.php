@@ -53,6 +53,9 @@ $app->configure('app');
 $app->configure('aliyunsms');
 $app->configure('cors');
 $app->configure('wechat');
+$app->configure('queue');
+$app->configure('alipay');
+
 
 
 /*
@@ -91,6 +94,8 @@ $app->configure('wechat');
  $app->register(App\Providers\EventServiceProvider::class);
 // $app->register(\Vinhson\LumenGeneratorServiceProvider::class);
 // $app->register(Illuminate\Redis\RedisServiceProvider::class);
+$app->register(App\Providers\KafkaServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
