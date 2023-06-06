@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Common;
 
 use AlibabaCloud\Client\AlibabaCloud;
-use App\Models\InstitutionAdmin;
 use Illuminate\Http\Request;
+use Yansongda\Pay\Pay;
 
 class LicenseController extends BaseController
 {
@@ -66,44 +66,30 @@ class LicenseController extends BaseController
         // 创建新的订单，省略具体实现
 
         // 推送通知到商家手机上
+        $order = [
+            'out_trade_no' => 'order_no', // 自定义的订单号
+            'total_amount' => '0.01', // 支付金额
+            'subject' => '订单标题', // 订单标题
+        ];
 
-        $appKey = config('services.mobilepush.app_key');
-        $appSecret = config('services.mobilepush.app_secret');
+        $alipay = Pay::alipay(config('alipay'));
+        return $alipay->app($order)->send();
+    }
 
-        AlibabaCloud::accessKeyClient(env('ALIYUN_SMS_AK'), env('ALIYUN_SMS_AS'))
-            ->regionId('ghhlkj-order-list')
-            ->asDefaultClient();
+    public function handlePaymentNotify(Request $request)
+    {
+        $alipay = Pay::alipay(config('alipay'));
 
         try {
-            $response = AlibabaCloud::rpc()
-                ->product('Push')
-                ->version('2016-08-01')
-                ->action('PushNoticeToAndroid')
-                ->method('POST')
-                ->options([
-                    'query' => [
-                        'AppKey' => $appKey,
-                        'Target' => 'DEVICE',
-                        'TargetValue' => $request->device_id,
-                        'Title' => '您有新的订单',
-                        'Body' => '订单号：' . '123456',
-                    ],
-                ])
-                ->request();
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Order created successfully.',
-            ]);
-        } catch (ClientException $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 500);
-        } catch (ServerException $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-            ], 500);
+            $data = $alipay->verify(); // 验证支付回调数据的签名
+
+            // 处理支付成功逻辑，更新订单状态等操作
+
+            return $alipay->success(); // 返回给支付宝成功的响应
+        } catch (\Exception $e) {
+            // 处理支付失败逻辑
+
+            return $alipay->fail(); // 返回给支付宝失败的响应
         }
     }
 }

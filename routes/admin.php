@@ -35,6 +35,8 @@ $router->group([
     $router->post('/recognizeBusinessLicense', 'Common\LicenseController@recognizeBusinessLicense');
 
     $router->post('/create', 'Common\LicenseController@create');
+    $router->post('/handlePaymentNotify', 'Common\LicenseController@handlePaymentNotify');
+
 
 });
 

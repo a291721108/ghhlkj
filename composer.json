@@ -12,14 +12,17 @@
         "php": "^7.2.5",
         "alibabacloud/client": "^1.5",
         "alibabacloud/ocr-api-20210707": "1.1.13",
+        "alipaysdk/easysdk": "^2.2",
         "endroid/qr-code": "^4.6",
         "fruitcake/laravel-cors": "^2.2",
         "illuminate/redis": "^7.30",
         "laravel/lumen-framework": "^7.0",
         "mrgoon/aliyun-sms": "^2.0",
+        "nmred/kafka-php": "0.2.*",
         "overtrue/laravel-wechat": "6.0",
         "predis/predis": "^2.1",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth": "^1.0",
+        "yansongda/pay": "^2.10"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9.1",
