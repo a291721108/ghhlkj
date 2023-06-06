@@ -94,7 +94,7 @@ $app->configure('alipay');
  $app->register(App\Providers\EventServiceProvider::class);
 // $app->register(\Vinhson\LumenGeneratorServiceProvider::class);
 // $app->register(Illuminate\Redis\RedisServiceProvider::class);
-$app->register(App\Providers\KafkaServiceProvider::class);
+//$app->register(App\Providers\KafkaServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
