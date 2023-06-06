@@ -158,7 +158,7 @@ class OrderNotificationService
             DB::beginTransaction();
 
             // 查询退款信息  执行一些数据库操作
-            $refundMsg = OrderRefunds::where('id',$refundId)
+            $refundMsg = OrderRefunds::where('order_id',$refundId)
                 ->where('status',OrderRefunds::ORDER_CHECK_OUT_ZERO)
                 ->first();
             $refundMsg->amount      = $request->amount;
@@ -168,7 +168,7 @@ class OrderNotificationService
             $refundMsg->save();
 
 
-            $orderMsg = Order::where('id',$refundMsg->order_id)->first();
+            $orderMsg = Order::where('id',$refundId)->first();
             $orderMsg->refundNot    = Order::ORDER_CHECK_OUT_ONE;
             $orderMsg->updated_at   = time();
             $orderMsg->save();
