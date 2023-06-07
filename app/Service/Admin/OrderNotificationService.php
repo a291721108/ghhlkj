@@ -51,17 +51,37 @@ class OrderNotificationService
         $query = Order::where('institution_id', $orderInstitution);
 
         // 状态查询
-        if (isset($request->status)) {
-            if ($request->status == 1) {
 
-                $query->where('status', Order::ORDER_SYS_TYPE_TWO)->where('refundNot', '2')->orWhere('renewalNot', '2');
-            }
-            if ($request->status == 2) {
+        if ($request->status == 1) {
+            $pending = Order::where('status', Order::ORDER_SYS_TYPE_TWO)
+                ->where(function ($query) use ($request) {
+                    $query->where('refundNot', OrderRefunds::ORDER_CHECK_OUT_TWO);
+                    $query->orWhere('renewalNot', OrderRenewal::ORDER_RENEWAL_TWO);
+                })->pluck('id')
+                ->toArray();
 
-                $query->where('status', Order::ORDER_SYS_TYPE_TWO)->where('refundNot', '0')->where('renewalNot', '0');
+            if (!empty($pending)) {
+                $pending = array_values($pending);
+                $query->whereIn('id', $pending);
             }
-            $query->where('status', $request->status);
         }
+
+        if ($request->status == 2) {
+
+            $pending = Order::where('status', Order::ORDER_SYS_TYPE_TWO)
+                ->where(function ($query) use ($request) {
+                    $query->where('refundNot', OrderRefunds::ORDER_CHECK_OUT_ZERO);
+                    $query->orWhere('renewalNot', OrderRenewal::ORDER_RENEWAL_ZERO);
+                })->pluck('id')
+                ->toArray();
+
+            if (!empty($pending)) {
+                $pending = array_values($pending);
+                $query->whereIn('id', $pending);
+            }
+//                $query->where('status', Order::ORDER_SYS_TYPE_TWO)->where('refundNot', '0')->where('renewalNot', '0');
+        }
+
 
         return $query;
     }
