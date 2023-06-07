@@ -22,7 +22,8 @@
         "overtrue/laravel-wechat": "6.0",
         "predis/predis": "^2.1",
         "tymon/jwt-auth": "^1.0",
-        "yansongda/pay": "^2.10"
+        "yansongda/pay": "^2.10",
+        "ext-openssl": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9.1",
