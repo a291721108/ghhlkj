@@ -145,6 +145,15 @@ class OrderService
             $remarkData = $orderMsg->order_remark;
         }
 
+        if ($orderMsg->renewalNot != Order::ORDER_RENEW_ZERO && $orderMsg->status == Order::ORDER_RENEW_TWO){
+            $remark = OrderRenewal::where('order_id',$orderId)->first();
+            $start_date = $remark->start_date;
+            $end_date = $remark->end_date;
+        }else{
+            $start_date = $orderMsg->start_date;
+            $end_date   = $orderMsg->end_date;
+        }
+
         // 返回用户信息
         return [
             "id"                    => $orderMsg->id,
@@ -157,8 +166,8 @@ class OrderService
             'institution_type'      => InstitutionHomeType::getInstitutionIdByName($orderMsg->institution_type),
             'discount_coupon'       => $orderMsg->discount_coupon,
             'visitDate'             => ytdTampTime($orderMsg->visitDate),
-            'start_date'            => ytdTampTime($orderMsg->start_date),
-            'end_date'              => ytdTampTime($orderMsg->end_date),
+            'start_date'            => ytdTampTime($start_date),
+            'end_date'              => ytdTampTime($end_date),
             'roomNum'               => InstitutionHome::getHomeIdBy($orderMsg->roomNum),
             'order_phone'           => $orderMsg->order_phone,
             'order_remark'          => $remarkData,
