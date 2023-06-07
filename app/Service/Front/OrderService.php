@@ -99,6 +99,11 @@ class OrderService
 
         foreach ($query as $k => $v) {
 
+            if ($v['refundNot'] == Order::ORDER_CHECK_OUT_ONE && $v['status'] == Order::ORDER_SYS_TYPE_THERE){
+                $reFound = OrderRefunds::where('order_id',$v['id'])->first();
+                $refund_amount = $reFound['amount'];
+            }
+
             // 处理回参
             $data[$k] = [
                 'id'                 => $v['id'],
@@ -114,6 +119,7 @@ class OrderService
                     ytdTampTime($v['end_date'])
                 ],
                 'refundNot'          => $v['refundNot'],
+                'refund_amount'      => $refund_amount,
                 'renewalNot'         => $v['renewalNot'],
                 'status'             => Order::INS_MSG_ARRAY[$v['status']],
 
