@@ -255,11 +255,16 @@ class OrderNotificationService
         if ($renewalMsg->status == 1){
             return 'processed';
         }
-
         $renewalMsg->status        = OrderRenewal::ORDER_RENEWAL_ONE;
         $renewalMsg->updated_at    = time();
 
         if ($renewalMsg->save()){
+
+            $orderMsg = Order::where('id',$renewalMsg->order_id)->first();
+            $orderMsg->renewalNot = Order::ORDER_RENEW_ONE;
+            $orderMsg->updated_at = time();
+            $orderMsg->save();
+
             $homeMoney = InstitutionHomeType::where('id',$renewalMsg->institution_type)->first();
 
             //计算相差月数
