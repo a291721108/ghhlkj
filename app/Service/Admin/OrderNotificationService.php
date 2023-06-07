@@ -117,7 +117,7 @@ class OrderNotificationService
                 $v['status'] = '待处理';
             }
             if ($v['renewalNot'] == 2){
-                $v['stauts'] = '待处理';
+                $v['status'] = '待处理';
             }
             // 处理回参
             $data[$k] = [
