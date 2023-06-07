@@ -82,7 +82,20 @@ class OrderNotificationService
 //                $query->where('status', Order::ORDER_SYS_TYPE_TWO)->where('refundNot', '0')->where('renewalNot', '0');
         }
 
+        if ($request->status == 0) {
 
+            $query->where('status', $request->status);
+        }
+
+        if ($request->status == 3) {
+
+            $query->where('status', $request->status);
+        }
+
+        if ($request->status == 4) {
+
+            $query->where('status', $request->status);
+        }
         return $query;
     }
 
