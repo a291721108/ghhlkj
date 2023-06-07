@@ -48,7 +48,7 @@ class OrderNotificationService
      */
     protected static function makeSearchWhere($request,$orderInstitution)
     {
-        $query = Order::where('institution_id', $orderInstitution);
+        $query = Order::where('institution_id', $orderInstitution)->orderBy('created_at', 'DESC');
 
         // 状态查询
         if (isset($request->status)) {
