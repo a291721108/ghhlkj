@@ -119,7 +119,7 @@ class OrderService
                     ytdTampTime($v['end_date'])
                 ],
                 'refundNot'          => $v['refundNot'],
-                'refund_amount'      => $refund_amount,
+                'refund_amount'      => $refund_amount ?? '',
                 'renewalNot'         => $v['renewalNot'],
                 'status'             => Order::INS_MSG_ARRAY[$v['status']],
 
