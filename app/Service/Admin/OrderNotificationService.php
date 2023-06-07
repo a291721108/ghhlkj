@@ -283,7 +283,7 @@ class OrderNotificationService
                 'contacts'          => User::getUserInfoById($renewalMsg->id)['name'],
                 'contacts_card'     => UserExt::getMsgByUserCard($renewalMsg->guest_id),
                 'order_remark'      => $renewalMsg->remark,
-                'renewalNot'        => Order::ORDER_RENEW_ONE,
+                'renewalNot'        => Order::ORDER_RENEW_ZERO,
                 'status'            => Order::ORDER_SYS_TYPE_ONE,
                 'created_at'        => time()
             ];
