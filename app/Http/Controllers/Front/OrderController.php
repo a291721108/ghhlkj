@@ -360,4 +360,39 @@ class OrderController extends BaseController
 
         return $this->error('error');
     }
+
+    /**
+     * @catalog app端/订单
+     * @title 取消申请续费
+     * @description 取消申请续费
+     * @method post
+     * @url 47.92.82.25/api/offApplyRenewal
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param orderId 必选 int 订单id
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function offApplyRenewal(Request $request)
+    {
+
+        $this->validate($request, [
+            'orderId'      => 'required|numeric',
+        ]);
+
+        $data = OrderService::offApplyRenewal($request);
+
+        if ($data) {
+            return $this->success('success');
+        }
+
+        return $this->error('error');
+    }
 }

@@ -197,6 +197,9 @@ $router->group([
     // 申请续费
     $router->post('/applyRenewal', 'Front\OrderController@applyRenewal');
 
+    // 取消申请续费
+    $router->post('/offApplyRenewal', 'Front\OrderController@offApplyRenewal');
+
     // 亲友状态获取
     $router->get('/getRelativeStatus', 'Front\FriendController@getRelativeStatus');
 

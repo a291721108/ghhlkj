@@ -324,6 +324,42 @@ class OrderService
             return false;
         }
     }
+
+    /**
+     * 取消申请续费
+     */
+    public static function offApplyRenewal($request)
+    {
+
+        try {
+            $userInfo = User::getUserInfo();
+
+            $orderId = $request->orderId;
+            $orderData = Order::find($orderId);
+            if (!$orderData) {
+                return 'order_not_found';
+            }
+
+            // 使用数据库事务
+            DB::transaction(function () use ($orderData, $request, $userInfo) {
+                $orderData->renewalNot = Order::ORDER_RENEW_ZERO;
+                $orderData->save();
+
+                $renewalData = OrderRenewal::where('order_id',$orderData->id)->first();
+                if ($renewalData){
+                    $renewalData->delete();
+                }
+
+            });
+
+            return true;
+        } catch (\Exception $e) {
+            // 记录错误日志或其他处理逻辑
+            Log::error($e->getMessage());
+
+            return false;
+        }
+    }
 }
 
 
