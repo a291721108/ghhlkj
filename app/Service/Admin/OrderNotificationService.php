@@ -291,6 +291,7 @@ class OrderNotificationService
                 'renewalNot'        => Order::ORDER_RENEW_ZERO,
                 'status'            => Order::ORDER_SYS_TYPE_ONE,
                 'created_at'        => time()
+
             ];
 
             if (Order::insert($bookOrder)){
