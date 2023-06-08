@@ -285,7 +285,7 @@ class OrderNotificationService
                 'discount_coupon'   => '无',
                 'start_date'        => $renewalMsg->start_date,
                 'end_date'          => $renewalMsg->end_date,
-                'order_phone'       => User::getUserInfoById($renewalMsg->id)['phone'],
+                'order_phone'       => $renewalMsg->phone,
                 'contacts'          => UserExt::getMsgByUserName($renewalMsg->guest_id),
                 'contacts_card'     => UserExt::getMsgByUserCard($renewalMsg->guest_id),
                 'order_remark'      => $renewalMsg->remark,
