@@ -53,7 +53,7 @@ class OrderNotificationService
         // 状态查询
         if (isset($request->status)) {
             if ($request->status == 1) {
-                $pending = $query->where('status', $request->status)
+                $pending = $query->where('status', Order::ORDER_SYS_TYPE_TWO)
                     ->where(function ($query) use ($request) {
                         $query->where('refundNot', OrderRefunds::ORDER_CHECK_OUT_TWO);
                         $query->orWhere('renewalNot', OrderRenewal::ORDER_RENEWAL_TWO);
@@ -64,9 +64,11 @@ class OrderNotificationService
                     $pending = array_values($pending);
                     $query->whereIn('id', $pending);
                 }
-            } elseif ($request->status == 2) {
+            }
 
-                $pending = $query->where('status', $request->status)
+            if ($request->status == 2) {
+
+                $pending = $query->where('status', Order::ORDER_SYS_TYPE_TWO)
                     ->where(function ($query) use ($request) {
                         $query->where('refundNot', OrderRefunds::ORDER_CHECK_OUT_ZERO);
                         $query->orWhere('renewalNot', OrderRenewal::ORDER_RENEWAL_ZERO);
@@ -80,17 +82,17 @@ class OrderNotificationService
                 //                $query->where('status', Order::ORDER_SYS_TYPE_TWO)->where('refundNot', '0')->where('renewalNot', '0');
             }
 
-            elseif ($request->status == 0) {
+            if ($request->status == 0) {
 
                 $query->where('status', $request->status);
             }
 
-            elseif ($request->status == 3) {
+            if ($request->status == 3) {
 
                 $query->where('status', $request->status);
             }
 
-            elseif ($request->status == 4) {
+            if ($request->status == 4) {
 
                 $query->where('status', $request->status);
             }
