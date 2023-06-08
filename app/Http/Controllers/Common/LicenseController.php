@@ -84,7 +84,7 @@ class LicenseController extends BaseController
          $options->alipayPublicKey = config("alipay.public_key");
 
         //可设置异步通知接收服务地址（可选）
-        $options->notifyUrl = "https://openapi-sandbox.dl.alipaydev.com/gateway.do";
+//        $options->notifyUrl = "https://openapi-sandbox.dl.alipaydev.com/gateway.do";
 
         return $options;
     }
