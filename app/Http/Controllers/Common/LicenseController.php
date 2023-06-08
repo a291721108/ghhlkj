@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Common;
 
 use AlibabaCloud\Client\AlibabaCloud;
+use Alipay\EasySDK\Kernel\Config;
+use Alipay\EasySDK\Kernel\Factory;
+use Alipay\EasySDK\Kernel\Util\ResponseChecker;
 use Illuminate\Http\Request;
 use Yansongda\Pay\Pay;
 
@@ -60,12 +63,63 @@ class LicenseController extends BaseController
         }
     }
 
+
+    protected function getOptions()
+    {
+        $options = new Config();
+        $options->protocol = 'https';
+        $options->gatewayHost = 'https://openapi.alipay.com/gateway.do';
+        $options->signType = 'RSA2';
+
+        $options->appId = config("alipay.app_id");
+
+        // 为避免私钥随源码泄露，推荐从文件中读取私钥字符串而不是写入源码中
+        $options->merchantPrivateKey = config("alipay.private_key");
+
+//        $options->alipayCertPath = '<-- 请填写您的支付宝公钥证书文件路径，例如：/foo/alipayCertPublicKey_RSA2.crt -->';
+//        $options->alipayRootCertPath = '<-- 请填写您的支付宝根证书文件路径，例如：/foo/alipayRootCert.crt" -->';
+//        $options->merchantCertPath = '<-- 请填写您的应用公钥证书文件路径，例如：/foo/appCertPublicKey_2019051064521003.crt -->';
+
+        //注：如果采用非证书模式，则无需赋值上面的三个证书路径，改为赋值如下的支付宝公钥字符串即可
+         $options->alipayPublicKey = config("alipay.public_key");
+
+        //可设置异步通知接收服务地址（可选）
+        $options->notifyUrl = "https://openapi-sandbox.dl.alipaydev.com/gateway.do";
+
+        return $options;
+    }
+
     // todo  支付宝支付
     public function create(Request $request)
     {
         // 创建新的订单，省略具体实现
 
         // 推送通知到商家手机上
+
+        Factory::setOptions($this->getOptions());
+
+        try {
+            //2. 发起API调用（以支付能力下的统一收单交易创建接口为例）
+            $result = Factory::payment()->common()->create("iPhone6 16G", "20200326235526001", "88.88", "2088002656718920");
+            $responseChecker = new ResponseChecker();
+            //3. 处理响应或异常
+            if ($responseChecker->success($result)) {
+                echo "调用成功". PHP_EOL;
+            } else {
+                echo "调用失败，原因：". $result->msg."，".$result->subMsg.PHP_EOL;
+            }
+        } catch (Exception $e) {
+            echo "调用失败，". $e->getMessage(). PHP_EOL;;
+        }
+
+
+
+
+
+
+
+
+        die();
         $order = [
             'out_trade_no' => 'order_no', // 自定义的订单号
             'total_amount' => '0.01', // 支付金额
@@ -82,12 +136,13 @@ class LicenseController extends BaseController
 
         $signString = urldecode(http_build_query($data));
 
-        $sandboxPublicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkg28jbaufPSZTOUtv9wchiwhw3p+8+KIxDJz6B7azDt2ZW3ou47STJHEa3G2La9MQnN8uSP4gMeyzO0E2N14BQUzdkkR6yElMVM40bkVduD9P53bHOks9vUDlZCcp8GXZCh+ZsKUfesiN/+qn3RUPipiYoUw1VaKn7oJ3CruGtbbwlw+o80Wae0osJXcbPECpbmgG6ctqGxlecvZ2KTTKIGF8//llDmL6S2+YKPlewINm5y9lvBO/ZoMzslkloWPxB+QFEJF6A9bvjepFaTsu88D7aijT0qYxDo+WAa9z/g8oGUG21+VDrbvjfrsOLP3FlS7t4lTS6HgN0TkD9cmpQIDAQAB';
-        $formattedPublicKey = "-----BEGIN PUBLIC KEY-----\n" . chunk_split($sandboxPublicKey, 64, "\n") . "-----END PUBLIC KEY-----";
+//        $sandboxPublicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkg28jbaufPSZTOUtv9wchiwhw3p+8+KIxDJz6B7azDt2ZW3ou47STJHEa3G2La9MQnN8uSP4gMeyzO0E2N14BQUzdkkR6yElMVM40bkVduD9P53bHOks9vUDlZCcp8GXZCh+ZsKUfesiN/+qn3RUPipiYoUw1VaKn7oJ3CruGtbbwlw+o80Wae0osJXcbPECpbmgG6ctqGxlecvZ2KTTKIGF8//llDmL6S2+YKPlewINm5y9lvBO/ZoMzslkloWPxB+QFEJF6A9bvjepFaTsu88D7aijT0qYxDo+WAa9z/g8oGUG21+VDrbvjfrsOLP3FlS7t4lTS6HgN0TkD9cmpQIDAQAB';
+        $sandboxPublicKey = config('alipay.alibb');
+        $formattedPublicKey = "-----BEGIN PUBLIC KEY-----\n" . $sandboxPublicKey . "\n-----END PUBLIC KEY-----";
 
         $publicKey = openssl_get_publickey($formattedPublicKey);
         $errorMsg = openssl_error_string();
-dd($errorMsg);
+
         if ($publicKey === false) {
             // 公钥加载失败
             return 'error';
@@ -109,20 +164,4 @@ dd($errorMsg);
         }
     }
 
-    public function handlePaymentNotify(Request $request)
-    {
-        $alipay = Pay::alipay(config('alipay'));
-
-        try {
-            $data = $alipay->verify(); // 验证支付回调数据的签名
-
-            // 处理支付成功逻辑，更新订单状态等操作
-
-            return $alipay->success(); // 返回给支付宝成功的响应
-        } catch (\Exception $e) {
-            // 处理支付失败逻辑
-
-            return $alipay->fail(); // 返回给支付宝失败的响应
-        }
-    }
 }
