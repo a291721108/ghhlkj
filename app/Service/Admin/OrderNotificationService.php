@@ -285,7 +285,7 @@ class OrderNotificationService
                 'start_date'        => $renewalMsg->start_date,
                 'end_date'          => $renewalMsg->end_date,
                 'order_phone'       => User::getUserInfoById($renewalMsg->id)['phone'],
-                'contacts'          => User::getUserInfoById($renewalMsg->id)['name'],
+                'contacts'          => UserExt::getMsgByUserName($renewalMsg->id),
                 'contacts_card'     => UserExt::getMsgByUserCard($renewalMsg->guest_id),
                 'order_remark'      => $renewalMsg->remark,
                 'renewalNot'        => Order::ORDER_RENEW_ZERO,
