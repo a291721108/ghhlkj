@@ -34,6 +34,9 @@ class AggregateService
 
         //获取改账号下的机构
         $institutionId = Institution::where('admin_id',$adminInfo->id)->first();
+        if (!$institutionId){
+            return false;
+        }
         $ids = $institutionId->id;
 
         // 获取该公司今日总收入
