@@ -252,6 +252,7 @@ class OrderNotificationService
         $renewalId = $request->renewalId;
 
         $renewalMsg = OrderRenewal::where('id',$renewalId)->first();
+
         if ($renewalMsg->status == 1){
             return 'processed';
         }
@@ -285,7 +286,7 @@ class OrderNotificationService
                 'start_date'        => $renewalMsg->start_date,
                 'end_date'          => $renewalMsg->end_date,
                 'order_phone'       => User::getUserInfoById($renewalMsg->id)['phone'],
-                'contacts'          => UserExt::getMsgByUserName($renewalMsg->id),
+                'contacts'          => UserExt::getMsgByUserName($renewalMsg->guest_id),
                 'contacts_card'     => UserExt::getMsgByUserCard($renewalMsg->guest_id),
                 'order_remark'      => $renewalMsg->remark,
                 'renewalNot'        => Order::ORDER_RENEW_ZERO,
