@@ -73,7 +73,40 @@ class LicenseController extends BaseController
         ];
 
         $alipay = Pay::alipay(config('alipay'));
-        return $alipay->app($order)->send();
+        $response = $alipay->app($order)->send();
+        parse_str($response, $data);
+
+        $sign = $data['sign'];
+        unset($data['sign']); // 从数组中移除签名字段
+        ksort($data); // 按键名进行排序
+
+        $signString = urldecode(http_build_query($data));
+
+        $sandboxPublicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkg28jbaufPSZTOUtv9wchiwhw3p+8+KIxDJz6B7azDt2ZW3ou47STJHEa3G2La9MQnN8uSP4gMeyzO0E2N14BQUzdkkR6yElMVM40bkVduD9P53bHOks9vUDlZCcp8GXZCh+ZsKUfesiN/+qn3RUPipiYoUw1VaKn7oJ3CruGtbbwlw+o80Wae0osJXcbPECpbmgG6ctqGxlecvZ2KTTKIGF8//llDmL6S2+YKPlewINm5y9lvBO/ZoMzslkloWPxB+QFEJF6A9bvjepFaTsu88D7aijT0qYxDo+WAa9z/g8oGUG21+VDrbvjfrsOLP3FlS7t4lTS6HgN0TkD9cmpQIDAQAB';
+        $formattedPublicKey = "-----BEGIN PUBLIC KEY-----\n" . chunk_split($sandboxPublicKey, 64, "\n") . "-----END PUBLIC KEY-----";
+
+        $publicKey = openssl_get_publickey($formattedPublicKey);
+        $errorMsg = openssl_error_string();
+dd($errorMsg);
+        if ($publicKey === false) {
+            // 公钥加载失败
+            return 'error';
+        }
+
+        $isValid = openssl_verify($signString, base64_decode($sign), $publicKey, OPENSSL_ALGO_SHA256);
+
+        openssl_free_key($publicKey);
+        if ($isValid === 1) {
+            // 签名验证通过
+            // 可以在这里进行订单状态更新等业务处理
+            return 'success';
+        } elseif ($isValid === 0) {
+            // 签名验证失败
+            return 'fail';
+        } else {
+            // 验证过程发生错误
+            return 'error';
+        }
     }
 
     public function handlePaymentNotify(Request $request)
