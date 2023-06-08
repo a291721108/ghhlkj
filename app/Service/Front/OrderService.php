@@ -223,7 +223,8 @@ class OrderService
         $orderMsg->payment_method = '1';
         $orderMsg->start_date   = strtotime($request->start_date);
         $orderMsg->end_date     = strtotime($request->end_date);
-//        $orderMsg->order_remark = $request->order_remark;
+        $orderMsg->contacts     = $request->contacts;
+        $orderMsg->order_remark = $request->order_remark;
         $orderMsg->status       = Order::ORDER_SYS_TYPE_TWO;
         $orderMsg->created_at   = time();
 
