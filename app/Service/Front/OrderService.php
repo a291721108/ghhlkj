@@ -147,15 +147,13 @@ class OrderService
             $remark = OrderRenewal::where('order_id',$orderId)->first();
             $start_date = $remark->start_date;
             $end_date = $remark->end_date;
-            $created_at = $remark->created_at;
             $remarkData = $remark->remark;
-
+            $created_at = $remark->created_at;
         }else{
             $start_date = $orderMsg->start_date;
             $end_date   = $orderMsg->end_date;
-            $created_at = $orderMsg->created_at;
             $remarkData = $orderMsg->order_remark;
-
+            $created_at = $orderMsg->created_at;
 
         }
 
