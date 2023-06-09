@@ -9,7 +9,7 @@ class Order extends Common
 {
 
     protected $table = 'gh_orders';
-    public $timestamps = true;
+    public $timestamps = false;
 
     const ORDER_SYS_TYPE_ZERO = 0;  // 已取消
     const ORDER_SYS_TYPE_ONE = 1;  // 待付款

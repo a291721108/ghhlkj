@@ -138,22 +138,24 @@ class OrderService
         $orderId = $request->orderId;
 
         $orderMsg = Order::where('id',$orderId)->first();
-        if ($orderMsg->status == Order::ORDER_SYS_TYPE_TWO && $orderMsg->renewalNot == Order::ORDER_RENEW_TWO){
-            $remark = OrderRenewal::where('order_id',$orderId)->first();
-            $remarkData = $remark->remark;
-        }else{
-            $remarkData = $orderMsg->order_remark;
-        }
+//        if ($orderMsg->status == Order::ORDER_SYS_TYPE_TWO && $orderMsg->renewalNot == Order::ORDER_RENEW_TWO){
+//            $remark = OrderRenewal::where('order_id',$orderId)->first();
+//        }else{
+//        }
 
         if ($orderMsg->renewalNot != Order::ORDER_RENEW_ZERO && $orderMsg->status == Order::ORDER_RENEW_TWO){
             $remark = OrderRenewal::where('order_id',$orderId)->first();
             $start_date = $remark->start_date;
             $end_date = $remark->end_date;
             $created_at = $remark->created_at;
+            $remarkData = $remark->remark;
+
         }else{
             $start_date = $orderMsg->start_date;
             $end_date   = $orderMsg->end_date;
             $created_at = $orderMsg->created_at;
+            $remarkData = $orderMsg->order_remark;
+
 
         }
 
