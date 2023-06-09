@@ -153,7 +153,7 @@ class OrderService
         }else{
             $start_date = $orderMsg->start_date;
             $end_date   = $orderMsg->end_date;
-            $created_at   = $orderMsg->created_at;
+            $created_at = $orderMsg->created_at;
 
         }
 
@@ -178,7 +178,7 @@ class OrderService
             'contacts'              => $orderMsg->contacts,
             'contacts_card'         => $orderMsg->contacts_card,
             'status'                => Order::INS_MSG_ARRAY[$orderMsg->status],
-            'created_at'            => hourMinuteSecond(strtotime($created_at)),
+            'created_at'            => hourMinuteSecond($created_at),
             ];
 
     }
