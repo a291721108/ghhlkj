@@ -100,7 +100,7 @@ class LicenseController extends BaseController
         try {
             //2. 发起API调用（以支付能力下的统一收单交易创建接口为例）
 //            $result = Factory::payment()->App()->pay("iPhone6 16G", "2020******5526001", "88.88");
-            $payUrl = $factory::payment()->app()->pay("iPhone6 16G", "2020******5526001", "88.88");
+            $payUrl = $factory::payment()->app()->pay("iPhone6 16G", "70501111111S001111119", "9.00");
             $responseChecker = new ResponseChecker();
 
             //3. 处理响应或异常
