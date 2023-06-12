@@ -110,13 +110,13 @@ class LicenseController extends BaseController
                 parse_str($data, $parameters);
                 // 构建支付请求URL
                 $url = 'alipays://platformapi/startapp?appId=' . $parameters['app_id'] . '&timestamp=' . urlencode($parameters['timestamp']) . '&bizContent=' . urlencode($parameters['biz_content']) . '&sign=' . urlencode($parameters['sign']) . '&signType=' . $parameters['sign_type'] . '&appCertSn=' . $parameters['app_cert_sn'] . '&alipayRootCertSn=' . $parameters['alipay_root_cert_sn'];
-                dd($url);
+
                 return $this->success('success', 200, ['url' => $url]);
             } else {
                 echo "调用失败，原因：" . $payUrl->msg . "，" . $payUrl->subMsg . PHP_EOL;
             }
         } catch (\Exception $e) {
-            echo $e . PHP_EOL;
+            echo $e.printStackTrace();;
         }
     }
 
