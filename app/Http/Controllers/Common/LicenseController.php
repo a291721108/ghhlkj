@@ -109,87 +109,14 @@ class LicenseController extends BaseController
                 $parameters = [];
                 parse_str($data, $parameters);
                 // 构建支付请求URL
-                $url = 'alipay://platformapi/startapp?appId=' . $parameters['app_id'] . '&timestamp=' . urlencode($parameters['timestamp']) . '&bizContent=' . urlencode($parameters['biz_content']) . '&sign=' . urlencode($parameters['sign']) . '&signType=' . $parameters['sign_type'] . '&appCertSn=' . $parameters['app_cert_sn'] . '&alipayRootCertSn=' . $parameters['alipay_root_cert_sn'];
-
-                return $this->success('success',200,['url'=>$url]);
+                $url = 'alipays://platformapi/startapp?appId=' . $parameters['app_id'] . '&timestamp=' . urlencode($parameters['timestamp']) . '&bizContent=' . urlencode($parameters['biz_content']) . '&sign=' . urlencode($parameters['sign']) . '&signType=' . $parameters['sign_type'] . '&appCertSn=' . $parameters['app_cert_sn'] . '&alipayRootCertSn=' . $parameters['alipay_root_cert_sn'];
+                dd($url);
+                return $this->success('success', 200, ['url' => $url]);
             } else {
-                echo "调用失败，原因：". $payUrl->msg."，".$payUrl->subMsg.PHP_EOL;
+                echo "调用失败，原因：" . $payUrl->msg . "，" . $payUrl->subMsg . PHP_EOL;
             }
-die();
-            $payParams = $result->body; // 假设 $result 是支付宝支付接口的响应
-
-            // 处理支付结果
-            if (!empty($payParams)) {
-                // 解析响应内容
-                parse_str($payParams, $parsedResponse);
-
-                // 提取参数值
-                $appId = $parsedResponse['app_id'];
-                $timestamp = $parsedResponse['timestamp'];
-                $signType = $parsedResponse['sign_type'];
-                $bizContent = $parsedResponse['biz_content'];
-                $sign = $parsedResponse['sign'];
-
-                $payUrl = Factory::payment()->common()->create($appId, $timestamp, $signType, $bizContent, $sign);
-                // 返回支付链接给移动应用
-                echo $payUrl;
-            } else {
-                // 支付请求失败，处理错误信息
-                $errorMessage = $response->msg ?? 'Unknown error';
-
-                // 返回错误信息给移动应用
-                echo $errorMessage;
-            }
-
-        } catch (Exception $e) {
-            echo "调用失败，". $e->getMessage(). PHP_EOL;;
-        }
-
-
-        die();
-        // 推送通知到商家手机上
-        $order = [
-            'out_trade_no' => 'order_no', // 自定义的订单号
-            'total_amount' => '0.01', // 支付金额
-            'subject' => '订单标题', // 订单标题
-        ];
-
-        $alipay = Pay::alipay(config('alipay'));
-        $response = $alipay->app($order)->send();
-        parse_str($response, $data);
-
-        $sign = $data['sign'];
-        unset($data['sign']); // 从数组中移除签名字段
-        ksort($data); // 按键名进行排序
-
-        $signString = urldecode(http_build_query($data));
-
-//        $sandboxPublicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkg28jbaufPSZTOUtv9wchiwhw3p+8+KIxDJz6B7azDt2ZW3ou47STJHEa3G2La9MQnN8uSP4gMeyzO0E2N14BQUzdkkR6yElMVM40bkVduD9P53bHOks9vUDlZCcp8GXZCh+ZsKUfesiN/+qn3RUPipiYoUw1VaKn7oJ3CruGtbbwlw+o80Wae0osJXcbPECpbmgG6ctqGxlecvZ2KTTKIGF8//llDmL6S2+YKPlewINm5y9lvBO/ZoMzslkloWPxB+QFEJF6A9bvjepFaTsu88D7aijT0qYxDo+WAa9z/g8oGUG21+VDrbvjfrsOLP3FlS7t4lTS6HgN0TkD9cmpQIDAQAB';
-        $sandboxPublicKey = config('alipay.alibb');
-        $formattedPublicKey = "-----BEGIN PUBLIC KEY-----\n" . $sandboxPublicKey . "\n-----END PUBLIC KEY-----";
-
-        $publicKey = openssl_get_publickey($formattedPublicKey);
-        $errorMsg = openssl_error_string();
-
-dd($errorMsg);
-        if ($publicKey === false) {
-            // 公钥加载失败
-            return 'error';
-        }
-
-        $isValid = openssl_verify($signString, base64_decode($sign), $publicKey, OPENSSL_ALGO_SHA256);
-
-        openssl_free_key($publicKey);
-        if ($isValid === 1) {
-            // 签名验证通过
-            // 可以在这里进行订单状态更新等业务处理
-            return 'success';
-        } elseif ($isValid === 0) {
-            // 签名验证失败
-            return 'fail';
-        } else {
-            // 验证过程发生错误
-            return 'error';
+        } catch (\Exception $e) {
+            echo $e . PHP_EOL;
         }
     }
 
