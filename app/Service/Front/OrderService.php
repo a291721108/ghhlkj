@@ -138,23 +138,31 @@ class OrderService
         $orderId = $request->orderId;
 
         $orderMsg = Order::where('id',$orderId)->first();
-        if ($orderMsg->status == Order::ORDER_SYS_TYPE_TWO && $orderMsg->renewalNot == Order::ORDER_RENEW_TWO){
-            $remark = OrderRenewal::where('order_id',$orderId)->first();
-            $created_at = $remark->created_at;
-        }else{
-            $created_at = $orderMsg->created_at;
-        }
+        $remark = null;
+        $created_at = $orderMsg->created_at;
+        $start_date = $orderMsg->start_date;
+        $end_date = $orderMsg->end_date;
+        $remarkData = $orderMsg->order_remark;
 
-        if ($orderMsg->renewalNot != Order::ORDER_RENEW_ZERO && $orderMsg->status == Order::ORDER_RENEW_TWO){
-            $remark = OrderRenewal::where('order_id',$orderId)->first();
+        if ($orderMsg->status == Order::ORDER_SYS_TYPE_TWO && $orderMsg->renewalNot == Order::ORDER_RENEW_TWO) {
+            $remark = OrderRenewal::where('order_id', $orderId)->first();
+            $created_at = $remark->created_at;
+        } elseif ($orderMsg->renewalNot != Order::ORDER_RENEW_ZERO && $orderMsg->status == Order::ORDER_RENEW_TWO) {
+            $remark = OrderRenewal::where('order_id', $orderId)->first();
             $start_date = $remark->start_date;
             $end_date = $remark->end_date;
             $remarkData = $remark->remark;
-        }else{
-            $start_date = $orderMsg->start_date;
-            $end_date   = $orderMsg->end_date;
-            $remarkData = $orderMsg->order_remark;
         }
+
+//        if ($orderMsg->status == Order::ORDER_SYS_TYPE_TWO && $orderMsg->refundNot == Order::ORDER_RENEW_TWO) {
+//            $remark = OrderRenewal::where('order_id', $orderId)->first();
+//            $created_at = $remark->created_at;
+//        } elseif ($orderMsg->refundNot != Order::ORDER_RENEW_ZERO && $orderMsg->status == Order::ORDER_RENEW_TWO) {
+//            $remark = OrderRenewal::where('order_id', $orderId)->first();
+//            $start_date = $remark->start_date;
+//            $end_date = $remark->end_date;
+//            $remarkData = $remark->remark;
+//        }
 
         // 返回用户信息
         return [
