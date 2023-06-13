@@ -152,15 +152,10 @@ class OrderService
             $remarkData = $remark->remark;
         }
 
-//        if ($orderMsg->status == Order::ORDER_SYS_TYPE_TWO && $orderMsg->refundNot == Order::ORDER_RENEW_TWO) {
-//            $remark = OrderRenewal::where('order_id', $orderId)->first();
-//            $created_at = $remark->created_at;
-//        } elseif ($orderMsg->refundNot != Order::ORDER_RENEW_ZERO && $orderMsg->status == Order::ORDER_RENEW_TWO) {
-//            $remark = OrderRenewal::where('order_id', $orderId)->first();
-//            $start_date = $remark->start_date;
-//            $end_date = $remark->end_date;
-//            $remarkData = $remark->remark;
-//        }
+        if ($orderMsg->status == Order::ORDER_SYS_TYPE_TWO && $orderMsg->refundNot == Order::ORDER_RENEW_TWO) {
+            $refund = OrderRefunds::where('order_id', $orderId)->first();
+            $created_at = $refund->created_at;
+        }
 
         // 返回用户信息
         return [
