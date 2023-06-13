@@ -137,7 +137,7 @@ class OrderNotificationService
                     ytdTampTime($v['end_date'])
                 ],
                 'status'             => Order::INS_MSG_ARRAY[$v['status']] ?? $v['status'],
-
+                'created_at'        => hourMinuteSecond($v['created_at']),
             ];
         }
 
