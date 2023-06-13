@@ -351,6 +351,13 @@ class OrderNotificationService
             $amount = $refunds->amount;
             $refund_date = $refunds->refund_date;
         }
+
+        if ($orderData->status == Order::ORDER_SYS_TYPE_TWO && $orderData->renewalNot == Order::ORDER_RENEW_TWO){
+            $remark = OrderRenewal::where('order_id',$orderId)->first();
+            $created_at = $remark->created_at;
+        }else{
+            $created_at = $orderData->created_at;
+        }
         return [
             'id'                => $orderData->id,
             'user_id'           => $orderData->user_id,
@@ -373,8 +380,8 @@ class OrderNotificationService
             'contacts'          => $orderData->contacts,
             'contacts_card'     => $orderData->contacts_card,
             'status'            => $orderData->status,
-            'created_at'        => hourMinuteSecond($orderData->created_at),
-            'updated_at'        => hourMinuteSecond($orderData->updated_at),
+            'created_at'        => hourMinuteSecond($created_at),
+//            'updated_at'        => hourMinuteSecond($orderData->updated_at),
 
         ];
     }
