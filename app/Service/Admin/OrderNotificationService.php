@@ -350,18 +350,21 @@ class OrderNotificationService
         $orderId = $request->orderId;
 
         $orderData = Order::where('id',$orderId)->first();
+
+        $created_at = $orderData->created_at;
+
         if ($orderData->refundNot == 1){
             $refunds = OrderRefunds::where('order_id',$orderData->id)->first();
             $amount = $refunds->amount;
             $refund_date = $refunds->refund_date;
-        }
-
-        if ($orderData->status == Order::ORDER_SYS_TYPE_TWO && $orderData->renewalNot == Order::ORDER_RENEW_TWO){
+        }elseif ($orderData->status == Order::ORDER_SYS_TYPE_TWO && $orderData->renewalNot == Order::ORDER_RENEW_TWO){
             $remark = OrderRenewal::where('order_id',$orderId)->first();
             $created_at = $remark->created_at;
-        }else{
-            $created_at = $orderData->created_at;
+        } elseif ($orderData->status == Order::ORDER_SYS_TYPE_TWO && $orderData->refundNot == Order::ORDER_CHECK_OUT_TWO){
+            $remark = OrderRefunds::where('order_id',$orderId)->first();
+            $created_at = $remark->created_at;
         }
+
         return [
             'id'                => $orderData->id,
             'user_id'           => $orderData->user_id,
