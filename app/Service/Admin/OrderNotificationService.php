@@ -37,7 +37,7 @@ class OrderNotificationService
         $result = (new Order())->getMsgPageList($query, $page, $pageSize);
 
         // 处理特殊字段
-        $result['data'] = self::dealReturnData($result['data']);
+        $result['data'] = self::dealReturnData($result['data'],$request->status);
 
         return $result;
     }
@@ -107,21 +107,22 @@ class OrderNotificationService
      * @param array $data
      * @return array
      */
-    public static function dealReturnData($query, array $data = [])
+    public static function dealReturnData($query,$request, array $data = [])
     {
 
         foreach ($query as $k => $v) {
+
             if ($v['refundNot'] == 2){
                 $refunds = OrderRefunds::where('order_id',$v['id'])->first();
                 $v['amount'] = $refunds->amount;
                 $v['status'] = '待处理';
-            }
-            if ($v['renewalNot'] == 2){
+            } elseif ($v['renewalNot'] == 2 && $request == 1){
                 $renewal = OrderRenewal::where('order_id',$v['id'])->first();
                 $v['start_date']    = $renewal->start_date;
                 $v['end_date']      = $renewal->end_date;
                 $v['status']        = '待处理';
             }
+
             // 处理回参
             $data[$k] = [
                 'id'                 => $v['id'],
