@@ -321,7 +321,9 @@ class OrderNotificationService
         if (!isset($renewData->status)){
             return 'processed';
         }
+
         $orderData = Order::where('id',$renewData->order_id)->first();
+
         return [
             'id'                => $renewData->id,
             'order_id'          => $renewData->order_id,
@@ -348,9 +350,7 @@ class OrderNotificationService
     public static function getOrderDetail($request)
     {
         $orderId = $request->orderId;
-
         $orderData = Order::where('id',$orderId)->first();
-
         $created_at = $orderData->created_at;
 
         if ($orderData->refundNot == 1){
