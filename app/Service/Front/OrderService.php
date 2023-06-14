@@ -308,28 +308,35 @@ class OrderService
                 return 'order_not_found';
             }
 
-            // 使用数据库事务
-            DB::transaction(function () use ($orderData, $request, $userInfo) {
-                $orderData->renewalNot = Order::ORDER_RENEW_TWO;
-                $orderData->save();
+            $renewalData = OrderRenewal::where('order_id',$orderId)->first();
+            if (!$renewalData){
+                // 使用数据库事务
+                DB::transaction(function () use ($orderData, $request, $userInfo, $orderId) {
+                    $orderData->renewalNot = Order::ORDER_RENEW_TWO;
+                    $orderData->save();
 
-                $orderRenewalArr = [
-                    'order_id'          => $request->orderId,
-                    'guest_id'          => $userInfo->id,
-                    'institution_id'    => $request->institution_id,
-                    'institution_type'  => $request->institution_type,
-                    'room_number'       => $request->room_number,
-                    'phone'             => $request->phone,
-                    'remark'            => $request->remark,
-                    'start_date'        => strtotime($request->start_date),
-                    'end_date'          => strtotime($request->end_date),
-                    'created_at'        => time(),
-                ];
+                    $orderRenewalArr = [
+                        'order_id'          => $orderId,
+                        'guest_id'          => $userInfo->id,
+                        'institution_id'    => $request->institution_id,
+                        'institution_type'  => $request->institution_type,
+                        'room_number'       => $request->room_number,
+                        'phone'             => $request->phone,
+                        'remark'            => $request->remark,
+                        'start_date'        => strtotime($request->start_date),
+                        'end_date'          => strtotime($request->end_date),
+                        'created_at'        => time(),
+                    ];
 
-                OrderRenewal::insert($orderRenewalArr);
-            });
+                    OrderRenewal::insert($orderRenewalArr);
+                });
+                return true;
+            }
 
-            return true;
+            if ($renewalData->status == OrderRenewal::ORDER_RENEWAL_ZERO){
+                return 'application_submitted';
+            }
+
         } catch (\Exception $e) {
             // 记录错误日志或其他处理逻辑
             Log::error($e->getMessage());

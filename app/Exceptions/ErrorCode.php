@@ -43,6 +43,7 @@ class ErrorCode
         'book_successfully'         => "预约成功",
         'successful_refund'         => "退款成功",
         'processed'                 => "已处理",
+        'application_submitted'     => "申请已提交",
 
         'code_send_success'         => "验证码发送成功",
         'code_check_success'        => "验证码校验成功",
