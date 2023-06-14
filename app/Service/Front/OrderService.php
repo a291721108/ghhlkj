@@ -244,16 +244,22 @@ class OrderService
     public static function checkOutApply($request)
     {
 
-        $useInfo = User::getUserInfo();
+        $userInfo = User::getUserInfo();
+        $orderId = $request->order_id;
 
-        $orderData = Order::where('id',$request->order_id)->first();
+        $refundDataExists  = OrderRefunds::where('order_id', $orderId)->where('status', OrderRefunds::ORDER_CHECK_OUT_ZERO)->exists();
+        if (!$refundDataExists){
+            return 'application_submitted';
+        }
+
+        $orderData = Order::find($orderId);
         $orderData->refundNot   = Order::ORDER_CHECK_OUT_TWO;
         $orderData->updated_at  = time();
         $orderData->save();
 
         $orderCheckArr = [
-            'order_id'          => $request->order_id,
-            'guest_name'        => $useInfo->id,
+            'order_id'          => $orderId,
+            'guest_name'        => $userInfo->id,
             'created_at'        => time(),
 
         ];

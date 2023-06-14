@@ -276,7 +276,7 @@ class OrderController extends BaseController
             return $this->success('success');
         }
 
-        return $this->error('error');
+        return $this->error($data);
     }
 
     /**
