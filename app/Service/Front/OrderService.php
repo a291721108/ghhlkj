@@ -248,7 +248,7 @@ class OrderService
         $orderId = $request->order_id;
 
         $refundDataExists  = OrderRefunds::where('order_id', $orderId)->where('status', OrderRefunds::ORDER_CHECK_OUT_ZERO)->exists();
-        if (!$refundDataExists){
+        if ($refundDataExists){
             return 'application_submitted';
         }
 
