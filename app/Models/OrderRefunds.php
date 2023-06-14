@@ -9,7 +9,7 @@ class OrderRefunds extends Common
 {
 
     protected $table = 'gh_orders_refunds';
-    public $timestamps = true;
+    public $timestamps = false;
 
     //是否退款
     const ORDER_CHECK_OUT_ZERO = 0;  // 默认
