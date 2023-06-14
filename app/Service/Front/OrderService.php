@@ -298,7 +298,6 @@ class OrderService
      */
     public static function applyRenewal($request)
     {
-
         try {
             $userInfo = User::getUserInfo();
 
