@@ -117,7 +117,10 @@ class OrderNotificationService
                 $v['status'] = '待处理';
             }
             if ($v['renewalNot'] == 2){
-                $v['status'] = '待处理';
+                $renewal = OrderRenewal::where('order_id',$v['id'])->first();
+                $v['start_date']    = $renewal->start_date;
+                $v['end_date']      = $renewal->end_date;
+                $v['status']        = '待处理';
             }
             // 处理回参
             $data[$k] = [
