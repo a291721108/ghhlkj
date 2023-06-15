@@ -141,7 +141,7 @@ class OrderService
 
         $created_at = $orderMsg->created_at;
         $start_date = $orderMsg->start_date;
-        $end_date = $orderMsg->end_date;
+        $end_date   = $orderMsg->end_date;
         $remarkData = $orderMsg->order_remark;
         $refundTime = '';
 
