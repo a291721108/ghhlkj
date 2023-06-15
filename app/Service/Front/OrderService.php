@@ -143,20 +143,24 @@ class OrderService
         $start_date = $orderMsg->start_date;
         $end_date = $orderMsg->end_date;
         $remarkData = $orderMsg->order_remark;
-        if ($orderMsg->status == Order::ORDER_SYS_TYPE_TWO && $orderMsg->renewalNot == Order::ORDER_RENEW_TWO) {
-            $remark = OrderRenewal::where('order_id', $orderId)->first();
-            $created_at = $remark->created_at;
+        $refundTime = '';
+
+        if ($orderMsg->status == Order::ORDER_SYS_TYPE_TWO) {
+            if ($orderMsg->renewalNot == Order::ORDER_RENEW_TWO) {
+                $remark = OrderRenewal::where('order_id', $orderId)->first();
+                $created_at = $remark->created_at;
+            }
+
+            if ($orderMsg->refundNot == Order::ORDER_RENEW_TWO) {
+                $refund = OrderRefunds::where('order_id', $orderId)->first();
+                $refundTime = $refund->created_at;
+            }
         }
+
 //        elseif ($orderMsg->status == Order::ORDER_RENEW_TWO && $orderMsg->renewalNot != Order::ORDER_RENEW_ZERO) {
 //            $remark = OrderRenewal::where('order_id', $orderId)->first();
 //            $remarkData = $remark->remark;
 //        }
-
-        if ($orderMsg->status == Order::ORDER_SYS_TYPE_TWO && $orderMsg->refundNot == Order::ORDER_RENEW_TWO) {
-            $refund = OrderRefunds::where('order_id', $orderId)->first();
-            $created_at = $refund->created_at;
-        }
-
         // 返回用户信息
         return [
             "id"                    => $orderMsg->id,
@@ -179,6 +183,7 @@ class OrderService
             'contacts_card'         => $orderMsg->contacts_card,
             'status'                => Order::INS_MSG_ARRAY[$orderMsg->status],
             'created_at'            => hourMinuteSecond($created_at),
+            'refundTime'            => hourMinuteSecond($refundTime) ?? '',
             ];
 
     }
