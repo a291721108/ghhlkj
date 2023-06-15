@@ -290,4 +290,40 @@ class AdminController extends BaseController
 
         return $this->error($res);
     }
+
+    /**
+     * @catalog 商家端/管理员相关
+     * @title 个人资料编辑
+     * @description 个人资料编辑
+     * @method post
+     * @url 47.92.82.25/api/adminDataEdition
+     *
+     * @header api_token 必选 string api_token放到authorization中
+     *
+     * @param img 必选 string 图片路径
+     * @param institution 必选 string 机构名称
+     *
+     * @return {"meta":{"status":200,"msg":"成功"},"data":[]}
+     *
+     * @return_param code int 状态吗(200:请求成功,404:请求失败)
+     * @return_param msg string 返回信息
+     *
+     * @remark
+     * @number 1
+     */
+    public function adminDataEdition(Request $request)
+    {
+        $this->validate($request, [
+            'img'           => 'required',
+            'institution'   => 'required',
+        ]);
+
+        $res = AdminService::adminDataEdition($request);
+
+        if ($res) {
+            return $this->success('success');
+        }
+
+        return $this->error('error');
+    }
 }

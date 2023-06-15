@@ -51,6 +51,9 @@ $router->group([
     ]
 ], function () use ($router) {
 
+    // 个人资料编辑
+    $router->post('/adminDataEdition', 'Admin\AdminController@adminDataEdition');
+
     // 注销账号
     $router->post('/clientCloseAnAccount', 'Admin\AdminController@clientCloseAnAccount');
 

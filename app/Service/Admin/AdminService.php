@@ -10,6 +10,7 @@ use App\Models\UserSend;
 use App\Service\Common\RedisService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Yansongda\Pay\Log;
 
 class AdminService
 {
@@ -301,6 +302,45 @@ class AdminService
             return "safe withdrawing";
         }
         return "error";
+    }
+
+    /**
+     * 个人资料编辑
+     * @return string|bool
+     */
+    public static function adminDataEdition($request)
+    {
+        $admin = InstitutionAdmin::getAdminInfo();
+
+        try {
+            DB::beginTransaction();
+
+            $adminData = InstitutionAdmin::where('id', $admin->id)->first();
+            $adminData->admin_img = $request->img;
+            $adminData->updated_at = time();
+            if (!$adminData->save()) {
+                DB::rollBack();
+                return false;
+            }
+
+            $institutionData = Institution::where('admin_id', $admin->id)->first();
+            $institutionData->institution_name = $request->institution;
+            $institutionData->updated_at = time();
+            if (!$institutionData->save()) {
+                DB::rollBack();
+                return false;
+            }
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            // 记录错误日志或其他处理逻辑
+            \Illuminate\Support\Facades\Log::error($e->getMessage());
+
+            return false;
+        }
     }
 }
 
