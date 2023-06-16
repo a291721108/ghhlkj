@@ -198,6 +198,7 @@ class OrderService
 
         $orderMsg = Order::where('user_id',$useInfo->id)->where('id',$orderId)->first();
         $orderMsg->status = Order::ORDER_SYS_TYPE_ZERO;
+        $orderMsg->updated_at = time();
 
         if ($orderMsg->save()){
             return 'success';
