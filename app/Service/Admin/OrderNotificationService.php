@@ -121,6 +121,9 @@ class OrderNotificationService
                 $v['start_date']    = $renewal->start_date;
                 $v['end_date']      = $renewal->end_date;
                 $v['status']        = '待处理';
+            } elseif($request == 0){
+                $v['amount'] = $v['amount_paid'];
+
             }
 
             // 处理回参
@@ -129,10 +132,10 @@ class OrderNotificationService
                 'institution_id'     => Institution::getInstitutionId($v['institution_id']),
                 'institution_type'   => InstitutionHomeType::getInstitutionTypeId($v['institution_type']),
                 'total_amount'       => $v['total_amount'],
+                'amount'             => $v['amount'],
                 'amount_paid'        => $v['amount_paid'],
                 'roomNum'            => InstitutionHome::getHomeIdBy($v['roomNum']),
                 'contacts'           => $v['contacts'],
-                'amount'             => $v['amount'],
                 'refundNot'          => $v['refundNot'],
                 'renewalNot'         => $v['renewalNot'],
                 'visitDate'          => ytdTampTime($v['visitDate']),
