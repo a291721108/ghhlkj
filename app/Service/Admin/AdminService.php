@@ -141,7 +141,7 @@ class AdminService
         }
         return [
             'id'            => $adminInfo->id,
-            'img'           => $adminInfo->img,
+            'img'           => $adminInfo->admin_img,
             'companyName'   => $companyName
         ];
     }
