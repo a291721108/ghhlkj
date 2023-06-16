@@ -353,8 +353,8 @@ class OrderNotificationService
         $order = Order::with('refunds', 'renewal')->find($orderId);
         $statusTwo = $order->status === Order::ORDER_SYS_TYPE_TWO;
 
-        $remark = null;
-        $created_at = null;
+        $created_at = '';
+        $refundTime = '';
 
         if ($order->refundNot === Order::ORDER_SYS_TYPE_ONE) {
             $refund = $order->refunds;
@@ -363,17 +363,13 @@ class OrderNotificationService
         } elseif ($statusTwo && $order->renewalNot === Order::ORDER_RENEW_TWO) {
             $remark = $order->renewal;
             $refundTime = $remark->created_at;
-            $created_at = $order->created_at;
-
         } elseif ($statusTwo && $order->refundNot === Order::ORDER_CHECK_OUT_TWO) {
-            $created_at = $order->created_at;
-            $remark = $order->refunds;
+            $remark     = $order->refunds;
             $refundTime = $remark->created_at;
-
         }
 
-        $created_at = $order->created_at ?? $created_at;
-        $refundTime = $refundTime ?? '';
+        $created_at = $created_at ?: $order->created_at;
+        $refundTime = $refundTime ?: '';
 
 
         return [
