@@ -364,11 +364,15 @@ class OrderNotificationService
             $remark = $order->renewal;
             $created_at = $remark->created_at;
         } elseif ($statusTwo && $order->refundNot === Order::ORDER_CHECK_OUT_TWO) {
+            $created_at = $order->created_at;
             $remark = $order->refunds;
-            $created_at = $remark->created_at;
+            $refundTime = $remark->created_at;
+
         }
 
         $created_at = $order->created_at ?? $created_at;
+        $refundTime = $refundTime ?? '';
+
 
         return [
             'id'                => $order->id,
@@ -392,8 +396,8 @@ class OrderNotificationService
             'contacts'          => $order->contacts,
             'contacts_card'     => $order->contacts_card,
             'status'            => $order->status,
-            'created_at'        => hourMinuteSecond($created_at) ?? $created_at,
-//            'updated_at'        => hourMinuteSecond($orderData->updated_at),
+            'created_at'        => hourMinuteSecond($created_at),
+            'refundTime'        => hourMinuteSecond($refundTime),
 
         ];
     }

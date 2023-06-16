@@ -80,11 +80,11 @@ class Order extends Common
 
     public function refunds()
     {
-        return $this->hasOne(OrderRefunds::class, 'order_id');
+        return $this->hasOne(OrderRefunds::class, 'order_id')->where('status','0');
     }
 
     public function renewal()
     {
-        return $this->hasOne(OrderRefunds::class, 'order_id');
+        return $this->hasOne(OrderRenewal::class, 'order_id');
     }
 }
