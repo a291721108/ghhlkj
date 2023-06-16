@@ -405,7 +405,7 @@ class OrderNotificationService
             'status'            => $order->status,
             'created_at'        => hourMinuteSecond($created_at),
             'refundTime'        => hourMinuteSecond($refundTime),
-
+            'updated_at'        => hourMinuteSecond($order->updated_at),
         ];
     }
 
