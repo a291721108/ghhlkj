@@ -357,20 +357,22 @@ class OrderNotificationService
         $refundTime = '';
         $start_date = '';
         $end_date   = '';
+        $remark = $order->order_remark;
 
         if ($order->refundNot === Order::ORDER_SYS_TYPE_ONE) {
-            $refund = $order->refunds;
-            $amount = $refund->amount;
+            $refund      = $order->refunds;
+            $amount      = $refund->amount;
             $refund_date = $refund->refund_date;
         } elseif ($statusTwo) {
             if ($order->renewalNot === Order::ORDER_RENEW_TWO) {
-                $remark = $order->renewal;
-                $start_date = $remark->start_date;
-                $end_date = $remark->end_date;
-                $refundTime = $remark->created_at;
+                $renewal    = $order->renewal;
+                $start_date = $renewal->start_date;
+                $end_date   = $renewal->end_date;
+                $remark     = $renewal->remark;
+                $refundTime = $renewal->created_at;
             } elseif ($order->refundNot === Order::ORDER_CHECK_OUT_TWO) {
-                $remark = $order->refunds;
-                $refundTime = $remark->created_at;
+                $refunds    = $order->refunds;
+                $refundTime = $refunds->created_at;
             }
         }
 
@@ -378,7 +380,6 @@ class OrderNotificationService
         $start_date = $start_date ?: $order->start_date;
         $end_date   = $end_date ?: $order->end_date;
         $refundTime = $refundTime ?: '';
-
 
         return [
             'id'                => $order->id,
@@ -394,7 +395,7 @@ class OrderNotificationService
             'start_date'        => ytdTampTime($start_date),
             'end_date'          => ytdTampTime($end_date),
             'order_phone'       => $order->order_phone,
-            'order_remark'      => $order->order_remark,
+            'order_remark'      => $remark,
             'refundNot'         => $order->refundNot,
             'amount'            => $amount ?? '',
             'refund_date'       => timestampTime($refund_date ?? '') ?? '',
