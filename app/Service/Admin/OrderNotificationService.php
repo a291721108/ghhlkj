@@ -362,7 +362,9 @@ class OrderNotificationService
             $refund_date = $refund->refund_date;
         } elseif ($statusTwo && $order->renewalNot === Order::ORDER_RENEW_TWO) {
             $remark = $order->renewal;
+            $refundTime = $remark->created_at;
             $created_at = $remark->created_at;
+
         } elseif ($statusTwo && $order->refundNot === Order::ORDER_CHECK_OUT_TWO) {
             $created_at = $order->created_at;
             $remark = $order->refunds;
