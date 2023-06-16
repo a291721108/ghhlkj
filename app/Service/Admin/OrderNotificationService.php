@@ -364,8 +364,7 @@ class OrderNotificationService
             $amount = $refundData->amount;
             $refund_date = $refundData->refund_date;
 
-        }
-        if ($statusTwo) {
+        } elseif ($statusTwo) {
             if ($order->renewalNot === Order::ORDER_RENEW_TWO) {
                 $renewal    = $order->renewal;
                 $start_date = $renewal->start_date;
