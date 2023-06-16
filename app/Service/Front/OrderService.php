@@ -152,7 +152,7 @@ class OrderService
             }
 
             if ($orderMsg->refundNot == Order::ORDER_RENEW_TWO) {
-                $refund = OrderRefunds::where('order_id', $orderId)->first();
+                $refund = OrderRefunds::where('order_id', $orderId)->where('status',OrderRefunds::ORDER_CHECK_OUT_ZERO)->first();
                 $refundTime = $refund->created_at;
             }
         }
