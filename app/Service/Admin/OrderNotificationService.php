@@ -121,7 +121,7 @@ class OrderNotificationService
                 $v['start_date']    = $renewal->start_date;
                 $v['end_date']      = $renewal->end_date;
                 $v['status']        = '待处理';
-            } elseif($request == 0){
+            } elseif($request == 0 && $request == ''){
                 $v['amount'] = $v['amount_paid'];
 
             }
