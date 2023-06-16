@@ -355,20 +355,28 @@ class OrderNotificationService
 
         $created_at = '';
         $refundTime = '';
+        $start_date = '';
+        $end_date   = '';
 
         if ($order->refundNot === Order::ORDER_SYS_TYPE_ONE) {
             $refund = $order->refunds;
             $amount = $refund->amount;
             $refund_date = $refund->refund_date;
-        } elseif ($statusTwo && $order->renewalNot === Order::ORDER_RENEW_TWO) {
-            $remark = $order->renewal;
-            $refundTime = $remark->created_at;
-        } elseif ($statusTwo && $order->refundNot === Order::ORDER_CHECK_OUT_TWO) {
-            $remark     = $order->refunds;
-            $refundTime = $remark->created_at;
+        } elseif ($statusTwo) {
+            if ($order->renewalNot === Order::ORDER_RENEW_TWO) {
+                $remark = $order->renewal;
+                $start_date = $remark->start_date;
+                $end_date = $remark->end_date;
+                $refundTime = $remark->created_at;
+            } elseif ($order->refundNot === Order::ORDER_CHECK_OUT_TWO) {
+                $remark = $order->refunds;
+                $refundTime = $remark->created_at;
+            }
         }
 
         $created_at = $created_at ?: $order->created_at;
+        $start_date = $start_date ?: $order->start_date;
+        $end_date   = $end_date ?: $order->end_date;
         $refundTime = $refundTime ?: '';
 
 
@@ -383,8 +391,8 @@ class OrderNotificationService
             'institution_type'  => InstitutionHomeType::getInstitutionTypeId($order->institution_type),
             'roomNum'           => InstitutionHome::getHomeIdBy($order->roomNum),
             'visitDate'         => ytdTampTime($order->visitDate),
-            'start_date'        => ytdTampTime($order->start_date),
-            'end_date'          => ytdTampTime($order->end_date),
+            'start_date'        => ytdTampTime($start_date),
+            'end_date'          => ytdTampTime($end_date),
             'order_phone'       => $order->order_phone,
             'order_remark'      => $order->order_remark,
             'refundNot'         => $order->refundNot,
