@@ -359,11 +359,13 @@ class OrderNotificationService
         $end_date   = '';
         $remark = $order->order_remark;
 
-        if ($order->refundNot === Order::ORDER_SYS_TYPE_ONE) {
-            $refund      = $order->refunds;
-            $amount      = $refund->amount;
-            $refund_date = $refund->refund_date;
-        } elseif ($statusTwo) {
+        if ($order->status == Order::ORDER_SYS_TYPE_THERE){
+            $refundData = OrderRefunds::where('status',1)->first();
+            $amount = $refundData->amount;
+            $refund_date = $refundData->refund_date;
+
+        }
+        if ($statusTwo) {
             if ($order->renewalNot === Order::ORDER_RENEW_TWO) {
                 $renewal    = $order->renewal;
                 $start_date = $renewal->start_date;
@@ -386,6 +388,7 @@ class OrderNotificationService
             'user_id'           => $order->user_id,
             'order_no'          => $order->order_no,
             'total_amount'      => $order->total_amount,
+            'amount'            => $amount ?? '',
             'amount_paid'       => $order->amount_paid,
             'wait_pay'          => $order->wait_pay,
             'institution_id'    => $order->institution_id,
@@ -397,7 +400,6 @@ class OrderNotificationService
             'order_phone'       => $order->order_phone,
             'order_remark'      => $remark,
             'refundNot'         => $order->refundNot,
-            'amount'            => $amount ?? '',
             'refund_date'       => timestampTime($refund_date ?? '') ?? '',
             'renewalNot'        => $order->renewalNot,
             'contacts'          => $order->contacts,
