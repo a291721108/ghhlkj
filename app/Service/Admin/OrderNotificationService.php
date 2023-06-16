@@ -350,44 +350,49 @@ class OrderNotificationService
     public static function getOrderDetail($request)
     {
         $orderId = $request->orderId;
-        $orderData = Order::where('id',$orderId)->first();
-        $created_at = $orderData->created_at;
+        $order = Order::with('refunds', 'renewal')->find($orderId);
+        $statusTwo = $order->status === Order::ORDER_SYS_TYPE_TWO;
 
-        if ($orderData->refundNot == 1){
-            $refunds = OrderRefunds::where('order_id',$orderData->id)->first();
-            $amount = $refunds->amount;
-            $refund_date = $refunds->refund_date;
-        }elseif ($orderData->status == Order::ORDER_SYS_TYPE_TWO && $orderData->renewalNot == Order::ORDER_RENEW_TWO){
-            $remark = OrderRenewal::where('order_id',$orderId)->first();
+        $remark = null;
+        $created_at = null;
+
+        if ($order->refundNot === Order::ORDER_SYS_TYPE_ONE) {
+            $refund = $order->refunds;
+            $amount = $refund->amount;
+            $refund_date = $refund->refund_date;
+        } elseif ($statusTwo && $order->renewalNot === Order::ORDER_RENEW_TWO) {
+            $remark = $order->renewal;
             $created_at = $remark->created_at;
-        } elseif ($orderData->status == Order::ORDER_SYS_TYPE_TWO && $orderData->refundNot == Order::ORDER_CHECK_OUT_TWO){
-            $remark = OrderRefunds::where('order_id',$orderId)->first();
+        } elseif ($statusTwo && $order->refundNot === Order::ORDER_CHECK_OUT_TWO) {
+            $remark = $order->refunds;
             $created_at = $remark->created_at;
         }
 
+        $created_at = $order->created_at ?? $created_at;
+
         return [
-            'id'                => $orderData->id,
-            'user_id'           => $orderData->user_id,
-            'order_no'          => $orderData->order_no,
-            'total_amount'      => $orderData->total_amount,
-            'amount_paid'       => $orderData->amount_paid,
-            'wait_pay'          => $orderData->wait_pay,
-            'institution_id'    => $orderData->institution_id,
-            'institution_type'  => InstitutionHomeType::getInstitutionTypeId($orderData->institution_type),
-            'roomNum'           => InstitutionHome::getHomeIdBy($orderData->roomNum),
-            'visitDate'         => ytdTampTime($orderData->visitDate),
-            'start_date'        => ytdTampTime($orderData->start_date),
-            'end_date'          => ytdTampTime($orderData->end_date),
-            'order_phone'       => $orderData->order_phone,
-            'order_remark'      => $orderData->order_remark,
-            'refundNot'         => $orderData->refundNot,
+            'id'                => $order->id,
+            'user_id'           => $order->user_id,
+            'order_no'          => $order->order_no,
+            'total_amount'      => $order->total_amount,
+            'amount_paid'       => $order->amount_paid,
+            'wait_pay'          => $order->wait_pay,
+            'institution_id'    => $order->institution_id,
+            'institution_type'  => InstitutionHomeType::getInstitutionTypeId($order->institution_type),
+            'roomNum'           => InstitutionHome::getHomeIdBy($order->roomNum),
+            'visitDate'         => ytdTampTime($order->visitDate),
+            'start_date'        => ytdTampTime($order->start_date),
+            'end_date'          => ytdTampTime($order->end_date),
+            'order_phone'       => $order->order_phone,
+            'order_remark'      => $order->order_remark,
+            'refundNot'         => $order->refundNot,
             'amount'            => $amount ?? '',
             'refund_date'       => timestampTime($refund_date ?? '') ?? '',
-            'renewalNot'        => $orderData->renewalNot,
-            'contacts'          => $orderData->contacts,
-            'contacts_card'     => $orderData->contacts_card,
-            'status'            => $orderData->status,
-            'created_at'        => hourMinuteSecond($created_at),
+            'renewalNot'        => $order->renewalNot,
+            'contacts'          => $order->contacts,
+            'contacts_card'     => $order->contacts_card,
+            'status'            => $order->status,
+            'created_at'        => hourMinuteSecond($created_at) ?? $created_at,
 //            'updated_at'        => hourMinuteSecond($orderData->updated_at),
 
         ];

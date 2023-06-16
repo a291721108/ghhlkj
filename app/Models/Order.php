@@ -77,4 +77,14 @@ class Order extends Common
             'data'         => $results
         ];
     }
+
+    public function refunds()
+    {
+        return $this->hasOne(OrderRefunds::class, 'order_id');
+    }
+
+    public function renewal()
+    {
+        return $this->hasOne(OrderRefunds::class, 'order_id');
+    }
 }
