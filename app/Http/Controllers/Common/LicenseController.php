@@ -67,13 +67,13 @@ class LicenseController extends BaseController
     public function getOptions()
     {
         $options = new Config();
-        $options->protocol = 'https';
-        $options->gatewayHost = 'openapi.alipaydev.com/gateway.do';
+        $options->protocol = 'HTTPS';
+        $options->gatewayHost = 'openapi-sandbox.dl.alipaydev.com';
         $options->signType = 'RSA2';
 
-        $options->appId = '2088722003844473';
+        $options->appId = '9021000122682218';
         // 为避免私钥随源码泄露，推荐从文件中读取私钥字符串而不是写入源码中
-        $options->merchantPrivateKey = 'MIIEowIBAAKCAQEAiniGWPj5XIvQouMYUpyDR6P80gNHk6Trq1i+ZAGa87v0wj1q/rPIi6hrc5seUrNhnE5oMA/klT+9TCtPWXCEZAL6SfbuY41xykmI80pwv4i7PWmwEsEKRYOjX+Z4j6X0uYIPTIa+jTTYbdWs27DMXFPdNQvP+pOIrOirVGXLPrugjA4nd7NaEH1acE1poK7EQaQ7GKDFv2u8Po0e43Woq4dzOG2LU+xEFSO6ScBC1cDsKled+t+k1CtTk8yomGhD1umQuGjgAkGmp8OwslBOmfVctL2pnnUd5Bcf0rnsn/hH9sDd/UyMgoZscoqoZndwDHjrj1WUDupB/7g53p0g7QIDAQABAoIBAE5RStNJxmgEoDVwslIPOeUsKBN0TWiBb9XS9KRFkClo1k+CQ2DZuITc9iFFy8nEsWGhqyX75zJPAbbyDAgvLoIOeReadUyTNJfQLYhFQy3hnN1oSHDjA/c7NA1KokfE+nxtxk9nKqFdEUhWAVWkUoGp4URecPxts3Dwi+7JQEIzMdmFm0PmE/iPHcxv4iyjADeewR1NCvh9lS1FCMwiF0OG5esE15ZsBlcV99CO6Lx250puIu3/VEnmIWirNjZdRYTOc8+VllnvIPBLo/bLi2cRN6XYwNttNa2x/vOKWWEEPWNBxDtay+z9OgCCk20GtLKhFRBIBVkV0ogCXvm7vAECgYEAwNyNjwueye3jf7zJbXGnpQt4CayKNIMUDaB81+lDNjtRJIcDuxwY7rRMwtKDCtCCbbsIVzc4nchI6Ryfiz8+0GRdxAAAi8B7F/13iOLdru8aiMTJ2pXZHMoL+/c0Ja3zJovTiwCOM7seplXZFLyfQcs+Exhv1rpm9jPEsX/j9wECgYEAt82QEvrarmiRutoY0++6tdteCBR+N4ZObgeZWS51am+6QhwwKU1T7rwCVvF8C1/2W6wqgRL91Q5lPe8y0DFZmnDFdsbVEGsmC9WI1yIu3Q+p1fQbdeJo2QgIqcFdrBHsY5PjTnZ2Qzt+hEn0TNO+qA+WjRCLNn7ZFxaOF2aude0CgYBCX+WMNIiaoHeqb7O3KeVzhOX0FmCeP/p30iMFP+90y6dadekPzVS7WmwMpNyarTYmQ7dUJNokW1jUeZhjGQoqOFCY8xM9BaqXkBFCmCmJWhr8tRVvWCEXqmXDesmEqkBDpN3SOge2wBCFWIhUfbIlt6gOdFuRQCfNVfW8zPINAQKBgQCM5sjLxAJgMUmGNCtUTTKUttYe25bmec8mCi1EcJkSPxRKGdHR17XADeC9ReIR1j7Fh/YNfMGZ0q9KC1SoxSwreMfnhgVP0NQZvlhok4vZa2iG29sxQ5+cwMvjVpi4kATnUTevrqB6aeFTCF5/htNhgpGnEkemPxes212SEuUrAQKBgAH80grAbSkO6HfSpqJMhc8MJ54dOttXGzTQ+/XqFRlCgP0e3MWI9QO4BiglZra1HmLC8pW3Gt9FmatVmkoFz8rESWnP9jFRkRzCIq8wvEL+TLMzn2uvwXfgVgLi0g5kN4JFEsZt/ugG4Ldcl5QKE30m/z5lQFR9D6dbbQhY0jiy';
+        $options->merchantPrivateKey = 'MIIEogIBAAKCAQEAgkAYSMpObBSXloj2DFa4NWkIUJIQGZat11goybPKZqsuwZ5C9BmAHOzpoGchvcU3nDSi5Gys9pSSkzpZZ59x4Xro0VJXTrO+cyf8NKJ7ycYuuxPdzOBvGPvcaRAFGHKslgT0xiWQci3hdT8a/URDsJLKaRsbmiIEQsHqXNlWepSxggALQ5oSkV2yrbVIVMZ94GGLzTlCgY8vDjo+HzzZrZQqG+t9DWD5aZxivNTwALxCMR4zkt2HXd3Ejizv0f2asS5fyJhtbqowT9yPz2FIWlK19B7oFlt01yJqDYeov3a0TIcISK/1d/aZk2SkvCIWxEDApy2YmifLd+QpbPXZfQIDAQABAoIBAHsLweVB+UPxUCNNz+NoKS2Lw+cZlUwXJLNC/YVO6+6B2PHgaK/hRz4MMcjupNl57kcLErdoUx2+zZl4je1um06/piHY/9HBzDFNnNy8guTi7FKfOfHKNCoOBPLbx3SJILG4jOSDqCm1XkA9FWodizTL95vDmBfL+up19skwKJozcn9ezEkyLYtMzGetratpkeZo2UiDyg2Ihoy0uKiuFq0/m/MQIq3Q7z6M6SQVg7Uqd1R2Z6fdDneIwaMORzmbkVxmPVAMPgcYIJxH8+jk/ehV/Z19KeYU4/AeUe0qvPH4IOopE3XcGR+FaLW/f7RqkHnK7c60/LK8trqAfohjWgECgYEAz6lB6k+Z3JAnA1OH0hcMWn5rJ0wNCCUPXQojyu3KgJ6+MP9znPqEyEmcA3HHtpSemzJwVA/H0nNu/Jr32GryBly4Fb2BBC4hPetClA0Z4uNmZS9EYZG5KgJIrHkIfsGkfwC323qlNwtyqJ6nwlgsj/ohQ7SY8ZkLtJpKSmyDam0CgYEAoJHZPRILCHcQrZ0WlQASEujILqVfn1jALPZQLyB7coPgjbEkdXfFFOkbGfz1C1T3yoa+S+L+uTrq7CfvnZr30aA3EVpG0lS4jI6ToaXLQUl0xpUsy8XFnNBomegAoJgU4kp6VjD71E6vG9BInxdWmAF7x91/ZsQBr6Dv322ZwVECgYBg5JXH8XpWKsC5UZlXEsAF3WS8AkU2Xqxreha3Ufqhxu/xRtA4F8ArAAWWqdlIvNHAkmlNH8vZy1im7tvkFAp3o32VT0XKoIeML6ByGibQ8c/OOJ7Mc8UU79ne995Z3pqVU8110CUUqPfH67dU+/VW/JvWzoZqfEG09CTj0vwChQKBgCMWW+NFexW5dvKJPjMHFev95CiVSKT4bt4kYPc7YN5wRPSRfgcRSga8vYhbR2zXf2JJOXI5wzHU1xsNywWkpHyxRvdKw+kYTE+ipE4Rfa3hkFwIowZQTFNtEz52fRSaxw1/+uW0xILrQsaQKB5jqi+DO3o8Q6fAMyIex+wJ9ixRAoGAT2L4byPxEPiOnHgaHIX8U2ArPGGmjugQBf1Ern0ChRE2iSGUR+ZPmkCNlREtgK5NiQ/8jZPhwrFbhD6+tzSTQm3Rqs7XW/ls9lyjQrzM9PTGj3jOFw9glK3zwai1DxcZDIjVocQVAwON2cmia7I5SAvOrxkyGCTgJjV56KHAoHU=';
 
         $publicPath = base_path('public/');
         $options->alipayCertPath        = $publicPath.'certificate/alipayPublicCert.crt';
@@ -94,6 +94,38 @@ class LicenseController extends BaseController
     // todo  支付宝支付
     public function create(Request $request)
     {
+
+        // 创建支付实例
+        $alipay = Factory::setOptions(self::getOptions());
+
+        $paymentPage = $alipay->payment()->app()->pay($request->order_number,$request->product_name,$request->amount);
+
+        // 解析支付参数
+        $params = [];
+        parse_str($paymentPage->body, $params);
+
+        // 构建支付宝 App 的支付链接
+        $baseUrl = 'alipays://platformapi/startapp';
+        $appId = '20000067';
+        $orderSuffix = 'ALIPAYHK';
+
+        $payUrl = $baseUrl . '?appId=' . $appId . '&orderSuffix=' . $orderSuffix;
+        foreach ($params as $key => $value) {
+            $paramString = urlencode($key) . '=' . urlencode($value);
+            $payUrl .= '&' . $paramString;
+        }
+
+        // 构造支付参数
+//        $return_url = 'https://openapi-sandbox.dl.alipaydev.com';
+        // 调用支付接口生成支付页面
+//        $paymentPage = $alipay->payment()->page()->pay($request->order_number,$request->product_name,$request->amount,$return_url);
+
+        return $payUrl;
+
+
+
+
+        dd();
         // 创建新的订单，省略具体实现
         $factory = Factory::setOptions(self::getOptions());
 
@@ -101,19 +133,29 @@ class LicenseController extends BaseController
             //2. 发起API调用（以支付能力下的统一收单交易创建接口为例）
 //            $result = Factory::payment()->App()->pay("iPhone6 16G", "2020******5526001", "88.88");
             //创建支付实例
+
             $payUrl = Factory::payment()->app()->pay("iPhone6 16G", "70501111111S001111119", "9.00");
             $responseChecker = new ResponseChecker();
 
             //3. 处理响应或异常
             if ($responseChecker->success($payUrl)) {
                 $data = urldecode($payUrl->body);
-                $parameters = [];
-                parse_str($data, $parameters);
-                // 构建支付请求URL
-                $url = 'alipays://platformapi/startapp?appId=' . $parameters['app_id'] . '&timestamp=' . urlencode($parameters['timestamp']) . '&bizContent=' . urlencode($parameters['biz_content']) . '&sign=' . urlencode($parameters['sign']) . '&signType=' . $parameters['sign_type'] . '&appCertSn=' . $parameters['app_cert_sn'] . '&alipayRootCertSn=' . $parameters['alipay_root_cert_sn'];
+//                $parameters = [];
+//                parse_str($data, $parameters);
+//                // 构建支付请求URL
+//                $url = 'alipays://platformapi/startapp?appId=' . $parameters['app_id'] .
+//                    '&timestamp=' . urlencode($parameters['timestamp']) .
+//                    '&bizContent=' . urlencode($parameters['biz_content']) .
+//                    '&sign=' . urlencode($parameters['sign']) .
+//                    '&signType=' . $parameters['sign_type'] .
+//                    '&appCertSn=' . $parameters['app_cert_sn'] .
+//                    '&alipayRootCertSn=' . $parameters['alipay_root_cert_sn'];
 
 
-                return $this->success('success', 200, ['url' => $url]);
+                $payUrlParams = [];
+                parse_str($data, $payUrlParams);
+                $payLink = 'alipays://platformapi/startapp?' . http_build_query($payUrlParams);
+                return $this->success('success', 200, ['url' => $payLink]);
             } else {
                 echo "调用失败，原因：" . $payUrl->msg . "，" . $payUrl->subMsg . PHP_EOL;
             }
